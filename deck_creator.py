@@ -9,18 +9,25 @@ fr = card.Card()
 
 
 def deckselect(evt):
+    global photo
     global using_plan
     value=str(deck.get(deck.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
     deckl.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
+    photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
+    Card_viever.configure(image=photo)
     using_plan = 1
 def everyselect(evt):
+    global photo
     global using_plan
     value=str(every_card.get(every_card.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
     everyl.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
+    photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
+    print('card/png/'+fr.nb_by_name(value)+'-'+value+'.png')
+    Card_viever.configure(image=photo)
     using_plan = 2
 def ajoute():
     if using_plan == 2:
@@ -39,6 +46,7 @@ def create_deck():
     deck.grid(row=1,column=2)
     t3.grid(row=2, column=1)
     t2.grid(row=2,column=2)
+    Card_viever.grid(row=1,column=3)
     every_card.bind('<<ListboxSelect>>', everyselect)
     deck.bind('<<ListboxSelect>>', deckselect)
     for i in range(fr.card_tout):

@@ -1,4 +1,4 @@
-v = 0.3
+v = 0.4
 latence = 0.5
 
 from tkinter import *
@@ -13,6 +13,7 @@ import time
 #__________________________________
 
 fenetre = Tk()
+photo = ImageTk.PhotoImage(Image.open("card/png/0.png"))
 
 using_plan = 0
 cartestr = [" "," "," ",""]
@@ -26,7 +27,6 @@ every_deck = Listbox(x,width=20,height=20,font=('times',13))
 clientc = pytopy.client.Client()
 serveurc = pytopy.serveur.Serveur()
 
-root = Canvas(fenetre, width=200, height=100)
 forclient = Canvas(fenetre, width=200, height=100)
 gamec = Canvas(fenetre, width=200, height=100)
 forclient1 = StringVar()
@@ -68,5 +68,6 @@ everyl = Label(t, text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", 
 deckl = Label(t, text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
 deckname = StringVar()
 deckname.set("Nouveau Deck")
+Card_viever = Label(t, image=photo)
 decknamee = Entry(t, textvariable=deckname, width=30)
 creator = Canvas(fenetre, width=200, height=100)

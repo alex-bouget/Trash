@@ -1,4 +1,5 @@
 import socket
+
 class Serveur:
     def __init__(self):
         self.hote = ''

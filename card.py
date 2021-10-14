@@ -99,3 +99,8 @@ class board_card:
             change_eclat("u", int(x))
         else:
             change_eclat("e", int(x))
+    def mylife(self):
+        if self.user == "user":
+            return userlife.get()
+        else:
+            return ennemilife.get()

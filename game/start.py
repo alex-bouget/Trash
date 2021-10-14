@@ -43,7 +43,7 @@ class Kernel(Thread):
         try:
             user_main.insert(END, str(deck_use[self.nb_pioche]))
         except:
-            self.change_info(2, "Vous ne pouvez plus pioché")
+            self.change_info(2, "Vous ne pouvez plus piochÃƒÂ©")
         self.nb_pioche = self.nb_pioche+1
     def send(self, msg):
         if self.etat == 1:
@@ -354,8 +354,10 @@ def game_kernel():
         clientc.client_send("ok")
         sincro = clientc.client_receive()
         if sincro == "ok":
-            depart = clientc.client_receive()
-            if float(depart) > 0.5:
+            depart = random.random()
+            clientc.client_send(depart)
+            departg = clientc.client_receive()
+            if float(depart) > float(departg):
                 kernel = Kernel(imme.get(), "no")
                 kernel.start()
             else:
@@ -400,19 +402,8 @@ def client_play():
         game()
     else:
         exit
-def serveur_ouvre():
-    root.destroy()
-    imme.set(1)
-    serveurc.server_open()
-    vw = serveurc.server_receive()
-    if vw == str(v):
-        serveurc.server_send(str(v))
-        game()
-    else:
-        serveurc.server_send(str(v))
-        exit
 def client_ouvre():
-    root.destroy()
+    x.destroy()
     imme.set(2)
     forclient.pack()
     c1 = Label(forclient, text="Mettez l'adresse ip de l'hote")
@@ -425,18 +416,13 @@ def client_ouvre():
     c3.grid(row=1)
     c4.grid(row=1, column=1)
     c5.grid(row=2)
+    fenetre.mainloop()
 def other_button():
     if forotherbutton == 1:
         time.sleep(0.1)
     elif forotherbutton == 0:
         kernel.suite = 1
         kernel.click = 1
-def game_play():
-    x.destroy()
-    root.pack()
-    serveur.pack()
-    client.pack()
-    fenetre.mainloop()
 def set_deck(evt):
     global deck_use
     value=str(every_deck.get(every_deck.curselection()))
@@ -444,7 +430,7 @@ def set_deck(evt):
     deck_use = fichier.read()
     deck_use = deck_use.split('\n')
     random.shuffle(deck_use)
-    game_play()
+    client_ouvre()
 def open_game_system():
     x.pack()
     every_deck.bind('<<ListboxSelect>>', set_deck)
@@ -455,5 +441,3 @@ def open_game_system():
 
 buttonb = Button(gamec, text=buttonk.get(), command=button_click)
 otherbutton = Button(gamec, text='suivant', command=other_button)
-serveur = Button(root, text="creer une partie", command=serveur_ouvre)
-client = Button(root, text="rejoindre une partie", command=client_ouvre)
