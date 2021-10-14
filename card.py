@@ -1,4 +1,4 @@
-from tkinter import PhotoImage
+from variable import *
 card_name = open("card/name.txt", "r")
 card_att = open("card/att.txt", "r")
 card_def = open("card/def.txt", "r")
@@ -21,7 +21,7 @@ class Card:
         self.card_def = ""
         self.card_name = ""
         self.card_cout = ""
-        self.card_tout = len(card_nb)
+        self.card_tout = len(card_nb)-1
     def var_for_card(self, nb):
         self.card_used = card_nb[nb]
         self.card_name = card_name[nb]
@@ -40,7 +40,35 @@ class Card:
         return card_nb[card_name.index(str(name))]
     def name_by_nb(self, nb):
         return card_name[card_nb.index(str(nb))]
-
-
-
-
+class board_card:
+    def __init__(self, user):
+        self.names = []
+        self.defs = []
+        self.atts = []
+        self.user = user
+        self.card = Card()
+    def new_card(self, name):
+        self.card.set_newcard_by_name(name)
+        self.names.append(name)
+        self.defs.append(self.card.card_def)
+        self.atts.append(self.card.card_att)
+        if self.user == "user":
+            card_planu.insert(END, name)
+            user_main.delete(user_main.get(0, END).index(name))
+        else:
+            card_plane.insert(END, name)
+    def delete_carte(self, name):
+        carte_data = self.names.index(name)
+        del self.atts[carte_data]
+        del self.defs[carte_data]
+        del self.names[carte_data]
+        if self.user == "user":
+            card_planu.delete(card_planu.get(0, END).index(name))
+        else:
+            card_plane.delete(card_plane.get(0, END).index(name))
+        photo = ImageTk.PhotoImage(Image.open('card/png/0.png'))
+        Card_view.configure(image=photo)
+    def att_carte(self, name, degats):
+        self.defs[self.names.index(name)] = str(int(self.defs[self.names.index(name)])-int(degats))
+        if int(self.defs[self.names.index(name)]) <= 0:
+            self.delete_carte(name)
