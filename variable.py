@@ -1,9 +1,16 @@
+v = 0.3
+latence = 0.5
+
 from tkinter import *
 import pytopy
 from PIL import Image, ImageTk
 import random
 from threading import Thread
 import time
+
+#__________________________________
+#          SYSTEM VARIABLE
+#__________________________________
 
 fenetre = Tk()
 
@@ -13,7 +20,7 @@ x = Canvas(fenetre, width=200, height=100)
 every_deck = Listbox(x,width=20,height=20,font=('times',13))
 
 #__________________________________
-#             GAME VARIABLE
+#           GAME VARIABLE
 #__________________________________
 
 clientc = pytopy.client.Client()

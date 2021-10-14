@@ -1,5 +1,3 @@
-v = 0.2
-latence = 0.5
 #  ennemi_nbmain : nombre de carte dans la main de l'ennemi (Invar)
 #  ennemi_main : endroit ou est montre le nombre de carte dans la main de l'ennemi (label)
 #  user main : main de l'utilisateur (listbox) limite a 9
@@ -42,7 +40,10 @@ class Kernel(Thread):
         self.tour = 0
         self.nb_pioche = 0
     def pioche(self):
-        user_main.insert(END, str(deck_use[self.nb_pioche]))
+        try:
+            user_main.insert(END, str(deck_use[self.nb_pioche]))
+        except:
+            self.change_info(2, "Vous ne pouvez plus pioché")
         self.nb_pioche = self.nb_pioche+1
     def send(self, msg):
         if self.etat == 1:
@@ -188,7 +189,8 @@ class Kernel(Thread):
                 self.suite = 0
                 self.change_info(2," ")
                 self.click = 0
-                self.va()
+                if len(card_planu_var.names) != 0:
+                    self.va()
                 self.suite = 0
                 self.change_info(2," ")
                 if self.card_att != " ":
@@ -205,7 +207,8 @@ class Kernel(Thread):
                 self.suite = 0
                 self.change_info(2," ")
                 self.click = 0
-                self.ea()
+                if len(card_plane_var.names) != 0:
+                    self.ea()
                 self.suite = 0
                 self.change_info(2," ")
                 if self.card_att != " ":
@@ -230,7 +233,8 @@ class Kernel(Thread):
                 self.suite = 0
                 self.click = 0
                 self.change_info(2," ")
-                self.ea()
+                if len(card_plane_var.names) != 0:
+                    self.ea()
                 self.suite = 0
                 self.change_info(2," ")
                 if self.card_att != " ":
@@ -248,7 +252,8 @@ class Kernel(Thread):
                 self.suite = 0
                 self.change_info(2," ")
                 self.click = 0
-                self.va()
+                if len(card_planu_var.names) != 0:
+                    self.va()
                 self.suite = 0
                 self.change_info(2," ")
                 if self.card_att != " ":

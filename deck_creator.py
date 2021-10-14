@@ -51,6 +51,8 @@ def set_deck(evt):
     for i in syst:
         deck.insert(END, i)
     x.destroy()
+    aze = value.split('.')
+    deckname.set(aze[0])
     create_deck()
 def change_deck():
     creator.destroy()

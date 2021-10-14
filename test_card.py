@@ -1,4 +1,4 @@
-import card as card
+import game.card as card
 main = card.Card()
 a = 0
 while a!=int(main.card_tout):
