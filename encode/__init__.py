@@ -2,11 +2,11 @@
 def decodesys(code):
     liste=[]
     mot=[]
-    fichier = open("encode/enc.txt", "r")
+    fichier = open("encode/enc.dat", "r")
     for sys in fichier:
         liste.append(sys[:-1])
     fichier.close()
-    fichier2 = open("encode/dec.txt", "r")
+    fichier2 = open("encode/dec.dat", "r")
     for sys2 in fichier2:
         mot.append(sys2[:-1])
     fichier.close()
@@ -14,15 +14,15 @@ def decodesys(code):
         return mot[liste.index(code)]
     else:
         print('Erreur : votre encodage contient des caractere inconnu: '+code)
-        exit
+        return False
 def encodesys(code):
     liste=[]
     mot=[]
-    fichier = open("encode/enc.txt", "r")
+    fichier = open("encode/enc.dat", "r")
     for sys in fichier:
         liste.append(sys[:-1])
     fichier.close()
-    fichier2 = open("encode/dec.txt", "r")
+    fichier2 = open("encode/dec.dat", "r")
     for sys2 in fichier2:
         mot.append(sys2[:-1])
     fichier.close()
@@ -66,7 +66,37 @@ def decodefich(filename):
             del sys[0]
             del sys[0]
         for code in klao:
-            fin.append(decodesys(code))
+            if decodesys(code) != False:
+                fin.append(decodesys(code))
+            else:
+                return False
     fichier.close()
     text2save = str("".join(fin))
     return text2save
+def ifencode(filename):
+    try:
+        liste=[]
+        fichier = open("encode/enc.dat", "r")
+        for sys in fichier:
+            liste.append(sys[:-1])
+        fichier.close()
+        fichier = open(filename, "r")
+        fin=[]
+        for sys in fichier:
+            sys = list(sys)
+            klao = []
+            part = []
+            part.append(sys[0]+sys[1])
+            del sys[0]
+            del sys[0]
+            part.append(sys[0]+sys[1])
+            klao.append(part[0]+part[1])
+            part = []
+            del sys[0]
+            del sys[0]
+            if klao in liste:
+                return False
+            else:
+                return True
+    except:
+        return False

@@ -1,5 +1,5 @@
-v = 0.5
-latence = 0.5
+v = 0.6
+latence = 0.2
 
 from tkinter import *
 import pytopy
@@ -8,6 +8,13 @@ import random
 from threading import Thread
 import time
 from encode import *
+import song
+
+
+if ifencode("card/name.txt"):
+    c = 0
+else:
+    c = 1
 
 #__________________________________
 #          SYSTEM VARIABLE
@@ -20,6 +27,8 @@ using_plan = 0
 cartestr = [" "," "," ",""]
 x = Canvas(fenetre, width=200, height=100)
 every_deck = Listbox(x,width=20,height=20,font=('times',13))
+
+music = song.Music()
 
 #__________________________________
 #           GAME VARIABLE

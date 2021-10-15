@@ -92,6 +92,7 @@ class Kernel(Thread):
                 card_plane_var.new_card(fr.card_name)
                 recu = self.receive()
                 self.change_main(recu)
+                music.play_ambiant("pose")
     def va(self):
         self.change_info(1, "Votre Phase D'Attaque")
         self.change_button("Attaquez avec cette carte")
@@ -108,6 +109,7 @@ class Kernel(Thread):
             if recu == "att":
                 recu = self.receive()
                 self.card_att = recu
+                music.play_ambiant("attaque")
             elif recu == "fin":
                 self.suite = 1
     def defv(self):
@@ -166,10 +168,12 @@ class Kernel(Thread):
                     attb = card_planu_var.atts[card_planu_var.names.index(self.card_att)]
                     card_planu_var.att_carte(self.card_att, card_plane_var.atts[card_plane_var.names.index(recu)])
                     card_plane_var.att_carte(recu, attb)
+                    music.play_ambiant("defendre")
                 elif recu =="stop":
                     self.suite = 1
         self.card_att = " "
     def run(self):
+        music.play("combat", True)
         if self.depart == "no":
             for i in range(7):
                 self.pioche()
@@ -269,6 +273,7 @@ def button_click():
             if eclatu.get() >= int(fr.card_cout):
                 global using_plan
                 if using_plan == 1:
+                    music.play_ambiant("pose")
                     klimaze = fr.card_name
                     card_planu_var.new_card(klimaze)
                     change_eclat("u", -int(fr.card_cout))
@@ -282,6 +287,7 @@ def button_click():
     elif value == "Attaquez avec cette carte":
         if fr.card_used != 0:
             if using_plan == 3:
+                music.play_ambiant("attaque")
                 kernel.send("att")
                 time.sleep(latence)
                 kernel.send(fr.card_name)
@@ -291,12 +297,12 @@ def button_click():
     elif value == "Defendre avec cette carte":
         if fr.card_used != 0:
             if using_plan == 3:
+                music.play_ambiant("defendre")
                 kernel.defd = 1
                 kernel.send("def")
                 time.sleep(latence)
                 kernel.send(fr.card_name)
                 time.sleep(latence)
-                kernel.send("fin")
                 kernel.suite = 1
 def mainselect(evt):
     global photo
@@ -333,22 +339,7 @@ def planu(evt):
     cartel.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
 def game_kernel():
     global kernel
-    if imme.get() == 1:                              #serveur
-        fenetre.title("serveur "+str(v))
-        serveurc.server_send("ok")
-        sincro = serveurc.server_receive()
-        if sincro == "ok":
-            depart = random.random()
-            serveurc.server_send(depart)
-            if float(depart) > 0.5:
-                kernel = Kernel(imme.get(), "yes")
-                kernel.start()
-            else:
-                kernel = Kernel(imme.get(), "no")
-                kernel.start()
-        else:
-            exit
-    elif imme.get() == 2:                            #client
+    if imme.get() == 2:                            #client
         fenetre.title("client "+str(v))
         clientc.client_send("ok")
         sincro = clientc.client_receive()
@@ -393,6 +384,7 @@ def game():
     otherbutton.grid(row=3,column=3)
     game_kernel()
 def client_play():
+    music.play_ambiant("click")
     forclient.destroy()
     clientc.client_open(forclient1.get(), forclient2.get())
     clientc.client_send(str(v))
@@ -420,10 +412,12 @@ def other_button():
     if forotherbutton == 1:
         time.sleep(0.1)
     elif forotherbutton == 0:
+        music.play_ambiant("click")
         kernel.suite = 1
         kernel.click = 1
 def set_deck(evt):
     global deck_use
+    music.play_ambiant("click")
     value=str(every_deck.get(every_deck.curselection()))
     fichier = open("deck/"+value)
     deck_use = fichier.read()

@@ -1,16 +1,36 @@
 from game.lifeclat import *
-card_name = decodefich("card/name.txt")
-card_att = decodefich("card/att.txt")
-card_def = decodefich("card/def.txt")
-card_nb = decodefich("card/nb.txt")
-card_cout = decodefich("card/cout.txt")
-card_effect = decodefich("card/effect.txt")
-card_name = card_name.split('/')
-card_att = card_att.split('/')
-card_def = card_def.split('/')
-card_nb = card_nb.split('/')
-card_cout = card_cout.split('/')
-card_effect = card_effect.split("/")
+if c == 1:
+    card_name = open("card/name.txt", "r")
+    card_att = open("card/att.txt", "r")
+    card_def = open("card/def.txt", "r")
+    card_nb = open("card/nb.txt", "r")
+    card_cout = open("card/cout.txt", "r")
+    card_effect = open("card/effect.txt", "r")
+    card_name = card_name.read()
+    card_att = card_att.read()
+    card_def = card_def.read()
+    card_nb = card_nb.read()
+    card_cout = card_cout.read()
+    card_effect = card_effect.read()
+    card_name = card_name.split('\n/')
+    card_att = card_att.split('\n/')
+    card_def = card_def.split('\n/')
+    card_nb = card_nb.split('\n/')
+    card_cout = card_cout.split('\n/')
+    card_effect = card_effect.split('\n/')
+else:
+    card_name = decodefich("card/name.txt")
+    card_att = decodefich("card/att.txt")
+    card_def = decodefich("card/def.txt")
+    card_nb = decodefich("card/nb.txt")
+    card_cout = decodefich("card/cout.txt")
+    card_effect = decodefich("card/effect.txt")
+    card_name = card_name.split('/')
+    card_att = card_att.split('/')
+    card_def = card_def.split('/')
+    card_nb = card_nb.split('/')
+    card_cout = card_cout.split('/')
+    card_effect = card_effect.split('/')
 class Card:
     def __init__(self):
         self.card_used = ""
@@ -28,9 +48,9 @@ class Card:
         self.card_def = card_def[nb]
         self.card_effect = card_effect[nb]
     def set_newcard_by_nb(self, nbe):
-        Card.var_for_card(self, card_nb.index(str(nbe)))
+        self.var_for_card(card_nb.index(str(nbe)))
     def set_newcard_by_name(self, name):
-        Card.var_for_card(self, card_name.index(str(name)))
+        self.var_for_card(card_name.index(str(name)))
     def cout_carte_nb(self, nb):
         return card_cout(card_nb.index(str(nb)))
     def cout_carte_name(self, name):

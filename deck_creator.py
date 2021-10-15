@@ -9,8 +9,7 @@ fr = card.Card()
 
 
 def deckselect(evt):
-    global photo
-    global using_plan
+    global photo, using_plan
     value=str(deck.get(deck.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
@@ -19,23 +18,24 @@ def deckselect(evt):
     Card_viever.configure(image=photo)
     using_plan = 1
 def everyselect(evt):
-    global photo
-    global using_plan
+    global photo, using_plan
     value=str(every_card.get(every_card.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
     everyl.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
-    print('card/png/'+fr.nb_by_name(value)+'-'+value+'.png')
     Card_viever.configure(image=photo)
     using_plan = 2
 def ajoute():
     if using_plan == 2:
+        music.play_ambiant("click")
         deck.insert(END, fr.card_name)
 def enleve():
     if using_plan == 1:
+            music.play_ambiant("click")
             deck.delete(deck.get(0, END).index(fr.card_name))
 def create_deck():
+    music.play_ambiant("click")
     creator.destroy()
     t.pack()
     everyl.grid(row=0, column=0)
@@ -52,6 +52,7 @@ def create_deck():
     for i in range(fr.card_tout):
         every_card.insert(END, fr.name_by_nb(i+1))
 def set_deck(evt):
+    music.play_ambiant("click")
     value=str(every_deck.get(every_deck.curselection()))
     fichier = open("deck/"+value)
     syst = fichier.read()
@@ -63,6 +64,7 @@ def set_deck(evt):
     deckname.set(aze[0])
     create_deck()
 def change_deck():
+    music.play_ambiant("click")
     creator.destroy()
     x.pack()
     every_deck.bind('<<ListboxSelect>>', set_deck)
@@ -77,9 +79,13 @@ def create():
     fichier.write('\n'.join(systeme))
     fichier.close()
 def finish():
+    music.play_ambiant("click")
     if path.isfile("deck/"+deckname.get()+".txt"):
         if askokcancel("sauvegarde", deckname.get()+" existe deja\nvoulez vous le remplacez ?"):
+            music.play_ambiant("click")
             create()
+        else:
+            music.play_ambiant("click")
     else:
         create()
 def open_creator():
