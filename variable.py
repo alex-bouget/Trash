@@ -1,4 +1,4 @@
-v = 0.4
+v = 0.5
 latence = 0.5
 
 from tkinter import *
@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 import random
 from threading import Thread
 import time
+from encode import *
 
 #__________________________________
 #          SYSTEM VARIABLE
@@ -42,6 +43,8 @@ info = StringVar()
 info2 = StringVar()
 infol1 = Label(gamec, text=info.get())
 infol2 = Label(gamec, text=info2.get())
+
+kernel = " "
 
 forotherbutton = 0
 

@@ -26,7 +26,6 @@ from os import listdir
 fr = card.Card()
 card_plane_var = card.board_card('ennemi')
 card_planu_var = card.board_card("user")
-kernel = " "
 
 class Kernel(Thread):
     def __init__(self, etat, depart):
@@ -43,7 +42,7 @@ class Kernel(Thread):
         try:
             user_main.insert(END, str(deck_use[self.nb_pioche]))
         except:
-            self.change_info(2, "Vous ne pouvez plus piochÃƒÂ©")
+            self.change_info(2, "Vous ne pouvez plus pioche")
         self.nb_pioche = self.nb_pioche+1
     def send(self, msg):
         if self.etat == 1:
