@@ -18,7 +18,7 @@ def everyselect(evt):
     Card_viever.configure(image=photo)
 def decoder():
     if ifencode("card/name.txt"):
-        r = ["card/att.txt","card/def.txt","card/cout.txt","card/name.txt","card/nb.txt","card/effect.txt",]
+        r = ["card/att.txt","card/def.txt","card/cout.txt","card/name.txt","card/nb.txt","card/effect.txt","other_code/deck_creator0.dat","other_code/deck_creator1.dat","other_code/deck_creator2.dat","other_code/deck_creator3.dat","other_code/start0.dat","other_code/start1.dat","other_code/start2.dat","other_code/start3.dat"]
         for i in r:
             att = decodefich(i)
             if att != False:
@@ -30,7 +30,7 @@ def decoder():
         x.configure(text="fichier decoder")
 def encoder():
     if ifencode("card/name.txt") == False:
-        r = ["card/att.txt","card/def.txt","card/cout.txt","card/name.txt","card/nb.txt","card/effect.txt",]
+        r = ["card/att.txt","card/def.txt","card/cout.txt","card/name.txt","card/nb.txt","card/effect.txt","other_code/deck_creator0.dat","other_code/deck_creator1.dat","other_code/deck_creator2.dat","other_code/deck_creator3.dat","other_code/start0.dat","other_code/start1.dat","other_code/start2.dat","other_code/start3.dat"]
         for i in r:
             att = encodefich(i)
             f = open(i, "w")

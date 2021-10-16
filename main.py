@@ -3,8 +3,6 @@ import deck_creator as deck
 from urllib.request import *
 from tkinter import *
 
-sa = Canvas(deck.fenetre, width=1000, height=800)
-sa.pack()
 deck.fenetre.title("Card_Game "+str(deck.v))
 
 class obj:
@@ -53,16 +51,36 @@ def crea():
     deck.music.stop()
     sa.destroy()
     deck.open_creator()
-
-
-if __name__ == '__main__':
+def options():
+    global d
+    deck.music.play_ambiant("click")
+    deck.music.stop()
+    sa.destroy()
+    d = Canvas(deck.fenetre)
+    er = Button(d, text="retour", command=optionsret)
+    c = Checkbutton(d, text="musique", variable=deck.opef, command=deck.musique)
+    z = Checkbutton(d, text="bruit", variable=deck.g, command=deck.ambient)
+    d.pack()
+    c.pack()
+    z.pack()
+    er.pack()
+def optionsret():
+    d.destroy()
+    depart()
+def depart():
+    global sa
+    sa = Canvas(deck.fenetre, width=1000, height=800)
+    sa.pack()
     try:
         s = urlopen("http://serv001ftpsql.000webhostapp.com/Card/menu.txt")
         s = s.read()
-        exec(s.decode())
+        exec(s.decode(),globals())
     except:
         s= open("other_code/menu.dat", "r")
-        exec(s.read())
+        exec(s.read(),globals())
     deck.music.play("main theme")
     sa.mainloop()
     deck.music.stop()
+
+if __name__ == '__main__':
+    depart()

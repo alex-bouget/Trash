@@ -360,8 +360,12 @@ def game_kernel():
         serveurc.server_send('bug')
         exit
 def game():
-    s= open("other_code/start3.dat", "r")
-    exec(s.read())
+    if c == 1:
+        s= open("other_code/start3.dat", "r")
+        exec(s.read())
+    else:
+        s=decodefich("other_code/start3.dat")
+        exec(s)
     game_kernel()
 def client_play():
     music.play_ambiant("click")
@@ -375,8 +379,12 @@ def client_play():
         exit
 def client_ouvre():
     imme.set(2)
-    s= open("other_code/start2.dat", "r")
-    exec(s.read())
+    if c == 1:
+        s= open("other_code/start2.dat", "r")
+        exec(s.read())
+    else:
+        s=decodefich("other_code/start2.dat")
+        exec(s)
     fenetre.mainloop()
 def other_button():
     if forotherbutton == 1:
@@ -395,7 +403,18 @@ def set_deck(evt):
     random.shuffle(deck_use)
     client_ouvre()
 def open_game_system():
-    s= open("other_code/start1.dat", "r")
+    if c == 1:
+        s= open("other_code/start1.dat", "r")
+        exec(s.read())
+    else:
+        s=decodefich("other_code/start1.dat")
+        exec(s)
+    for item in listdir("deck"):
+        every_deck.me.insert(END, item)
+
+if c == 1:
+    s= open("other_code/start0.dat", "r")
     exec(s.read())
-s= open("other_code/start0.dat", "r")
-exec(s.read())
+else:
+    s=decodefich("other_code/start0.dat")
+    exec(s)

@@ -36,9 +36,14 @@ def enleve():
             deck.me.delete(deck.me.get(0, END).index(fr.card_name))
 def create_deck():
     music.play_ambiant("click")
-    s = open("other_code/deck_creator2.dat", "r")
-    exec(s.read())
-    s.close()
+    if c == 1:
+        s= open("other_code/deck_creator2.dat", "r")
+        exec(s.read())
+    else:
+        s=decodefich("other_code/deck_creator2.dat")
+        exec(s)
+    for i in range(fr.card_tout):
+        every_card.me.insert(END, fr.name_by_nb(i+1))
 def set_deck(evt):
     music.play_ambiant("click")
     value=str(every_deck.me.get(every_deck.me.curselection()))
@@ -53,13 +58,18 @@ def set_deck(evt):
     create_deck()
 def change_deck():
     music.play_ambiant("click")
-    s = open("other_code/deck_creator3.dat", "r")
-    exec(s.read())
-    s.close()
+    if c == 1:
+        s= open("other_code/deck_creator3.dat", "r")
+        exec(s.read())
+    else:
+        s=decodefich("other_code/deck_creator3.dat")
+        exec(s)
+    for item in listdir("deck"):
+        every_deck.me.insert(END, item)
 def create():
     fichier = open("deck/"+deckname.get()+".txt", "w")
     systeme = []
-    for i in deck.get(0, END):
+    for i in deck.me.get(0, END):
         systeme.append(i)
     fichier.write('\n'.join(systeme))
     fichier.close()
@@ -74,10 +84,15 @@ def finish():
     else:
         create()
 def open_creator():
-    s = open("other_code/deck_creator1.dat", "r")
+    if c == 1:
+        s= open("other_code/deck_creator1.dat", "r")
+        exec(s.read())
+    else:
+        s=decodefich("other_code/deck_creator1.dat")
+        exec(s)
+if c == 1:
+    s= open("other_code/deck_creator0.dat", "r")
     exec(s.read())
-    s.close()
-
-s = open("other_code/deck_creator0.dat", "r")
-exec(s.read())
-s.close()
+else:
+    s=decodefich("other_code/deck_creator0.dat")
+    exec(s)
