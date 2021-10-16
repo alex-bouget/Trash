@@ -52,3 +52,6 @@ Vous gagnez un
  Dolpes
 carte non trouvé
 vous n'avez pas debloque cette carte : 
+l'ennemi a jouer 
+Vous avez jouer 
+options

@@ -1,15 +1,20 @@
 jy = obj(0,0, "Button")
 jy.commande(play)
-jy.ecrire(lang[17])
+jy.ecrire(deck.lang[17])
 j = obj(100,0, "Button")
 j.commande(crea)
-j.ecrire(lang[18])
+j.ecrire(deck.lang[18])
+jo = obj(40,10, "Button")
+jo.ecrire(deck.lang[56])
+jo.commande(options)
+
 
 jy.create()
 j.create()
+jo.create()
 
 
 h = obj(0, 50, "Label")
-h.ecrire(lang[20])
+h.ecrire(deck.lang[19])
 
 h.create()

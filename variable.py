@@ -1,5 +1,6 @@
 v = 0.9
-latence = 0.2
+with open("latence.txt", "r") as r:
+    latence = float(r.read())
 
 from tkinter import *
 import pytopy
@@ -92,6 +93,13 @@ else:
     c = 1
 if os.path.isdir("deck")==False:
     os.mkdir("deck")
+if os.path.isdir("save")==False:
+    os.mkdir("save")
+    with open("save/options.txt", "w") as f:
+        f.write('1\n1')
+if os.path.isdir("save/options.txt")==False:
+    with open("save/options.txt", "w") as f:
+        f.write('1\n1')
 def retour():
     fenetre.destroy()
     os.system("cmd /c return.bat")
@@ -138,6 +146,9 @@ def ambient():
     music.ambiant = g.get()
     with open("save/options.txt", "w") as f:
         f.write(str(opef.get())+'\n'+str(g.get()))
+
+
+
 #__________________________________
 #          SYSTEM VARIABLE
 #__________________________________

@@ -51,4 +51,7 @@ you win a
  booster
  Dolpes
 card not found
-you have not unlocked this card:
+you have not unlocked this card: 
+ennemi play 
+you play 
+settings

@@ -82,6 +82,7 @@ class Kernel(Thread):
                 card_plane_var.new_card(fr.card_used)
                 self.change_main(self.receive())
                 music.play_ambiant("pose")
+                self.change_info(2, lang[54]+fr.card_name)
     def va(self): #votre attaque
         self.change_info(1, lang[29])
         self.change_button(lang[30])
@@ -323,6 +324,7 @@ def button_click():
                     kernel.send(klimaze)
                     time.sleep(latence)
                     kernel.send(user_main.me.index(END))
+                    kernel.change_info(2, lang[55]+fr.name_by_nb(klimaze))
     elif value == lang[30]:
         if fr.card_used != 0:
             if using_plan == 3:
