@@ -1,4 +1,4 @@
-v = 0.6
+v = 0.7
 latence = 0.2
 
 from tkinter import *

@@ -112,7 +112,7 @@ class Kernel(Thread):
                 music.play_ambiant("attaque")
             elif recu == "fin":
                 self.suite = 1
-    def defv(self):
+    def defv(self): #notre defense
         self.change_info(1, "DEFENDRE")
         self.change_info(2, self.card_att+" vous attaque")
         self.change_button("Defendre avec cette carte")
@@ -146,7 +146,7 @@ class Kernel(Thread):
                 self.send(fr.card_att)
                 self.send('stop')
         self.card_att = " "
-    def defe(self):
+    def defe(self): #defense par l'adversaire
         self.change_info(1, "L'Ennemi doit choisir la defense")
         self.change_button(" ")
         forotherbutton = 1
@@ -172,7 +172,7 @@ class Kernel(Thread):
                 elif recu =="stop":
                     self.suite = 1
         self.card_att = " "
-    def run(self):
+    def run(self): #systeme general
         music.play("combat", True)
         if self.depart == "no":
             for i in range(7):

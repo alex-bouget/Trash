@@ -1,0 +1,15 @@
+jy = obj(0,0, "Button")
+jy.commande(play)
+jy.ecrire("Jouer")
+j = obj(100,0, "Button")
+j.commande(crea)
+j.ecrire("Deck")
+
+jy.create()
+j.create()
+
+
+h = obj(0, 50, "Label")
+h.ecrire("Mode Hors Ligne")
+
+h.create()
