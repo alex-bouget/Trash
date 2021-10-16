@@ -10,13 +10,30 @@ import time
 from encode import *
 import song
 from urllib.request import *
+from tkinter.messagebox import *
+import os
 
-
+def reload_variable():
+    global lang
+    if not os.path.isfile("lang.txt"):
+        s = open("lang.txt", "w")
+        s.write("fr.txt")
+        s.close()
+    s = open("lang.txt", "r")
+    r = s.read()
+    s.close()
+    s = open("lang/"+r,"r")
+    r = s.read()
+    lang = r.split('\n')
+    s= open("other_code/var.dat", "r")
+    exec(s.read(), globals())
 if ifencode("card/name.txt"):
     c = 0
 else:
     c = 1
-
+def retour():
+    fenetre.destroy()
+    os.system("cmd /c return.bat")
 class obj:
     def __init__(self, x, y, etat, cv="fenetre"):
         self.X = x
@@ -52,7 +69,20 @@ class obj:
             self.me.configure(width=x, height=y)
     def font(self, ft, tl):
         self.me.configure(font=(ft,tl))
-
+def musique():
+    music.play_music = opef.get()
+    f = open("options.txt", "w")
+    f.write(str(opef.get()))
+    f.write('\n')
+    f.write(str(g.get()))
+    f.close()
+def ambient():
+    music.ambiant = g.get()
+    f = open("options.txt", "w")
+    f.write(str(opef.get()))
+    f.write('\n')
+    f.write(str(g.get()))
+    f.close()
 #__________________________________
 #          SYSTEM VARIABLE
 #__________________________________
@@ -65,6 +95,8 @@ using_plan = 0
 cartestr = [" "," "," ",""]
 
 music = song.Music()
+
+
 
 #__________________________________
 #           GAME VARIABLE
@@ -105,22 +137,14 @@ ennemi_nbmain = IntVar()
 #       DECK CREATOR VARIABLE
 #__________________________________
 deckname = StringVar()
-deckname.set("Nouveau Deck")
 
-def musique():
-    music.play_music = opef.get()
-    f = open("options.txt", "w")
-    f.write(str(opef.get()))
-    f.write('\n')
-    f.write(str(g.get()))
-    f.close()
-def ambient():
-    music.ambiant = g.get()
-    f = open("options.txt", "w")
-    f.write(str(opef.get()))
-    f.write('\n')
-    f.write(str(g.get()))
-    f.close()
+reload_variable()
+deckname.set(lang[1])
+
+#__________________________________
+#         TKINTER VARIABLE
+#__________________________________
+
 agh = open("options.txt", "r")
 agh = agh.read()
 agh = agh.split('\n')
@@ -130,7 +154,3 @@ g = IntVar()
 g.set(agh[1])
 music.play_music=opef.get()
 music.ambiant=g.get()
-def reload_variable():
-    s= open("other_code/var.dat", "r")
-    exec(s.read(), globals())
-reload_variable()

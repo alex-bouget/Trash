@@ -1,0 +1,45 @@
+en
+New deck
+, atk/def:
+ enemy card
+Your life:
+Life of the enemy:
+Your Eclat:
+Eclat of the enemy:
+next
+add this card
+remove this card
+Save the deck
+Create a deck
+Change a deck
+return
+music
+noise
+Play
+Deck
+Offline mode
+Put the ip address of the host
+Put the port of the host
+         to log in           
+Board of the Enemy
+Your Board
+You can't draw
+Your Main Phase
+Play this card
+Main Phase Enemy
+Your Attack Phase
+Attack with this card
+Enemy Attack Phase
+ attack you
+Defend with this card
+The enemy choose the defense
+You lost
+You have won
+Impossible output
+You can not return
+save
+ Already exists
+do you want to replace it?
+to the home screen during
+a part
+DEFEND

@@ -51,22 +51,30 @@ def crea():
     deck.music.stop()
     sa.destroy()
     deck.open_creator()
+def change_lang(evt):
+    value=str(g.get(g.curselection()))
+    s=open("lang.txt", "w")
+    s.write(value)
+    s.close()
+    deck.reload_variable()
 def options():
-    global d
+    global d, g
     deck.music.play_ambiant("click")
     deck.music.stop()
     sa.destroy()
     d = Canvas(deck.fenetre)
-    er = Button(d, text="retour", command=optionsret)
-    c = Checkbutton(d, text="musique", variable=deck.opef, command=deck.musique)
-    z = Checkbutton(d, text="bruit", variable=deck.g, command=deck.ambient)
+    er = Button(d, text=deck.lang[14], command=deck.retour)
+    c = Checkbutton(d, text=deck.lang[15], variable=deck.opef, command=deck.musique)
+    z = Checkbutton(d, text=deck.lang[16], variable=deck.g, command=deck.ambient)
+    g = Listbox(d)
+    g.bind('<<ListboxSelect>>', change_lang)
+    for item in deck.os.listdir("lang"):
+        g.insert(END, item)
     d.pack()
-    c.pack()
-    z.pack()
-    er.pack()
-def optionsret():
-    d.destroy()
-    depart()
+    c.grid()
+    z.grid(row=1)
+    g.grid(row=2)
+    er.grid(row=3)
 def depart():
     global sa
     sa = Canvas(deck.fenetre, width=1000, height=800)

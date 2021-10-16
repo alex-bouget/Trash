@@ -1,9 +1,6 @@
 from tkinter import *
 import card
 from variable import *
-from os import path
-from os import listdir
-from tkinter.messagebox import *
 
 fr = card.Card()
 
@@ -13,7 +10,7 @@ def deckselect(evt):
     value=str(deck.me.get(deck.me.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
-    deckl.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
+    deckl.me.configure(text=cartestr[0]+lang[2]+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
     Card_viever.me.configure(image=photo)
     using_plan = 1
@@ -22,7 +19,7 @@ def everyselect(evt):
     value=str(every_card.me.get(every_card.me.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
-    everyl.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
+    everyl.me.configure(text=cartestr[0]+lang[2]+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
     Card_viever.me.configure(image=photo)
     using_plan = 2
@@ -32,8 +29,8 @@ def ajoute():
         deck.me.insert(END, fr.card_name)
 def enleve():
     if using_plan == 1:
-            music.play_ambiant("click")
-            deck.me.delete(deck.me.get(0, END).index(fr.card_name))
+        music.play_ambiant("click")
+        deck.me.delete(deck.me.get(0, END).index(fr.card_name))
 def create_deck():
     music.play_ambiant("click")
     if c == 1:
@@ -64,19 +61,19 @@ def change_deck():
     else:
         s=decodefich("other_code/deck_creator3.dat")
         exec(s)
-    for item in listdir("deck"):
+    for item in os.listdir("deck"):
         every_deck.me.insert(END, item)
 def create():
     fichier = open("deck/"+deckname.get()+".txt", "w")
     systeme = []
-    for i in deck.me.get(0, END):
+    for i in deck.get(0, END):
         systeme.append(i)
     fichier.write('\n'.join(systeme))
     fichier.close()
 def finish():
     music.play_ambiant("click")
-    if path.isfile("deck/"+deckname.get()+".txt"):
-        if askokcancel("sauvegarde", deckname.get()+" existe deja\nvoulez vous le remplacez ?"):
+    if os.path.isfile("deck/"+deckname.get()+".txt"):
+        if askokcancel(lang[39], deckname.get()+lang[40]+'\n'+lang[41]):
             music.play_ambiant("click")
             create()
         else:

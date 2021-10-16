@@ -42,7 +42,7 @@ class Kernel(Thread):
         try:
             user_main.me.insert(END, str(deck_use[self.nb_pioche]))
         except:
-            self.change_info(2, "Vous ne pouvez plus pioche")
+            self.change_info(2, lang[25])
         self.nb_pioche = self.nb_pioche+1
     def send(self, msg):
         if self.etat == 1:
@@ -69,15 +69,15 @@ class Kernel(Thread):
         buttonk.set(string)
         buttonb.me.configure(text=buttonk.get())
     def vpp(self):
-            self.change_info(1, "Votre Phase Principale")
+            self.change_info(1, lang[26])
             change_eclat("u", 1)
-            self.change_button("Jouez cette carte")
+            self.change_button(lang[27])
             forotherbutton = 0
             while self.suite == 0:
                 time.sleep(0.1)
             self.send("Phase Fini")
     def epp(self):
-        self.change_info(1, "Phase Principale Ennemi")
+        self.change_info(1, lang[28])
         change_eclat("e", 1)
         self.change_button(" ")
         forotherbutton = 1
@@ -94,14 +94,14 @@ class Kernel(Thread):
                 self.change_main(recu)
                 music.play_ambiant("pose")
     def va(self):
-        self.change_info(1, "Votre Phase D'Attaque")
-        self.change_button("Attaquez avec cette carte")
+        self.change_info(1, lang[29])
+        self.change_button(lang[30])
         forotherbutton = 0
         while self.suite == 0:
             time.sleep(0.1)
         self.send("fin")
     def ea(self):
-        self.change_info(1, "Phase D'Attaque Ennemi")
+        self.change_info(1, lang[31])
         self.change_button(" ")
         forotherbutton = 1
         while self.suite == 0:
@@ -113,9 +113,9 @@ class Kernel(Thread):
             elif recu == "fin":
                 self.suite = 1
     def defv(self): #notre defense
-        self.change_info(1, "DEFENDRE")
-        self.change_info(2, self.card_att+" vous attaque")
-        self.change_button("Defendre avec cette carte")
+        self.change_info(1, lang[44])
+        self.change_info(2, self.card_att+lang[32])
+        self.change_button(lang[33])
         forotherbutton = 0
         if len(card_planu_var.names) == 0:
             fr.set_newcard_by_name(self.card_att)
@@ -147,7 +147,7 @@ class Kernel(Thread):
                 self.send('stop')
         self.card_att = " "
     def defe(self): #defense par l'adversaire
-        self.change_info(1, "L'Ennemi doit choisir la defense")
+        self.change_info(1, lang[34])
         self.change_button(" ")
         forotherbutton = 1
         if len(card_plane_var.names) == 0:
@@ -264,11 +264,21 @@ class Kernel(Thread):
                 self.suite = 0
                 self.change_info(2," ")
                 self.click = 0
+        if userlife.get() <= 0:
+            print("Vous avez perdu")
+        elif ennemilife.get() <=0:
+            print("Vous avez gagne")
         exit
-
+def ret():
+    if not kernel.isAlive():
+        music.stop()
+        clientc.client_close()
+        retour()
+    else:
+        showwarning(lang[37], lang[38]+"\n"+lang[42]+"\n"+lang[43])
 def button_click():
     value=buttonk.get()
-    if value == "Jouez cette carte":
+    if value == lang[27]:
         if fr.card_used != 0:
             if eclatu.get() >= int(fr.card_cout):
                 global using_plan
@@ -284,7 +294,7 @@ def button_click():
                     kernel.send(klimaze)
                     time.sleep(latence)
                     kernel.send(user_main.me.index(END))
-    elif value == "Attaquez avec cette carte":
+    elif value == lang[30]:
         if fr.card_used != 0:
             if using_plan == 3:
                 music.play_ambiant("attaque")
@@ -294,7 +304,7 @@ def button_click():
                 kernel.card_att = fr.card_name
                 time.sleep(latence)
                 kernel.suite = 1
-    elif value == "Defendre avec cette carte":
+    elif value == lang[33]:
         if fr.card_used != 0:
             if using_plan == 3:
                 music.play_ambiant("defendre")
@@ -314,7 +324,7 @@ def mainselect(evt):
     using_plan = 1
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def)]
-    cartel.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
+    cartel.me.configure(text=cartestr[0]+lang[2]+cartestr[1]+"/"+cartestr[2])
 def plane(evt):
     global photo
     global using_plan
@@ -325,7 +335,7 @@ def plane(evt):
     using_plan = 2
     forwait = card_plane_var.names.index(value)
     cartestr = [str(card_plane_var.names[forwait]), str(card_plane_var.atts[forwait]), str(card_plane_var.defs[forwait])]
-    cartel.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
+    cartel.me.configure(text=cartestr[0]+lang[2]+cartestr[1]+"/"+cartestr[2])
 def planu(evt):
     global photo
     global using_plan
@@ -336,7 +346,7 @@ def planu(evt):
     using_plan = 3
     forwait = card_planu_var.names.index(value)
     cartestr = [str(card_planu_var.names[forwait]), str(card_planu_var.atts[forwait]), str(card_planu_var.defs[forwait])]
-    cartel.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
+    cartel.me.configure(text=cartestr[0]+lang[3]+cartestr[1]+"/"+cartestr[2])
 def game_kernel():
     global kernel
     if imme.get() == 2:                            #client

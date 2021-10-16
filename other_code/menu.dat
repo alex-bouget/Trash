@@ -1,15 +1,15 @@
 jy = obj(0,0, "Button")
 jy.commande(play)
-jy.ecrire("Jouer")
+jy.ecrire(lang[17])
 j = obj(100,0, "Button")
 j.commande(crea)
-j.ecrire("Deck")
+j.ecrire(lang[18])
 
 jy.create()
 j.create()
 
 
 h = obj(0, 50, "Label")
-h.ecrire("Mode Hors Ligne")
+h.ecrire(lang[20])
 
 h.create()
