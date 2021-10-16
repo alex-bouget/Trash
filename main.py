@@ -1,9 +1,7 @@
-import game.start as start
+import game
 import deck_creator as deck
 from tkinter import *
-
-deck.fenetre.title("Card_Game "+str(deck.v))
-
+deck.fenetre.title("Utopia "+str(deck.v))
 class obj:
     def __init__(self, x, y, etat, cv="sa"):
         self.X = x
@@ -27,8 +25,8 @@ class obj:
     def execute(self, drg):
         exec(drg)
     def imgint(self, img):
-        req = deck.Request(img, headers={'User-Agent': 'Mozilla/5.0'})
-        web_byte = deck.urlopen(req)
+        req = deck.serv.Request(img, headers={'User-Agent': 'Mozilla/5.0'})
+        web_byte = deck.serv.urlopen(req)
         self.photo = deck.Image.open(web_byte)
     def images(self, img):
         self.photo = deck.Image.open(img)
@@ -38,31 +36,29 @@ class obj:
         self.me.configure(width=x, height=y)
     def font(self, ft, tl):
         self.me.configure(font=(ft,tl))
-
 def play():
     deck.music.play_ambiant("click")
     deck.music.stop()
     sa.destroy()
-    start.open_game_system()
+    game.start_game()
 def crea():
     deck.music.play_ambiant("click")
     deck.music.stop()
     sa.destroy()
-    deck.open_creator()
+    deck.start_deck_creator()
 def change_lang(evt):
     value=str(g.get(g.curselection()))
     with open("save/lang.txt", "w") as s:
         s.write(value)
-    deck.reload_variable()
 def options():
     global d, g
     deck.music.play_ambiant("click")
     deck.music.stop()
     sa.destroy()
     d = Canvas(deck.fenetre)
-    er = Button(d, text=deck.lang[14], command=deck.retour)
-    c = Checkbutton(d, text=deck.lang[15], variable=deck.opef, command=deck.musique)
-    z = Checkbutton(d, text=deck.lang[16], variable=deck.g, command=deck.ambient)
+    er = Button(d, text=deck.lang[2], command=deck.retour)
+    c = Checkbutton(d, text=deck.lang[34], variable=deck.play, command=deck.musique)
+    z = Checkbutton(d, text=deck.lang[35], variable=deck.ambient_v, command=deck.ambient)
     g = Listbox(d)
     g.bind('<<ListboxSelect>>', change_lang)
     for item in deck.os.listdir("lang"):
@@ -72,25 +68,6 @@ def options():
     z.grid(row=1)
     g.grid(row=2)
     er.grid(row=3)
-    for modv1 in deck.os.listdir("mods"):
-        if os.path.isfile("mods/"+modv1+"/Scripts/options.py"):
-            with open("mods/"+modv1+"/Scripts/options.py", "r") as modv2:
-                modv3 = modv2.read()
-            exec(modv3, globals())
-def depart():
-    global sa
-    sa = Canvas(deck.fenetre, width=1000, height=800)
-    sa.pack()
-    try:
-        s = deck.urlopen(deck.server+"menu.txt")
-        s = s.read()
-        exec(s.decode(),globals())
-    except:
-        s= open("other_code/menu.dat", "r")
-        exec(s.read(),globals())
-    deck.music.play("main theme")
-    sa.mainloop()
-    deck.music.stop()
 def booster_rcard(common, rituel, rare, mythique, legend):
     h = deck.random.random()
     if h < common:
@@ -130,6 +107,8 @@ def booster_rcard(common, rituel, rare, mythique, legend):
         return deck.fr.name_by_nb(g)
     else:
         return booster_rcard(common, rituel, rare, mythique, legend)
+
+
 def booster(l):
     s = []
     if l == "normal":
@@ -187,14 +166,27 @@ def booster(l):
     if '\n'.join(t) == "":
         deck.os.remove("save/box.dat")
     return s
-def recreate_unlock():
-    g= '\n'.join(deck.card_debloque)
-    with open("save/card.dat", "w") as card_debloque:
-        card_debloque.write(g)
+def depart():
+    global sa
+    sa = Canvas(deck.fenetre, width=1000, height=800)
+    sa.pack()
+    try:
+        s = deck.serv.urlopen(deck.server+"menu.txt")
+        s = s.read()
+        exec(s.decode(),globals())
+    except:
+        try:
+            s = deck.serv.urlopen(deck.server+"menu.txt")
+            s = s.read()
+            exec(s.decode(),globals())
+        except:
+            with open("menu.dat", "r") as f:
+                exec(f.read(),globals())
 def open_booster(evt):
     global C1, C2, C3
-    value = str(ki.me.get(ki.me.curselection()))
-    ki.me.delete(ki.me.get(0, END).index(value))
+    sa.destroy()
+    value = str(ki.get(ki.curselection()))
+    ki.delete(ki.get(0, END).index(value))
     yt = booster(value)
     C1 = deck.ImageTk.PhotoImage(deck.Image.open("card/png_"+deck.lang[0]+"/"+deck.fr.nb_by_name(yt[0])+".png"))
     CL1.configure(image=C1)
@@ -205,70 +197,70 @@ def open_booster(evt):
     for i in yt:
         if int(deck.card_debloque[deck.card_name.index(i)]) == 0:
             if i == yt[0]:
-                CLL1.configure(text=deck.lang[36]+i)
+                CLL1.configure(text=deck.lang[32]+i)
             elif i == yt[1]:
-                CLL2.configure(text=deck.lang[36]+i)
+                CLL2.configure(text=deck.lang[32]+i)
             elif i == yt[2]:
-                CLL3.configure(text=deck.lang[36]+i)
+                CLL3.configure(text=deck.lang[32]+i)
             deck.card_debloque[deck.card_name.index(i)] = "1"
         else:
             rarity = deck.card_rarity[deck.card_name.index(i)]
             if rarity =="C":
                 deck.Dolpe.set(deck.Dolpe.get()+10)
                 if i == yt[0]:
-                    CLL1.configure(text=deck.lang[36]+"10"+deck.lang[51])
+                    CLL1.configure(text=deck.lang[32]+"10"+deck.lang[33])
                 elif i == yt[1]:
-                    CLL2.configure(text=deck.lang[36]+"10"+deck.lang[51])
+                    CLL2.configure(text=deck.lang[32]+"10"+deck.lang[33])
                 elif i == yt[2]:
-                    CLL3.configure(text=deck.lang[36]+"10"+deck.lang[51])
+                    CLL3.configure(text=deck.lang[32]+"10"+deck.lang[33])
             elif rarity == "O":
                 deck.Dolpe.set(deck.Dolpe.get()+15)
                 if i == yt[0]:
-                    CLL1.configure(text=deck.lang[36]+"15"+deck.lang[51])
+                    CLL1.configure(text=deck.lang[32]+"15"+deck.lang[33])
                 elif i == yt[1]:
-                    CLL2.configure(text=deck.lang[36]+"15"+deck.lang[51])
+                    CLL2.configure(text=deck.lang[32]+"15"+deck.lang[33])
                 elif i == yt[2]:
-                    CLL3.configure(text=deck.lang[36]+"15"+deck.lang[51])
+                    CLL3.configure(text=deck.lang[32]+"15"+deck.lang[33])
             elif rarity == "R":
                 deck.Dolpe.set(deck.Dolpe.get()+30)
                 if i == yt[0]:
-                    CLL1.configure(text=deck.lang[36]+"30"+deck.lang[51])
+                    CLL1.configure(text=deck.lang[32]+"30"+deck.lang[33])
                 elif i == yt[1]:
-                    CLL2.configure(text=deck.lang[36]+"30"+deck.lang[51])
+                    CLL2.configure(text=deck.lang[32]+"30"+deck.lang[33])
                 elif i == yt[2]:
-                    CLL3.configure(text=deck.lang[36]+"30"+deck.lang[51])
+                    CLL3.configure(text=deck.lang[32]+"30"+deck.lang[33])
             elif rarity == "M":
                 deck.Dolpe.set(deck.Dolpe.get()+75)
                 if i == yt[0]:
-                    CLL1.configure(text=deck.lang[36]+"75"+deck.lang[51])
+                    CLL1.configure(text=deck.lang[32]+"75"+deck.lang[33])
                 elif i == yt[1]:
-                    CLL2.configure(text=deck.lang[36]+"75"+deck.lang[51])
+                    CLL2.configure(text=deck.lang[32]+"75"+deck.lang[33])
                 elif i == yt[2]:
-                    CLL3.configure(text=deck.lang[36]+"75"+deck.lang[51])
+                    CLL3.configure(text=deck.lang[32]+"75"+deck.lang[33])
             elif rarity == "L":
                 deck.Dolpe.set(deck.Dolpe.get()+150)
                 if i == yt[0]:
-                    CLL1.configure(text=deck.lang[36]+"150"+deck.lang[51])
+                    CLL1.configure(text=deck.lang[32]+"150"+deck.lang[33])
                 elif i == yt[1]:
-                    CLL2.configure(text=deck.lang[36]+"150"+deck.lang[51])
+                    CLL2.configure(text=deck.lang[32]+"150"+deck.lang[33])
                 elif i == yt[2]:
-                    CLL3.configure(text=deck.lang[36]+"150"+deck.lang[51])
+                    CLL3.configure(text=deck.lang[32]+"150"+deck.lang[33])
     recreate_unlock()
     deck.Change_Dolpe()
+def recreate_unlock():
+    g= '\n'.join(deck.card_debloque)
+    with open("save/card.dat", "w") as card_debloque:
+        card_debloque.write(g)
 def booster_op():
     global ki, df, C1, C2, C3, CL1, CL2, CL3, CLL1, CLL2, CLL3
     sa.destroy()
     df = Canvas(deck.fenetre)
     df.pack()
-    ki = obj(0,0, "Listbox", "df")
-    ki.font("times",13)
-    ki.crez(20,20)
-    ki.me.bind('<<ListboxSelect>>', open_booster)
-    ki.me.grid()
-    lo = obj(0, 0, "Button", "df")
-    lo.commande(deck.retour)
-    lo.ecrire("retour")
-    lo.me.grid(row=1)
+    ki = Listbox(df, font=("times",13), width=20, height=20)
+    ki.bind('<<ListboxSelect>>', open_booster)
+    ki.grid()
+    lo = Button(df, command=deck.retour, text="retour")
+    lo.grid(row=1)
     C1 = deck.ImageTk.PhotoImage(deck.Image.open("card/png_"+deck.lang[0]+"/0.png"))
     CL1 = Label(df, image=C1)
     C2 = deck.ImageTk.PhotoImage(deck.Image.open("card/png_"+deck.lang[0]+"/0.png"))
@@ -289,7 +281,7 @@ def booster_op():
             r = s.read()
             r = r.split('\n')
         for i in r:
-            ki.me.insert(END, i)
-
+            ki.insert(END, i)
 if __name__ == '__main__':
     depart()
+    deck.fenetre.mainloop()

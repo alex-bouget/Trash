@@ -1,106 +1,39 @@
-from game.lifeclat import *
-try:
-    if c == 1:
-        card_name = open("lang/"+lang[0]+"/name.txt", "r")
-        card_att = open("card/att.txt", "r")
-        card_def = open("card/def.txt", "r")
-        card_nb = open("card/nb.txt", "r")
-        card_cout = open("card/cout.txt", "r")
-        card_effect = open("card/effect.txt", "r")
-        card_rarity = open("card/rarity.txt", "r")
-        card_name = card_name.read()
-        card_att = card_att.read()
-        card_def = card_def.read()
-        card_nb = card_nb.read()
-        card_cout = card_cout.read()
-        card_effect = card_effect.read()
-        card_rarity = card_rarity.read()
-        card_name = card_name.split('\n/')
-        card_att = card_att.split('\n/')
-        card_def = card_def.split('\n/')
-        card_nb = card_nb.split('\n/')
-        card_cout = card_cout.split('\n/')
-        card_effect = card_effect.split('\n/')
-        card_rarity = card_rarity.split('\n/')
-    else:
-        card_name = decodefich("lang/"+lang[0]+"/name.txt")
-        card_att = decodefich("card/att.txt")
-        card_def = decodefich("card/def.txt")
-        card_nb = decodefich("card/nb.txt")
-        card_cout = decodefich("card/cout.txt")
-        card_effect = decodefich("card/effect.txt")
-        card_rarity = decodefich("card/rarity.txt")
-        card_name = card_name.split('/')
-        card_att = card_att.split('/')
-        card_def = card_def.split('/')
-        card_nb = card_nb.split('/')
-        card_cout = card_cout.split('/')
-        card_effect = card_effect.split('/')
-        card_rarity = card_rarity.split('/')
-except:
-    sys.exit()
-card_mods = []
+"""BDD de carte pour Utopia"""
+from variable import *
+if encodesys:
+    card_name = codec.decode_fich("lang/"+lang[0]+"/name.txt").split('/')
+    card_nb = codec.decode_fich("card/nb.txt").split('/')
+    card_att = codec.decode_fich("card/att.txt").split('/')
+    card_rarity = codec.decode_fich("card/rarity.txt").split('/')
+    card_def = codec.decode_fich("card/def.txt").split('/')
+    card_cout = codec.decode_fich("card/cout.txt").split('/')
+    card_effect = codec.decode_fich("card/effect.txt").split('/')
+else:
+    card_name = open("lang/"+lang[0]+"/name.txt", "r").read().split('/')
+    card_nb = open("card/nb.txt", "r").read().split('/')
+    card_att = open("card/att.txt", "r").read().split('/')
+    card_rarity = open("card/rarity.txt", "r").read().split('/')
+    card_def = open("card/def.txt", "r").read().split('/')
+    card_cout = open("card/cout.txt", "r").read().split('/')
+    card_effect = open("card/effect.txt", "r").read().split('/')
 
-for modi in os.listdir("mods"):
-    with open("mods/"+modi+"/prj.dat", "r") as modv:
-        v = v+" "+modi+modv.read()
-    if os.path.isdir("mods/"+modi+"/card"):
-        for modj in os.listdir("mods/"+modi+"/card"):
-            modx = 0
-            modm = 0
-            modq = 0
-            modf = 0
-            with open("mods/"+modi+"/card/"+modj) as modt:
-                moda = modt.read()
-                moda = moda.split('\n')
-                for modg in moda:
-                    if modx == 0:
-                        card_nb.append(modg)
-                        card_mods.append(modg)
-                    elif modx == 1:
-                        card_att.append(modg)
-                    elif modx == 2:
-                        card_def.append(modg)
-                    elif modx == 3:
-                        card_cout.append(modg)
-                    elif modx == 4:
-                        card_rarity.append(modg)
-                    elif modg == "%lang":
-                        modm = 1
-                    elif modm == 1:
-                        if modg == "end":
-                            modq = 0
-                            modm = 0
-                        elif modq == 0:
-                            if modg == lang[0]:
-                                modq = 1
-                        else:
-                            card_name.append(modg)
-                    elif modg == "%effect":
-                        modf = 1
-                    elif modf == 1:
-                        if modg == "end":
-                            modf = 0
-                        else:
-                            card_effect.append(modg)
-                    modx = modx+1
-
-if os.path.isfile("save/card.dat")==False:
-    h= []
-    for i in range(len(card_nb)):
-        if i == 0 or i == 1 or i ==7 or i == 14:
-            h.append("1")
-        else:
-            h.append("0")
-    with open("save/card.dat", "w") as s:
-        s.write('\n'.join(h))
-with open("save/card.dat", "r") as s:
-    card_debloque = s.read()
-    card_debloque = card_debloque.split('\n')
 all_card = []
-for i in range(len(card_debloque)):
-    if card_debloque[i] == "1":
-        all_card.append(card_name[i])
+if os.path.isfile("save/card.dat")==False:
+    pute=[]
+    for i in range(len(card_nb)):
+        if i == 1 or i ==7 or i == 14:
+            pute.append("1")
+        else:
+            pute.append("0")
+    with open("save/card.dat", "w") as f:
+        f.write("\n".join(pute))
+
+with open("save/card.dat", "r") as s:
+    card_debloque = s.read().split('\n')
+    for i in range(len(card_debloque)):
+        if card_debloque[i] == "1":
+            all_card.append(card_name[i])
+
 class Card:
     def __init__(self):
         self.card_used = ""
@@ -109,6 +42,7 @@ class Card:
         self.card_name = ""
         self.card_effect = ""
         self.card_cout = ""
+        self.card_rarity = ""
         self.card_tout = len(all_card)-1
     def var_for_card(self, nb):
         self.card_used = card_nb[nb]
@@ -117,89 +51,124 @@ class Card:
         self.card_cout = card_cout[nb]
         self.card_def = card_def[nb]
         self.card_effect = card_effect[nb]
+        self.card_rarity = card_rarity[nb]
     def set_newcard_by_nb(self, nbe):
         self.var_for_card(card_nb.index(str(nbe)))
     def set_newcard_by_name(self, name):
         self.var_for_card(card_name.index(str(name)))
     def cout_carte_nb(self, nb):
-        return card_cout(card_nb.index(str(nb)))
+        return card_cout[card_nb.index(str(nb))]
     def cout_carte_name(self, name):
-        return card_cout(card_name.index(str(name)))
+        return card_cout[card_name.index(str(name))]
     def nb_by_name(self, name):
         return card_nb[card_name.index(str(name))]
     def name_by_nb(self, nb):
         return card_name[card_nb.index(str(nb))]
     def card_all(self):
         h = all_card
-        del h[0]
         return(h)
-    for modv1 in os.listdir("mods"):
-        if os.path.isfile("mods/"+modv1+"/Scripts/card.py"):
-            with open("mods/"+modv1+"/Scripts/card.py", "r") as modv2:
-                modv3 = modv2.read()
-            exec(modv3)
 class board_card:
-    def __init__(self, user):
-        self.names = []
+    def __init__(self, user, board_enter, Tk_g, click):
+        self.nb = []
         self.defs = []
         self.atts = []
         self.user = user
         self.card = Card()
+        self.board = board_enter
+        self.TK = Tk_g
+        self.click = click
         self.effect = ""
-    def new_card(self, name):
-        self.card.set_newcard_by_nb(name)
-        self.names.append(self.card.card_name)
+        self.destroy_u = ""
+    def new_card(self, nb):
+        if self.nb.count(nb) >= 1:
+            exec("self.d"+str(nb)+".configure(text=str(self.nb.count(nb)+1))")
+        else:
+            r = lambda: self.click_card(str(nb))
+            exec("self.d"+str(nb)+"= Button(self.board, text=str(self.nb.count(nb)+1), image=self.TK.photo"+str(nb)+", command=r, compound='left')")
+            exec("self.d"+str(nb)+".pack(side=LEFT)")
+        self.card.set_newcard_by_nb(nb)
+        self.nb.append(nb)
         self.defs.append(self.card.card_def)
         self.atts.append(self.card.card_att)
         self.effect = self.card.card_effect
-        if self.user == "user":
-            if self.effect != "":
-                exec(self.effect)
-            card_planu.me.insert(END, self.card.card_name)
-            user_main.me.delete(user_main.me.get(0, END).index(self.card.card_name))
+        if self.effect != "":
+            exec(self.effect)
+        self.TK.reload()
+        self.att_carte(self.card.card_used, 0)
+        print(nb[-1])
+    def delete_carte(self, nb):
+        carte_data = self.nb.index(nb)
+        if self.nb.count(nb) >1:
+            exec("self.d"+str(nb)+".configure(text=str(self.nb.count(nb)-1))")
         else:
-            if self.effect != "":
-                exec(self.effect)
-            card_plane.me.insert(END, self.card.card_name)
-        self.att_carte(self.card.card_name, 0)
-    def delete_carte(self, name):
-        carte_data = self.names.index(name)
-        del self.atts[carte_data]
-        del self.defs[carte_data]
-        del self.names[carte_data]
-        if self.user == "user":
-            card_planu.me.delete(card_planu.me.get(0, END).index(name))
-        else:
-            card_plane.me.delete(card_plane.me.get(0, END).index(name))
-        photo = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/0.png'))
-        Card_view.me.configure(image=photo)
-    def att_carte(self, name, degats):
-        self.defs[self.names.index(name)] = str(int(self.defs[self.names.index(name)])-int(degats))
-        if int(self.defs[self.names.index(name)]) <= 0:
-            self.delete_carte(name)
+            exec("self.d"+str(nb)+".destroy()")
+        del self.atts[carte_data], self.defs[carte_data], self.nb[carte_data]
+        self.TK.reload()
+    def att_carte(self, nb, degats):
+        print(nb)
+        self.defs[self.nb.index(nb)] = str(int(self.defs[self.nb.index(nb)])-int(degats))
+        if int(self.defs[self.nb.index(nb)]) <= 0:
+            self.delete_carte(nb)
+    def click_card(self, nb):
+        self.click(nb)
+    """ EFFET DE CARTE: PAS TOUCHE"""
     def ulife(self, x):
         if self.user == "user":
-            change_life("u", -int(x))
+            user_life.set(user_life.get()+int(x))
         else:
-            change_life("e", -int(x))
+            ennemi_life.set(ennemi_life.get()+int(x))
+        self.TK.reload_var()
     def elife(self, x):
         if self.user == "user":
-            change_life("e", int(x))
+            ennemi_life.set(ennemi_life.get()-int(x))
         else:
-            change_life("u", int(x))
+            user_life.set(user_life.get()-int(x))
+        self.TK.reload_var()
     def uclat(self, x):
         if self.user == "user":
-            change_eclat("u", int(x))
+            eclat_user.set(eclat_user.get()+int(x))
         else:
-            change_eclat("e", int(x))
+            eclat_ennemi.set(eclat_ennemi.get()+int(x))
+        self.TK.reload_var()
     def mylife(self):
         if self.user == "user":
-            return userlife.get()
+            return user_life.get()
         else:
-            return ennemilife.get()
-    for modv1 in os.listdir("mods"):
-        if os.path.isfile("mods/"+modv1+"/Scripts/board_card.py"):
-            with open("mods/"+modv1+"/Scripts/board_card.py", "r") as modv2:
-                modv3 = modv2.read()
-            exec(modv3)
+            return ennemi_life.get()
+    def win_eclat(self, x):
+        if self.user == "user":
+            eclat_user_win.set(eclat_user_win.get()+int(x))
+            if eclat_user_win.get() <= 0:
+                eclat_user_win.set(1)
+        else:
+            eclat_ennemi_win.set(eclat_ennemi_win.get()+int(x))
+            if eclat_ennemi_win.get() <= 0:
+                eclat_ennemi_win.set(1)
+    def destroy(self):
+        self.destroy_u = "yes"
 
+
+class main():
+    def __init__(self, board_enter, Tk_g, click):
+        self.nb = []
+        self.board = board_enter
+        self.TK = Tk_g
+        self.click = click
+    def new_card(self, nb):
+        if self.nb.count(nb) >= 1:
+            exec("self.d"+str(nb)+".configure(text=str(self.nb.count(nb)+1))")
+        else:
+            r = lambda: self.click_card(str(nb))
+            exec("self.d"+str(nb)+"= Button(self.board, text=str(self.nb.count(nb)+1), image=self.TK.photo"+str(nb)+", command=r, compound='left')")
+            exec("self.d"+str(nb)+".pack()")
+        self.nb.append(nb)
+        self.TK.reload()
+    def delete_card(self, nb):
+        if self.nb.count(nb) >1:
+            exec("self.d"+str(nb)+".configure(text=str(self.nb.count(nb)-1))")
+        else:
+            exec("self.d"+str(nb)+".destroy()")
+        self.nb.remove(nb)
+        self.TK.reload()
+    def click_card(self, nb):
+        self.click(nb)

@@ -1,57 +1,41 @@
 en
 New deck
-, atk/def:
- enemy card
-Your life:
-Life of the enemy:
-Your Eclat:
-Eclat of the enemy:
-next
-add this card
-remove this card
-Save the deck
+Return
+Save
+ Already exists
+do you want to replace it?
 Create a deck
-Change a deck
-return
+Impossible opening
+This deck will could be open because
+they are a bug or you haven't a card
+in this deck
+Your life: 
+Enemy life: 
+Your eclat: 
+Enemy eclat: 
+Put ip here
+Put port here
+connecting to server
+version not equal
+This player is not in
+your version
+You can't draw
+Your Main Phase
+Main Phase Enemy
+You have played 
+Enemy played 
+Your Battle Phase
+Battle Phase Enemy
+Your Defense Phase
+Defense Phase Enemy
+ attack you !!!
+ attack !!!
+You have won 
+ Dolpes
 music
 noise
 Play
 Deck
-Offline mode
-Put the ip address of the host
-Put the port of the host
-         to log in           
-Board of the Enemy
-Your Board
-You can't draw
-Your Main Phase
-Play this card
-Main Phase Enemy
-Your Attack Phase
-Attack with this card
-Enemy Attack Phase
- attack you
-Defend with this card
-The enemy choose the defense
-You lost
-You have won
-Impossible output
-You can not return
-save
- Already exists
-do you want to replace it?
-to the home screen during
-a part
-DEFEND
-old Deck
-Your deck was created in one version less than 0.8. The opening of this deck in a language other than French can make a bug. Are you sure to open this deck?
-this deck was created in a version lower than 0.8.
-It is impossible to play with.
-you win a 
- booster
- Dolpes
-card not found
-you have not unlocked this card: 
-ennemi play 
-you play 
-settings
+Booster
+Settings
+Destroy Phase
