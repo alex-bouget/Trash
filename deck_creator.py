@@ -8,7 +8,12 @@ def deckselect(evt):
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
     deckl.me.configure(text=cartestr[0]+lang[2]+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
-    photo = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/'+fr.nb_by_name(value)+'.png'))
+    try:
+        photo = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/'+fr.nb_by_name(value)+'.png'))
+    except:
+        for sei in os.listdir("mods"):
+            if os.path.isfile("mods/"+sei+"/png/"+lang[0]+"_"+fr.nb_by_name(value)+".png"):
+                photo = ImageTk.PhotoImage(Image.open("mods/"+sei+"/png/"+lang[0]+"_"+fr.nb_by_name(value)+".png"))
     Card_viever.me.configure(image=photo)
     using_plan = 1
 def everyselect(evt):
@@ -17,7 +22,12 @@ def everyselect(evt):
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout)]
     everyl.me.configure(text=cartestr[0]+lang[2]+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E")
-    photo = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/'+fr.nb_by_name(value)+'.png'))
+    try:
+        photo = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/'+fr.nb_by_name(value)+'.png'))
+    except:
+        for sei in os.listdir("mods"):
+            if os.path.isfile("mods/"+sei+"/png/"+lang[0]+"_"+fr.nb_by_name(value)+".png"):
+                photo = ImageTk.PhotoImage(Image.open("mods/"+sei+"/png/"+lang[0]+"_"+fr.nb_by_name(value)+".png"))
     Card_viever.me.configure(image=photo)
     using_plan = 2
 def ajoute():
@@ -43,6 +53,8 @@ def create_deck():
             exec(s)
     for i in fr.card_all():
         every_card.me.insert(END, i)
+    for i in card_mods:
+        every_card.me.insert(END, fr.name_by_nb(i))
 def set_deck(evt):
     music.play_ambiant("click")
     value=str(every_deck.me.get(every_deck.me.curselection()))
@@ -61,7 +73,9 @@ def set_deck(evt):
             deck.me.insert(END, i)
     x.me.destroy()
     aze = value.split('.')
-    deckname.set(aze[0])
+    del aze[-1]
+    aze = '.'.join(aze)
+    deckname.set(aze)
     create_deck()
 def change_deck():
     music.play_ambiant("click")

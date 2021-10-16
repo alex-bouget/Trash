@@ -72,6 +72,11 @@ def options():
     z.grid(row=1)
     g.grid(row=2)
     er.grid(row=3)
+    for modv1 in deck.os.listdir("mods"):
+        if os.path.isfile("mods/"+modv1+"/Scripts/options.py"):
+            with open("mods/"+modv1+"/Scripts/options.py", "r") as modv2:
+                modv3 = modv2.read()
+            exec(modv3, globals())
 def depart():
     global sa
     sa = Canvas(deck.fenetre, width=1000, height=800)

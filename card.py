@@ -1,43 +1,89 @@
 from game.lifeclat import *
-if c == 1:
-    card_name = open("langS/"+lang[0]+"_name.txt", "r")
-    card_att = open("card/att.txt", "r")
-    card_def = open("card/def.txt", "r")
-    card_nb = open("card/nb.txt", "r")
-    card_cout = open("card/cout.txt", "r")
-    card_effect = open("card/effect.txt", "r")
-    card_rarity = open("card/rarity.txt", "r")
-    card_name = card_name.read()
-    card_att = card_att.read()
-    card_def = card_def.read()
-    card_nb = card_nb.read()
-    card_cout = card_cout.read()
-    card_effect = card_effect.read()
-    card_rarity = card_rarity.read()
-    card_name = card_name.split('\n/')
-    card_att = card_att.split('\n/')
-    card_def = card_def.split('\n/')
-    card_nb = card_nb.split('\n/')
-    card_cout = card_cout.split('\n/')
-    card_effect = card_effect.split('\n/')
-    card_rarity = card_rarity.split('\n/')
-else:
-    card_name = decodefich("langS/"+lang[0]+"_name.txt")
-    card_att = decodefich("card/att.txt")
-    card_def = decodefich("card/def.txt")
-    card_nb = decodefich("card/nb.txt")
-    card_cout = decodefich("card/cout.txt")
-    card_effect = decodefich("card/effect.txt")
-    card_rarity = decodefich("card/rarity.txt")
-    card_name = card_name.split('/')
-    card_att = card_att.split('/')
-    card_def = card_def.split('/')
-    card_nb = card_nb.split('/')
-    card_cout = card_cout.split('/')
-    card_effect = card_effect.split('/')
-    card_rarity = card_rarity.split('/')
+try:
+    if c == 1:
+        card_name = open("lang/"+lang[0]+"/name.txt", "r")
+        card_att = open("card/att.txt", "r")
+        card_def = open("card/def.txt", "r")
+        card_nb = open("card/nb.txt", "r")
+        card_cout = open("card/cout.txt", "r")
+        card_effect = open("card/effect.txt", "r")
+        card_rarity = open("card/rarity.txt", "r")
+        card_name = card_name.read()
+        card_att = card_att.read()
+        card_def = card_def.read()
+        card_nb = card_nb.read()
+        card_cout = card_cout.read()
+        card_effect = card_effect.read()
+        card_rarity = card_rarity.read()
+        card_name = card_name.split('\n/')
+        card_att = card_att.split('\n/')
+        card_def = card_def.split('\n/')
+        card_nb = card_nb.split('\n/')
+        card_cout = card_cout.split('\n/')
+        card_effect = card_effect.split('\n/')
+        card_rarity = card_rarity.split('\n/')
+    else:
+        card_name = decodefich("lang/"+lang[0]+"/name.txt")
+        card_att = decodefich("card/att.txt")
+        card_def = decodefich("card/def.txt")
+        card_nb = decodefich("card/nb.txt")
+        card_cout = decodefich("card/cout.txt")
+        card_effect = decodefich("card/effect.txt")
+        card_rarity = decodefich("card/rarity.txt")
+        card_name = card_name.split('/')
+        card_att = card_att.split('/')
+        card_def = card_def.split('/')
+        card_nb = card_nb.split('/')
+        card_cout = card_cout.split('/')
+        card_effect = card_effect.split('/')
+        card_rarity = card_rarity.split('/')
+except:
+    sys.exit()
+card_mods = []
 
-
+for modi in os.listdir("mods"):
+    with open("mods/"+modi+"/prj.dat", "r") as modv:
+        v = v+" "+modi+modv.read()
+    if os.path.isdir("mods/"+modi+"/card"):
+        for modj in os.listdir("mods/"+modi+"/card"):
+            modx = 0
+            modm = 0
+            modq = 0
+            modf = 0
+            with open("mods/"+modi+"/card/"+modj) as modt:
+                moda = modt.read()
+                moda = moda.split('\n')
+                for modg in moda:
+                    if modx == 0:
+                        card_nb.append(modg)
+                        card_mods.append(modg)
+                    elif modx == 1:
+                        card_att.append(modg)
+                    elif modx == 2:
+                        card_def.append(modg)
+                    elif modx == 3:
+                        card_cout.append(modg)
+                    elif modx == 4:
+                        card_rarity.append(modg)
+                    elif modg == "%lang":
+                        modm = 1
+                    elif modm == 1:
+                        if modg == "end":
+                            modq = 0
+                            modm = 0
+                        elif modq == 0:
+                            if modg == lang[0]:
+                                modq = 1
+                        else:
+                            card_name.append(modg)
+                    elif modg == "%effect":
+                        modf = 1
+                    elif modf == 1:
+                        if modg == "end":
+                            modf = 0
+                        else:
+                            card_effect.append(modg)
+                    modx = modx+1
 
 if os.path.isfile("save/card.dat")==False:
     h= []
@@ -87,6 +133,11 @@ class Card:
         h = all_card
         del h[0]
         return(h)
+    for modv1 in os.listdir("mods"):
+        if os.path.isfile("mods/"+modv1+"/Scripts/card.py"):
+            with open("mods/"+modv1+"/Scripts/card.py", "r") as modv2:
+                modv3 = modv2.read()
+            exec(modv3)
 class board_card:
     def __init__(self, user):
         self.names = []
@@ -146,3 +197,9 @@ class board_card:
             return userlife.get()
         else:
             return ennemilife.get()
+    for modv1 in os.listdir("mods"):
+        if os.path.isfile("mods/"+modv1+"/Scripts/board_card.py"):
+            with open("mods/"+modv1+"/Scripts/board_card.py", "r") as modv2:
+                modv3 = modv2.read()
+            exec(modv3)
+

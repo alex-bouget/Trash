@@ -46,5 +46,3 @@ class Serveur:
     def server_receive(self):
         self.msg_recu = self.connexion_avec_client.recv(1024)
         return self.msg_recu.decode()
-r = Serveur()
-r.server_open()

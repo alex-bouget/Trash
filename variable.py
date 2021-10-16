@@ -1,4 +1,4 @@
-v = 0.9
+v = "0.10"
 with open("latence.txt", "r") as r:
     latence = float(r.read())
 
@@ -13,7 +13,8 @@ import song
 from urllib.request import *
 from tkinter.messagebox import *
 import os
-server = "http://serv001ftpsql.000webhostapp.com/Card/"
+#server = "http://serv001ftpsql.000webhostapp.com/Card/"
+server = "http://mescouillessurtonfront.000webhostapp.com/card/"
 def down_card():
     with urlopen(server+"card/v.txt") as d:
             r=d.read()
@@ -23,43 +24,44 @@ def down_card():
     with urlopen(server+"card/"+r+"/down.txt") as d:
         r=d.read()
         r=r.decode()
-    e=r.split('\n')
-    s=0
-    ss=0
-    j=""
-    for i in e:
-        if i == "%image":#MODELE
-                s=1
-        elif s==1:
-            if ss==0:
-                j=i
-                if os.path.isdir("card/png_"+j)==False:
-                    os.mkdir("card/png_"+j)
-                ss=1
-            elif i=="end":
-                s==0
-                ss=0
-                j=""
+        t = r.split('\n')
+        for i in t:
+            if i == t[0]:
+                z = i.split(":/:")
+                for b in z:
+                    if os.path.isdir(b)==False:
+                        os.mkdir(b)
             else:
-                print("download model "+j+": "+i)
-                urlretrieve(server+"card/"+version+"/d/png_"+j+"/"+i,"card/png_"+j+"/"+i)#FIN MODELE
-        elif i == "%langS":
-            s=2
-            if os.path.isdir("langS")==False:
-                os.mkdir("langS")
-        elif s==2:
-            if i=="end":
-                s==0
-                ss=0
-                j=""
-            else:
-                print("download pattern: "+i)
-                urlretrieve(server+"card/"+version+"/d/langS/"+i,"langS/"+i)
-        else:
-            print("download "+i)
-            urlretrieve(server+"card/"+version+"/d/"+i,"card/"+i)
+                m = i.split('-->')
+                print("download: "+m[1])
+                urlretrieve(server+'card/'+version+"/d/"+m[0], m[1])
     with open("card/v.txt", "w") as d:
         d.write(version)
+    if os.path.isfile("save/card.dat"):
+        with open("save/card.dat") as arz:
+            arz = arz.read()
+            if ifencode("card/nb.txt"):
+                are = decodefich("card/nb.txt")
+                are = are.split('/')
+            else:
+                with open("card/nb.txt") as t:
+                    are = t.read()
+                are = are.split('\n/')
+            arz = arz.split('\n')
+            print(are)
+            print(str(len(are))+" != "+str(len(arz)))
+            if len(are) > len(arz):
+                for i in range(len(are)):
+                    try:
+                        if arz[i] == "a":
+                            pass
+                    except:
+                        arz.append("0")
+                g= '\n'.join(arz)
+                with open("save/card.dat", "w") as card_debloque:
+                    card_debloque.write(g)
+
+"""
 if os.path.isfile("card/v.txt"):
     g = open("card/v.txt","r")
     g=g.read()
@@ -75,14 +77,19 @@ else:
     if os.path.isdir("card")==False:
         os.mkdir("card")
     down_card()
+"""
 def reload_variable():
     global lang
     if not os.path.isfile("save/lang.txt"):
         with open("save/lang.txt", "w") as s:
-            s.write("fr.txt")
+            s.write("fr")
     with open("save/lang.txt", "r") as s:
         r = s.read()
-    with open("lang/"+r,"r") as s:
+        if r == "fr.txt":
+            r="fr"
+        elif r == "en.txt":
+            r="en"
+    with open("lang/"+r+"/system.txt","r") as s:
         r = s.read()
     lang = r.split('\n')
     with open("other_code/var.dat", "r") as s:
@@ -93,6 +100,8 @@ else:
     c = 1
 if os.path.isdir("deck")==False:
     os.mkdir("deck")
+if os.path.isdir("mods")==False:
+    os.mkdir("mods")
 if os.path.isdir("save")==False:
     os.mkdir("save")
     with open("save/options.txt", "w") as f:
@@ -223,3 +232,13 @@ with open("save/options.txt", "r") as agh:
     g.set(agh[1])
 music.play_music=opef.get()
 music.ambiant=g.get()
+
+#__________________________________
+#         Mod Variable
+#__________________________________
+
+for modv1 in os.listdir("mods"):
+    if os.path.isfile("mods/"+modv1+"/Scripts/variable.py"):
+        with open("mods/"+modv1+"/Scripts/variable.py", "r") as modv2:
+            modv3 = modv2.read()
+        exec(modv3, globals())
