@@ -34,7 +34,7 @@ Phase D'Attaque Ennemi
 Defendre avec cette carte
 L'Ennemi doit choisir la defense
 Vous avez perdu
-Vous avez gagne
+Vous avez gagne 
 Sortie impossible
 Vous ne pouvez retourner
 sauvegarde
@@ -43,3 +43,12 @@ voulez vous le remplacez ?
 a l'ecran d'acceuil pendant
 une partie
 DEFENDRE
+ancien Deck
+Votre deck a ete creer dans une version inferieur a la 0.8. L'ouverture de ce deck dans une langue autre que francais peut faire beuguer le jeu. Etes vous sur de vouloir ouvrir ce deck ?
+ce deck a ete creer dans dans une version inferieur a la 0.8.
+Il est impossible de jouer avec.
+Vous gagnez un 
+ booster
+ Dolpes
+carte non trouvé
+vous n'avez pas debloque cette carte : 

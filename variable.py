@@ -1,4 +1,4 @@
-v = 0.7
+v = 0.8
 latence = 0.2
 
 from tkinter import *
@@ -15,11 +15,11 @@ import os
 
 def reload_variable():
     global lang
-    if not os.path.isfile("lang.txt"):
-        s = open("lang.txt", "w")
+    if not os.path.isfile("save/lang.txt"):
+        s = open("save/lang.txt", "w")
         s.write("fr.txt")
         s.close()
-    s = open("lang.txt", "r")
+    s = open("save/lang.txt", "r")
     r = s.read()
     s.close()
     s = open("lang/"+r,"r")
@@ -27,7 +27,7 @@ def reload_variable():
     lang = r.split('\n')
     s= open("other_code/var.dat", "r")
     exec(s.read(), globals())
-if ifencode("card/name.txt"):
+if ifencode("card/nb.txt"):
     c = 0
 else:
     c = 1
@@ -71,14 +71,14 @@ class obj:
         self.me.configure(font=(ft,tl))
 def musique():
     music.play_music = opef.get()
-    f = open("options.txt", "w")
+    f = open("save/options.txt", "w")
     f.write(str(opef.get()))
     f.write('\n')
     f.write(str(g.get()))
     f.close()
 def ambient():
     music.ambiant = g.get()
-    f = open("options.txt", "w")
+    f = open("save/options.txt", "w")
     f.write(str(opef.get()))
     f.write('\n')
     f.write(str(g.get()))
@@ -86,24 +86,31 @@ def ambient():
 #__________________________________
 #          SYSTEM VARIABLE
 #__________________________________
-
+if os.path.isfile("save/Dell.dat")==False:
+    s = open("save/Dell.dat", "w")
+    s.write("0")
+    s.close()
 fenetre = Tk()
 
-photo = ImageTk.PhotoImage(Image.open("card/png/0.png"))
-
+Dolpe = IntVar()
+def Change_Dolpe():
+    s = open("save/Dell.dat", "w")
+    s.write(str(Dolpe.get()))
+s = open("save/Dell.dat", "r")
+Dolpe.set(int(s.read()))
+s.close()
 using_plan = 0
 cartestr = [" "," "," ",""]
 
 music = song.Music()
 
-
+server = "http://serv001ftpsql.000webhostapp.com/Card/"
 
 #__________________________________
 #           GAME VARIABLE
 #__________________________________
 
-clientc = pytopy.client.Client()
-serveurc = pytopy.serveur.Serveur()
+clientc = pytopy.Client()
 
 userlife = IntVar()
 userlife.set(20)
@@ -117,9 +124,6 @@ forclient1 = StringVar()
 forclient2 = StringVar()
 
 deck_use = 0
-
-photo = ImageTk.PhotoImage(Image.open("card/png/0.png"))
-
 
 info = StringVar()
 info2 = StringVar()
@@ -139,13 +143,14 @@ ennemi_nbmain = IntVar()
 deckname = StringVar()
 
 reload_variable()
+photo = ImageTk.PhotoImage(Image.open("card/png_"+lang[0]+"/0.png"))
 deckname.set(lang[1])
 
 #__________________________________
 #         TKINTER VARIABLE
 #__________________________________
 
-agh = open("options.txt", "r")
+agh = open("save/options.txt", "r")
 agh = agh.read()
 agh = agh.split('\n')
 opef = IntVar()
