@@ -2,7 +2,6 @@ from card import *
 
 fr = Card()
 
-
 def deckselect(evt):
     global photo, using_plan
     value=str(deck.me.get(deck.me.curselection()))
@@ -47,9 +46,9 @@ def create_deck():
 def set_deck(evt):
     music.play_ambiant("click")
     value=str(every_deck.me.get(every_deck.me.curselection()))
-    fichier = open("deck/"+value)
-    syst = fichier.read()
-    syst = syst.split('\n')
+    with open("deck/"+value) as fichier:
+        syst = fichier.read()
+        syst = syst.split('\n')
     try:
         fr.name_by_nb(syst[1])
     except:
@@ -80,12 +79,11 @@ def change_deck():
     for item in os.listdir("deck"):
         every_deck.me.insert(END, item)
 def create():
-    fichier = open("deck/"+deckname.get()+".txt", "w")
     systeme = []
     for i in deck.me.get(0, END):
         systeme.append(fr.nb_by_name(i))
-    fichier.write('\n'.join(systeme))
-    fichier.close()
+    with open("deck/"+deckname.get()+".txt", "w") as fichier:
+        fichier.write('\n'.join(systeme))
 def finish():
     music.play_ambiant("click")
     if os.path.isfile("deck/"+deckname.get()+".txt"):

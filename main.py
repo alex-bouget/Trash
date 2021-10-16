@@ -51,9 +51,8 @@ def crea():
     deck.open_creator()
 def change_lang(evt):
     value=str(g.get(g.curselection()))
-    s=open("save/lang.txt", "w")
-    s.write(value)
-    s.close()
+    with open("save/lang.txt", "w") as s:
+        s.write(value)
     deck.reload_variable()
 def options():
     global d, g
@@ -184,9 +183,9 @@ def booster(l):
         deck.os.remove("save/box.dat")
     return s
 def recreate_unlock():
-    card_unloque = open("save/card.dat", "w")
     g= '\n'.join(deck.card_debloque)
-    card_unloque.write(g)
+    with open("save/card.dat", "w") as card_debloque:
+        card_debloque.write(g)
 def open_booster(evt):
     global C1, C2, C3
     value = str(ki.me.get(ki.me.curselection()))
@@ -281,10 +280,10 @@ def booster_op():
     CLL2.grid(row=1,column=2)
     CLL3.grid(row=1,column=3)
     if deck.os.path.isfile("save/box.dat"):
-        s = open("save/box.dat", "r")
-        s = s.read()
-        s = s.split('\n')
-        for i in s:
+        with open("save/box.dat", "r") as s:
+            r = s.read()
+            r = r.split('\n')
+        for i in r:
             ki.me.insert(END, i)
 
 if __name__ == '__main__':

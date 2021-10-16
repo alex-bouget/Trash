@@ -132,6 +132,7 @@ class Kernel(Thread):
                 self.send("fin")
                 time.sleep(latence)
                 self.send(fr.card_att)
+                time.sleep(latence)
                 self.send('stop')
         self.card_att = " "
     def defe(self): #defense par l'adversaire
@@ -380,12 +381,10 @@ def game_kernel():
     if imme.get() == 2:                            #client
         fenetre.title("client "+str(v))
         clientc.client_send("ok")
-        sincro = clientc.client_receive()
-        if sincro == "ok":
+        if clientc.client_receive() == "ok":
             depart = random.random()
             clientc.client_send(depart)
-            departg = clientc.client_receive()
-            if float(depart) > float(departg):
+            if float(depart) > float(clientc.client_receive()):
                 kernel = Kernel(imme.get(), "no")
                 kernel.start()
             else:
@@ -449,10 +448,18 @@ def set_deck(evt):
     deck_us = fichier.read()
     deck_us = deck_us.split('\n')
     deck_use = []
+    hgjtdf=0
     for i in deck_us:
-        if card_debloque[int(i)] != "1":
-           showerror(lang[52], lang[53]+fr.name_by_nb(i))
-           ret()
+        try:
+            if card_debloque[int(i)] != "1":
+                showerror(lang[52], lang[53]+fr.name_by_nb(i))
+                hgjtdf=1
+                ret()
+        except:
+            if hgjtdf==1:
+                ret()
+            else:
+                pass
         try:
             deck_use.append(fr.name_by_nb(i))
         except:

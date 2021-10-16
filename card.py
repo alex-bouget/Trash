@@ -36,19 +36,21 @@ else:
     card_cout = card_cout.split('/')
     card_effect = card_effect.split('/')
     card_rarity = card_rarity.split('/')
+
+
+
 if os.path.isfile("save/card.dat")==False:
-    s = open("save/card.dat", "w")
     h= []
     for i in range(len(card_nb)):
         if i == 0 or i == 1 or i ==7 or i == 14:
             h.append("1")
         else:
             h.append("0")
-    s.write('\n'.join(h))
-    s.close()
-card_debloque = open("save/card.dat", "r")
-card_debloque = card_debloque.read()
-card_debloque = card_debloque.split('\n')
+    with open("save/card.dat", "w") as s:
+        s.write('\n'.join(h))
+with open("save/card.dat", "r") as s:
+    card_debloque = s.read()
+    card_debloque = card_debloque.split('\n')
 all_card = []
 for i in range(len(card_debloque)):
     if card_debloque[i] == "1":
