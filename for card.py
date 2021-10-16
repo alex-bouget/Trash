@@ -13,7 +13,7 @@ def everyselect(evt):
     value=str(every_card.get(every_card.curselection()))
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def), str(fr.card_cout), str(fr.card_used)]
-    everyl.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E, NÃ‚Â°"+cartestr[4])
+    everyl.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2]+", "+cartestr[3]+"E, N"+cartestr[4])
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
     Card_viever.configure(image=photo)
 def decoder():

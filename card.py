@@ -76,12 +76,12 @@ class board_card:
         if self.user == "user":
             if self.effect != "":
                 exec(self.effect)
-            card_planu.insert(END, name)
-            user_main.delete(user_main.get(0, END).index(name))
+            card_planu.me.insert(END, name)
+            user_main.me.delete(user_main.me.get(0, END).index(name))
         else:
             if self.effect != "":
                 exec(self.effect)
-            card_plane.insert(END, name)
+            card_plane.me.insert(END, name)
         self.att_carte(name, 0)
     def delete_carte(self, name):
         carte_data = self.names.index(name)
@@ -89,11 +89,11 @@ class board_card:
         del self.defs[carte_data]
         del self.names[carte_data]
         if self.user == "user":
-            card_planu.delete(card_planu.get(0, END).index(name))
+            card_planu.me.delete(card_planu.me.get(0, END).index(name))
         else:
-            card_plane.delete(card_plane.get(0, END).index(name))
+            card_plane.me.delete(card_plane.me.get(0, END).index(name))
         photo = ImageTk.PhotoImage(Image.open('card/png/0.png'))
-        Card_view.configure(image=photo)
+        Card_view.me.configure(image=photo)
     def att_carte(self, name, degats):
         self.defs[self.names.index(name)] = str(int(self.defs[self.names.index(name)])-int(degats))
         if int(self.defs[self.names.index(name)]) <= 0:

@@ -1,0 +1,5 @@
+t1.commande(ajoute)
+t2.commande(enleve)
+t3.commande(finish)
+l1.commande(create_deck)
+l2.commande(change_deck)

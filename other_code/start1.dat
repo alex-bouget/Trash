@@ -1,0 +1,5 @@
+x.me.pack()
+every_deck.me.bind('<<ListboxSelect>>', set_deck)
+every_deck.me.pack()
+for item in listdir("deck"):
+    every_deck.me.insert(END, item)

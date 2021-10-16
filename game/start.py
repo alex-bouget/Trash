@@ -40,7 +40,7 @@ class Kernel(Thread):
         self.nb_pioche = 0
     def pioche(self):
         try:
-            user_main.insert(END, str(deck_use[self.nb_pioche]))
+            user_main.me.insert(END, str(deck_use[self.nb_pioche]))
         except:
             self.change_info(2, "Vous ne pouvez plus pioche")
         self.nb_pioche = self.nb_pioche+1
@@ -57,17 +57,17 @@ class Kernel(Thread):
     def change_info(self, num, string):
         if num == 1:
             info.set(string)
-            infol1.configure(text=info.get())
+            infol1.me.configure(text=info.get())
         else:
             info2.set(string)
-            infol2.configure(text=info2.get())
+            infol2.me.configure(text=info2.get())
     def change_main(self, nb):
         global ennemi_nbmain
         ennemi_nbmain.set(int(nb))
-        ennemi_main.configure(text=str(ennemi_nbmain.get())+" carte ennemi")
+        ennemi_main.me.configure(text=str(ennemi_nbmain.get())+" carte ennemi")
     def change_button(self, string):
         buttonk.set(string)
-        buttonb.configure(text=buttonk.get())
+        buttonb.me.configure(text=buttonk.get())
     def vpp(self):
             self.change_info(1, "Votre Phase Principale")
             change_eclat("u", 1)
@@ -178,7 +178,7 @@ class Kernel(Thread):
             for i in range(7):
                 self.pioche()
             self.tour = 1
-            self.send(user_main.index(END))
+            self.send(user_main.me.index(END))
             recu = self.receive()
             self.change_main(recu)
             self.vpp()
@@ -223,7 +223,7 @@ class Kernel(Thread):
             self.tour = 1
             for i in range(7):
                 self.pioche()
-            self.send(user_main.index(END))
+            self.send(user_main.me.index(END))
             recu = self.receive()
             self.change_main(recu)
             self.epp()
@@ -278,12 +278,12 @@ def button_click():
                     card_planu_var.new_card(klimaze)
                     change_eclat("u", -int(fr.card_cout))
                     photo = ImageTk.PhotoImage(Image.open('card/png/0.png'))
-                    Card_view.configure(image=photo)
+                    Card_view.me.configure(image=photo)
                     using_plan = 0
                     kernel.send("pose terrain")
                     kernel.send(klimaze)
                     time.sleep(latence)
-                    kernel.send(user_main.index(END))
+                    kernel.send(user_main.me.index(END))
     elif value == "Attaquez avec cette carte":
         if fr.card_used != 0:
             if using_plan == 3:
@@ -307,36 +307,36 @@ def button_click():
 def mainselect(evt):
     global photo
     global using_plan
-    value=str(user_main.get(user_main.curselection()))
+    value=str(user_main.me.get(user_main.me.curselection()))
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
-    Card_view.configure(image=photo)
+    Card_view.me.configure(image=photo)
     fr.set_newcard_by_name(value)
     using_plan = 1
     fr.set_newcard_by_name(value)
     cartestr =[str(fr.card_name), str(fr.card_att), str(fr.card_def)]
-    cartel.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
+    cartel.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
 def plane(evt):
     global photo
     global using_plan
-    value=str(card_plane.get(card_plane.curselection()))
+    value=str(card_plane.me.get(card_plane.me.curselection()))
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
-    Card_view.configure(image=photo)
+    Card_view.me.configure(image=photo)
     fr.set_newcard_by_name(value)
     using_plan = 2
     forwait = card_plane_var.names.index(value)
     cartestr = [str(card_plane_var.names[forwait]), str(card_plane_var.atts[forwait]), str(card_plane_var.defs[forwait])]
-    cartel.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
+    cartel.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
 def planu(evt):
     global photo
     global using_plan
-    value=str(card_planu.get(card_planu.curselection()))
+    value=str(card_planu.me.get(card_planu.me.curselection()))
     photo = ImageTk.PhotoImage(Image.open('card/png/'+fr.nb_by_name(value)+'-'+value+'.png'))
-    Card_view.configure(image=photo)
+    Card_view.me.configure(image=photo)
     fr.set_newcard_by_name(value)
     using_plan = 3
     forwait = card_planu_var.names.index(value)
     cartestr = [str(card_planu_var.names[forwait]), str(card_planu_var.atts[forwait]), str(card_planu_var.defs[forwait])]
-    cartel.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
+    cartel.me.configure(text=cartestr[0]+", att/def: "+cartestr[1]+"/"+cartestr[2])
 def game_kernel():
     global kernel
     if imme.get() == 2:                            #client
@@ -360,32 +360,12 @@ def game_kernel():
         serveurc.server_send('bug')
         exit
 def game():
-    gamec.pack()
-    user_main.bind('<<ListboxSelect>>', mainselect)
-    card_plane.bind('<<ListboxSelect>>', plane)
-    card_planu.bind('<<ListboxSelect>>', planu)
-    ennemil = Label(gamec, text="Board de l'Ennemi")
-    userl = Label(gamec, text="Votre Board")
-    ennemi_main.grid(row=0,column=0)
-    user_main.grid(row=1,column=0)
-    userl.grid(row=0,column=1)
-    card_planu.grid(row=1,column=1)
-    ennemil.grid(row=0,column=2)
-    cartel.grid(row=0,column=3)
-    card_plane.grid(row=1,column=2)
-    Card_view.grid(row=1,column=3)
-    infol1.grid(row=2,column=0)
-    userlifel.grid(row=2,column=1)
-    ennemilifel.grid(row=2,column=2)
-    infol2.grid(row=3,column=0)
-    usereclat.grid(row=3,column=1)
-    ennemieclat.grid(row=3,column=2)
-    buttonb.grid(row=2,column=3)
-    otherbutton.grid(row=3,column=3)
+    s= open("other_code/start3.dat", "r")
+    exec(s.read())
     game_kernel()
 def client_play():
     music.play_ambiant("click")
-    forclient.destroy()
+    forclient.me.destroy()
     clientc.client_open(forclient1.get(), forclient2.get())
     clientc.client_send(str(v))
     vw = clientc.client_receive()
@@ -394,19 +374,9 @@ def client_play():
     else:
         exit
 def client_ouvre():
-    x.destroy()
     imme.set(2)
-    forclient.pack()
-    c1 = Label(forclient, text="Mettez l'adresse ip de l'hote")
-    c2 = Entry(forclient, textvariable=forclient1)
-    c3 = Label(forclient, text="Mettez le port de l'hote")
-    c4 = Entry(forclient, textvariable=forclient2)
-    c5 = Button(forclient, text="        se connecter         ",command=client_play)
-    c1.grid(row=0, column=0)
-    c2.grid(row=0, column=1)
-    c3.grid(row=1)
-    c4.grid(row=1, column=1)
-    c5.grid(row=2)
+    s= open("other_code/start2.dat", "r")
+    exec(s.read())
     fenetre.mainloop()
 def other_button():
     if forotherbutton == 1:
@@ -418,19 +388,14 @@ def other_button():
 def set_deck(evt):
     global deck_use
     music.play_ambiant("click")
-    value=str(every_deck.get(every_deck.curselection()))
+    value=str(every_deck.me.get(every_deck.me.curselection()))
     fichier = open("deck/"+value)
     deck_use = fichier.read()
     deck_use = deck_use.split('\n')
     random.shuffle(deck_use)
     client_ouvre()
 def open_game_system():
-    x.pack()
-    every_deck.bind('<<ListboxSelect>>', set_deck)
-    every_deck.pack()
-    for item in listdir("deck"):
-        every_deck.insert(END, item)
-
-
-buttonb = Button(gamec, text=buttonk.get(), command=button_click)
-otherbutton = Button(gamec, text='suivant', command=other_button)
+    s= open("other_code/start1.dat", "r")
+    exec(s.read())
+s= open("other_code/start0.dat", "r")
+exec(s.read())
