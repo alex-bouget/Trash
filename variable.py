@@ -29,7 +29,7 @@ with open("save/latence.txt", "r") as r:
 
 from tkinter import *
 from tkinter.messagebox import *
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageFont, ImageDraw
 import random
 from threading import Thread
 import time
@@ -38,6 +38,7 @@ import song
 import urllib.request as serv
 import os
 import pytopy
+import numpy as np
 
 #server = "http://serv001ftpsql.000webhostapp.com/Card/"
 server = "http://mescouillessurtonfront.000webhostapp.com/card/"
@@ -107,8 +108,14 @@ if os.path.isfile("card/v.txt"):
     with open("card/v.txt", "r") as t:
         var_version = t.read()
     try:
-        var_version_s=serv.urlopen(server+"card/v.txt").read().decode()
-        if g != r:
+        try:
+            var_version_s=serv.urlopen(server+"card/v.txt").read().decode()
+        except:
+            try:
+                var_version_s=serv.urlopen(server+"card/v.txt").read().decode()
+            except:
+                var_version_s=serv.urlopen(server+"card/v.txt").read().decode()
+        if var_version != var_version_s:
             down_card()
     except:
         pass

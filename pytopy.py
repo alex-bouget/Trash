@@ -14,6 +14,7 @@ class Client():
         self.connexion_avec_serveur = 0
         self.msg_a_envoyer = b""
         self.msg_recu = b""
+        self.rec = []
     def client_open(self, hote, port):
         """Commencer une connection avec un serveur
         hote et port du serveur"""
@@ -27,14 +28,21 @@ class Client():
         self.connexion_avec_serveur.close()
     def client_send(self, msg):
         """Envoyer des socket au serveur"""
-        self.msg_a_envoyer =str(msg)
+        self.msg_a_envoyer =str(msg)+"£"
         self.msg_a_envoyer = self.msg_a_envoyer.encode()
         self.connexion_avec_serveur.send(self.msg_a_envoyer)
     def client_receive(self):
         """Attente d'un socket du serveur
         ATTENTION: BLOQUE LE SCRIPT (a faire dans un Thread de preference)"""
-        self.msg_recu = self.connexion_avec_serveur.recv(1024)
-        return self.msg_recu.decode()
+        if len(self.rec) == 0:
+            self.msg_recu = self.connexion_avec_serveur.recv(1024)
+            self.rec = self.msg_recu.decode().split("£")
+            del self.rec[-1]
+            return self.client_receive()
+        else:
+            self.msg_recu = self.rec[0]
+            del self.rec[0]
+            return self.msg_recu
 class Serveur:
     """Permet d'echanger des socket en tant que serveur
     self.server_open(hote, port)
@@ -59,13 +67,20 @@ class Serveur:
         """Arreter le serveur"""
         self.connexion_avec_client.close()
         self.connexion_principale.close()
-    def server_send(self, msg_send):
+    def server_send(self, msg):
         """Envoyer des socket au client"""
-        self.msg_envoi = str(msg_send)
-        self.msg_envoi = self.msg_envoi.encode()
-        self.connexion_avec_client.send(self.msg_envoi)
+        self.msg_a_envoyer =str(msg)+"£"
+        self.msg_a_envoyer = self.msg_a_envoyer.encode()
+        self.connexion_avec_serveur.send(self.msg_a_envoyer)
     def server_receive(self):
         """Attente d'un socket du client
         ATTENTION: BLOQUE LE SCRIPT (a faire dans un Thread de preference)"""
-        self.msg_recu = self.connexion_avec_client.recv(1024)
-        return self.msg_recu.decode()
+        if len(self.rec) == 0:
+            self.msg_recu = self.connexion_avec_serveur.recv(1024)
+            self.rec = self.msg_recu.decode().split("£")
+            del self.rec[-1]
+            return self.client_receive()
+        else:
+            self.msg_recu = self.rec[0]
+            del self.rec[0]
+            return self.msg_recu

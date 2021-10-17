@@ -23,6 +23,7 @@ def board_user(nb):
             kernel.send(str(nb))
             kernel.card_def = str(nb)
             kernel.defs = True
+            time.sleep(latence)
             kernel.turn = False
         ME = [""]
         Tk_game.reload_var()
@@ -103,7 +104,7 @@ class Kernel(Thread):
             if self.rt_si_t_a_compris != "":
                 user_board_bdd.new_card(self.rt_si_t_a_compris)
                 if user_board_bdd.destroy_u == "yes":
-                    self.TK.info1.set(lang[40])
+                    self.change_info(1, lang[40])
                     while self.turn:
                         time.sleep(0.1)
                     if self.depart != "":
@@ -111,8 +112,10 @@ class Kernel(Thread):
                     self.send(self.depart)
                     self.depart = ""
                     self.turn = True
+                user_board_bdd.destroy_u = "NO FUCK YOU"
+                self.change_info(1, lang[22])
                 Tk_game.reload_var()
-                self.rt_si_t_a_compris = ""
+            self.rt_si_t_a_compris = ""
         self.turn = True
         self.send("fin")
     def ennemi_phase_principale(self):
@@ -128,10 +131,12 @@ class Kernel(Thread):
             else:
                 ennemi_board_bdd.new_card(str(recu))
                 if ennemi_board_bdd.destroy_u == "yes":
-                    self.TK.info1.set(lang[40])
+                    self.change_info(1, lang[40])
                     recu = self.receive()
                     if recu != "":
                         user_board_bdd.delete_carte(recu)
+                    ennemi_board_bdd.destroy_u = "NO FUCK YOU"
+                    self.change_info(1, lang[23])
                 eclat_ennemi.set(eclat_ennemi.get()-int(fr.cout_carte_nb(recu)))
                 ennemi_main_bdd.delete_card("0")
                 kernel.change_info(2, lang[25]+fr.name_by_nb(str(recu)))
@@ -166,7 +171,7 @@ class Kernel(Thread):
             self.change_info(1, lang[28])
             self.change_info(2, fr.name_by_nb(self.card_att)+lang[30])
             self.myturn = 1
-            if ennemi_board_bdd.nb != []:
+            if user_board_bdd.nb != []:
                 while self.turn:
                     time.sleep(0.1)
             self.turn = True
@@ -268,10 +273,10 @@ class Kernel(Thread):
                 self.your_phase_attaque()
                 if ennemi_life.get() <= 0 or user_life.get() <= 0:
                     break
-        if userlife.get() <= 0:
+        if user_life.get() <= 0:
             print(lang[35])
             create_booster()
-        elif ennemilife.get() <=0:
+        elif ennemi_life.get() <=0:
             print(lang[36])
             for i in range(4):
                 print(lang[49]+create_booster()+lang[50])
@@ -354,7 +359,7 @@ def start_game():
     Tk_lector.var_deck_lector_listbox.bind('<<ListboxSelect>>', set_deck)
 
 for i in card_name:
-    exec("Tk_game.photo"+str(card_name.index(i))+" = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/"+str(fr.nb_by_name(i))+".png').resize((Tk_game.px, Tk_game.py)))")
+    exec("Tk_game.photo"+str(card_name.index(i))+" = ImageTk.PhotoImage(fr.card_model("+str(fr.nb_by_name(i))+").resize((Tk_game.px, Tk_game.py)))")
 """
 Tk_game.place_game()
 for i in range(10):

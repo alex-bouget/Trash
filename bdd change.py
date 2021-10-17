@@ -11,16 +11,33 @@ cout = StringVar()
 rarete = StringVar()
 name = StringVar()
 nam = []
+description = StringVar()
+descriptio = []
+rarity = ['0', "C", "O", "R", "M", "L", "TC", "TO"]
 for i in os.listdir("lang"):
     na = codec.decode_fich("lang/"+i+"/name.txt").split("/")
     nam.append(na)
+for i in os.listdir("lang"):
+    descriptio.append(codec.decode_fich("lang/"+i+"/desc.txt").split("/"))
 
 
 fr = Card()
+def info():
+    for i in card_name:
+        fr.set_newcard_by_name(i)
+        print("nb: "+fr.card_used)
+        print("att: "+fr.card_att)
+        print("def: "+fr.card_def)
+        print("cout: "+fr.card_cout)
+        for s in os.listdir("lang"):
+            print(s+" var:")
+            print("name: "+codec.decode_fich("lang/"+s+"/name.txt").split("/")[int(fr.nb_by_name(i))])
+            print("desciption: "+codec.decode_fich("lang/"+s+"/desc.txt").split("/")[int(fr.nb_by_name(i))])
+
 def bdd_one():
     global t, r
     t = Canvas(fenetre, width=600, height=600)
-    r = Listbox(t, width=20,height=20,font=('times',13))
+    r = Listbox(t, width=20,height=29,font=('times',13))
     d = Label(t,text="def: ")
     dv = Entry(t, textvariable=defs)
     a = Label(t, text="att: ")
@@ -28,14 +45,16 @@ def bdd_one():
     e = Label(t, text="effect: ")
     ev = Entry(t, textvariable=effect)
     n = Label(t, text="nb: ")
-    nv = Entry(t, textvariable=nb)
+    nv = Label(t, textvariable=nb)
     c = Label(t, text="cout: ")
     cv = Entry(t, textvariable=cout)
     rar = Label(t, text="rarity: ")
-    rarv = Entry(t, textvariable=rarete)
+    rarv = OptionMenu(t, rarete, *rarity)
     b = Button(t, text="save card", command=save)
     b2 = Button(t, text="new card", command=new)
     b3 = Button(t, text="name", command=name_c)
+    b4 = Button(t, text="descrip", command=desc_c)
+    b5 = Button(t, text="info", command=info)
 
     t.pack()
     r.place(x=0, y=0)
@@ -54,7 +73,9 @@ def bdd_one():
 
     b.place(x=200, y=185)
     b2.place(x=300, y=185)
-    b3.place(x=250, y=215)
+    b3.place(x=200, y=215)
+    b4.place(x=300, y=215)
+    b5.place(x=400, y=185)
 
     r.bind('<<ListboxSelect>>', L_select)
     L_reload()
@@ -87,19 +108,21 @@ def recreate_data():
         with open(i, "w") as f:
             f.write(z)
     for i in os.listdir("lang"):
-        t = codec.encode("/".join(nam[os.listdir("lang").index(i)]))
         with open("lang/"+i+"/name.txt", "w") as f:
-            f.write(t)
+            f.write(codec.encode("/".join(nam[os.listdir("lang").index(i)])))
+        with open("lang/"+i+"/desc.txt", "w") as f:
+            f.write(codec.encode("/".join(descriptio[os.listdir("lang").index(i)])))
 def new():
     card_nb.append(str(len(card_nb)))
     card_att.append('0')
     card_def.append('0')
     card_cout.append('0')
-    card_rarity.append('C')
+    card_rarity.append('TC')
     card_effect.append('')
     card_name.append("")
     for i in os.listdir("lang"):
         nam[os.listdir("lang").index(i)].append("")
+        descriptio[os.listdir("lang").index(i)].append("")
     recreate_data()
     L_reload()
 def name_c():
@@ -121,13 +144,8 @@ def name_c():
     n.place(x=200,y=5)
     sauve.place(x=190, y=35)
     tra.place(x=250, y=35)
-
 def name_s():
-    value=str(am.get(am.curselection()))
-    for i in nam:
-        for x in i:
-            if x == value:
-                nam[nam.index(i)][nam[nam.index(i)].index(x)] = name.get()
+    nam[int(am.curselection()[0])][int(nb.get())] =name.get()
     recreate_data()
 def n_select(evt):
     value=str(am.get(am.curselection()))
@@ -136,6 +154,32 @@ def ret():
     az.destroy()
     bdd_one()
 
+
+def desc_c():
+    global az, am
+    t.destroy()
+    az = Canvas(fenetre, width=600, height=600)
+    am = Listbox(az, width=20,height=20,font=('times',13))
+    for i in descriptio:
+        am.insert(END, str(i[int(nb.get())]))
+    sauve = Button(az, text="save", command=desc_s)
+    n = Entry(az, textvariable=description)
+    tra = Button(az, text="return", command=ret)
+
+
+    am.bind('<<ListboxSelect>>', d_select)
+
+    az.pack()
+    am.place(x=0, y=0)
+    n.place(x=200,y=5)
+    sauve.place(x=190, y=35)
+    tra.place(x=250, y=35)
+def desc_s():
+    descriptio[int(am.curselection()[0])][int(nb.get())] =description.get()
+    recreate_data()
+def d_select(evt):
+    value=str(am.get(am.curselection()))
+    description.set(value)
 bdd_one()
 
 fenetre.mainloop()

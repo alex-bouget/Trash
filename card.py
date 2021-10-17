@@ -8,6 +8,7 @@ if encodesys:
     card_def = codec.decode_fich("card/def.txt").split('/')
     card_cout = codec.decode_fich("card/cout.txt").split('/')
     card_effect = codec.decode_fich("card/effect.txt").split('/')
+    card_desciption = codec.decode_fich("lang/"+lang[0]+"/desc.txt").split('/')
 else:
     card_name = open("lang/"+lang[0]+"/name.txt", "r").read().split('/')
     card_nb = open("card/nb.txt", "r").read().split('/')
@@ -16,6 +17,7 @@ else:
     card_def = open("card/def.txt", "r").read().split('/')
     card_cout = open("card/cout.txt", "r").read().split('/')
     card_effect = open("card/effect.txt", "r").read().split('/')
+    card_desciption = open("lang/"+lang[0]+"/desc.txt", "r").read().split('/')
 
 all_card = []
 if os.path.isfile("save/card.dat")==False:
@@ -30,9 +32,15 @@ if os.path.isfile("save/card.dat")==False:
 
 with open("save/card.dat", "r") as s:
     card_debloque = s.read().split('\n')
-    for i in range(len(card_debloque)):
-        if card_debloque[i] == "1":
-            all_card.append(card_name[i])
+    for i in range(len(card_nb)):
+        try:
+            if card_debloque[i] == "1":
+                all_card.append(card_name[i])
+        except IndexError:
+            card_debloque.append("0")
+            with open("save/card.dat", "w") as f:
+                f.write("\n".join(card_debloque))
+
 
 class Card:
     def __init__(self):
@@ -67,6 +75,29 @@ class Card:
     def card_all(self):
         h = all_card
         return(h)
+    def card_model(self, nb):
+        try:
+            tete = Image.open("card/tete/"+str(nb)+".png").convert("RGBA")
+        except FileNotFoundError:
+            tete = Image.open("card/tete/error.png").convert("RGBA")
+        background = Image.open("card/card/"+card_rarity[card_nb.index(str(nb))]+".png").convert("RGBA")
+        if tete.size == (291,219):
+            background.paste(tete, (4, 5), tete)
+        else:
+            background.paste(tete, (0, 0), tete)
+        draw = ImageDraw.Draw(background)
+        draw.text((5, 230),self.name_by_nb(nb),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        if card_rarity[card_nb.index(str(nb))] != "O":
+            if card_rarity[card_nb.index(str(nb))] == "TO":
+                draw.text((273, 233),card_cout[card_nb.index(str(nb))]+"E",(0,0,0),font=ImageFont.truetype("font.ttf", 12))
+            elif card_rarity[card_nb.index(str(nb))] != "0":
+                draw.text((15, 337),card_att[card_nb.index(str(nb))],(0,0,0),font=ImageFont.truetype("font.ttf", 48))
+                draw.text((165, 337),card_def[card_nb.index(str(nb))],(0,0,0),font=ImageFont.truetype("font.ttf", 48))
+                draw.text((273, 295),card_cout[card_nb.index(str(nb))]+"E",(0,0,0),font=ImageFont.truetype("font.ttf", 12))
+        else:
+            draw.text((273, 233),card_cout[card_nb.index(str(nb))]+"E",(0,0,0),font=ImageFont.truetype("font.ttf", 12))
+        draw.text((5, 250),"\n".join(card_desciption[card_nb.index(str(nb))].split("=_=")),(0,0,0),font=ImageFont.truetype("font.ttf", 14))
+        return background
 class board_card:
     def __init__(self, user, board_enter, Tk_g, click):
         self.nb = []
@@ -95,7 +126,6 @@ class board_card:
             exec(self.effect)
         self.TK.reload()
         self.att_carte(self.card.card_used, 0)
-        print(nb[-1])
     def delete_carte(self, nb):
         carte_data = self.nb.index(nb)
         if self.nb.count(nb) >1:
@@ -105,7 +135,6 @@ class board_card:
         del self.atts[carte_data], self.defs[carte_data], self.nb[carte_data]
         self.TK.reload()
     def att_carte(self, nb, degats):
-        print(nb)
         self.defs[self.nb.index(nb)] = str(int(self.defs[self.nb.index(nb)])-int(degats))
         if int(self.defs[self.nb.index(nb)]) <= 0:
             self.delete_carte(nb)
@@ -146,6 +175,10 @@ class board_card:
                 eclat_ennemi_win.set(1)
     def destroy(self):
         self.destroy_u = "yes"
+    def more_def(nb, inc):
+        self.defs[nb] = str(int(self.defs[nb])+inc)
+    def more_att(nb, inc):
+        self.atts[nb] = str(int(self.atts[nb])+inc)
 
 
 class main():

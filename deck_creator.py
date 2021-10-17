@@ -82,6 +82,6 @@ Tk_lector.var_deck_lector_button.configure(command=starting_deck)
 Tk_crea.save_b.configure(command=save_deck)
 
 for i in fr.card_all():
-    exec("photo"+str(card_name.index(i))+" = ImageTk.PhotoImage(Image.open('card/png_'+lang[0]+'/"+str(fr.nb_by_name(i))+".png').resize((Tk_crea.px, Tk_crea.py)))")
+    exec("photo"+str(card_name.index(i))+" = ImageTk.PhotoImage(fr.card_model("+str(fr.nb_by_name(i))+").resize((Tk_crea.px, Tk_crea.py)))")
     exec("e"+str(card_name.index(i))+"= Button(Tk_crea.every_card2, image=photo"+str(card_name.index(i))+", command= lambda: create("+str(card_name.index(i))+"))")
     exec("e"+str(card_name.index(i))+".pack()")
