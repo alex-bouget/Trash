@@ -69,6 +69,7 @@ class Card:
     def cout_carte_name(self, name):
         return card_cout[card_name.index(str(name))]
     def nb_by_name(self, name):
+        print(str(name))
         return card_nb[card_name.index(str(name))]
     def name_by_nb(self, nb):
         return card_name[card_nb.index(str(nb))]
@@ -123,7 +124,7 @@ class board_card:
         self.atts.append(self.card.card_att)
         self.effect = self.card.card_effect
         if self.effect != "":
-            exec(self.effect)
+            exec(self.effect,locals())
         self.TK.reload()
         self.att_carte(self.card.card_used, 0)
     def delete_carte(self, nb):
@@ -175,9 +176,9 @@ class board_card:
                 eclat_ennemi_win.set(1)
     def destroy(self):
         self.destroy_u = "yes"
-    def more_def(nb, inc):
+    def more_def(self, nb, inc):
         self.defs[nb] = str(int(self.defs[nb])+inc)
-    def more_att(nb, inc):
+    def more_att(self, nb, inc):
         self.atts[nb] = str(int(self.atts[nb])+inc)
 
 

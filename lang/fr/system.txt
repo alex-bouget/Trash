@@ -39,3 +39,7 @@ Deck
 Booster
 Options
 Phase De Destruction
+Vous avez perdu
+Vous avez gagne 
+Vous gagnez un 
+ booster

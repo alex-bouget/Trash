@@ -4,6 +4,7 @@ fr = Card()
 Tk_game = var_game()
 Tk_lector = var_deck_lector()
 Tk_serv = var_serv()
+Tk_ennemi = ennemi()
 ME = ['']
 
 def board_ennemi(nb):
@@ -17,13 +18,11 @@ def board_user(nb):
         if Tk_game.info1.get() == lang[26]:
             kernel.card_att = str(nb)
             kernel.send(str(nb))
-            time.sleep(latence)
             kernel.turn = False
         elif Tk_game.info1.get() == lang[28]:
             kernel.send(str(nb))
             kernel.card_def = str(nb)
             kernel.defs = True
-            time.sleep(latence)
             kernel.turn = False
         ME = [""]
         Tk_game.reload_var()
@@ -40,11 +39,12 @@ def main_user(nb):
             eclat_user.set(int(int(eclat_user.get())-int(fr.cout_carte_nb(nb))))
             kernel.send(str(nb))
             kernel.change_info(2, lang[24]+fr.name_by_nb(str(nb)))
-            kernel.rt_si_t_a_compris = nb
+            kernel.rt_si_t_a_compris.append(nb)
             Tk_game.reload_var()
     Tk_game.reload_var()
 def main_ennemi(nb):
     pass
+
 def other_button():
     if kernel.myturn == 1:
         kernel.myturn = 0
@@ -57,9 +57,7 @@ Tk_game.suivant.configure(command=other_button)
 
 class Kernel(Thread):
     """Thread donnant les phase de jeu
-    et communication avec le serv (a moitier)
-    %VAR% = Kernel(depart)
-    depart = "yes" ou "no" """
+    et communication avec le serv (a moitier)"""
     def __init__(self):
         Thread.__init__(self)
         self.depart = "" #donne la persone qui commence
@@ -69,7 +67,7 @@ class Kernel(Thread):
         self.card_att = ""
         self.defs = False
         self.card_def = ""
-        self.rt_si_t_a_compris = ""
+        self.rt_si_t_a_compris = []
     def pioche(self):
         """piocher une carte"""
         try:
@@ -93,6 +91,7 @@ class Kernel(Thread):
             Tk_game.info1.set(string)
         else:
             Tk_game.info2.set(string)
+        Tk_game.reload_var()
     def your_phase_principale(self):
         self.change_info(1, lang[22])
         self.myturn = 1
@@ -101,8 +100,8 @@ class Kernel(Thread):
         Tk_game.reload_var()
         while self.turn:
             time.sleep(0.1)
-            if self.rt_si_t_a_compris != "":
-                user_board_bdd.new_card(self.rt_si_t_a_compris)
+            if len(self.rt_si_t_a_compris) != 0:
+                user_board_bdd.new_card(self.rt_si_t_a_compris[0])
                 if user_board_bdd.destroy_u == "yes":
                     self.change_info(1, lang[40])
                     while self.turn:
@@ -115,7 +114,7 @@ class Kernel(Thread):
                 user_board_bdd.destroy_u = "NO FUCK YOU"
                 self.change_info(1, lang[22])
                 Tk_game.reload_var()
-            self.rt_si_t_a_compris = ""
+                del self.rt_si_t_a_compris[0]
         self.turn = True
         self.send("fin")
     def ennemi_phase_principale(self):
@@ -130,6 +129,9 @@ class Kernel(Thread):
                 self.turn = False
             else:
                 ennemi_board_bdd.new_card(str(recu))
+                eclat_ennemi.set(eclat_ennemi.get()-int(fr.cout_carte_nb(recu)))
+                ennemi_main_bdd.delete_card("0")
+                kernel.change_info(2, lang[25]+fr.name_by_nb(str(recu)))
                 if ennemi_board_bdd.destroy_u == "yes":
                     self.change_info(1, lang[40])
                     recu = self.receive()
@@ -137,9 +139,6 @@ class Kernel(Thread):
                         user_board_bdd.delete_carte(recu)
                     ennemi_board_bdd.destroy_u = "NO FUCK YOU"
                     self.change_info(1, lang[23])
-                eclat_ennemi.set(eclat_ennemi.get()-int(fr.cout_carte_nb(recu)))
-                ennemi_main_bdd.delete_card("0")
-                kernel.change_info(2, lang[25]+fr.name_by_nb(str(recu)))
                 Tk_game.reload_var()
         self.turn = True
     def your_phase_attaque(self):
@@ -149,7 +148,6 @@ class Kernel(Thread):
             while self.turn:
                 time.sleep(0.1)
             self.turn = True
-            time.sleep(latence)
             self.send("fin")
             if self.card_att != "":
                 self.ennemi_phase_defense()
@@ -175,7 +173,6 @@ class Kernel(Thread):
                 while self.turn:
                     time.sleep(0.1)
             self.turn = True
-            time.sleep(latence)
             self.send("fin")
             if self.defs == True:
                 fr.set_newcard_by_nb(self.card_def)
@@ -197,14 +194,13 @@ class Kernel(Thread):
         if len(ennemi_board_bdd.nb) != 0:
             self.change_info(1, lang[29])
             self.change_info(2, fr.name_by_nb(self.card_att)+lang[31])
-            if ennemi_board_bdd.nb != []:
-                while self.turn:
-                    recu = self.receive()
-                    if recu == "fin":
-                        self.turn = False
-                    else:
-                        self.defs = True
-                        self.card_def = recu
+            while self.turn:
+                recu = self.receive()
+                if recu == "fin":
+                    self.turn = False
+                else:
+                    self.defs = True
+                    self.card_def = recu
             self.turn = True
             if self.defs == True:
                 fr.set_newcard_by_nb(self.card_def)
@@ -223,65 +219,67 @@ class Kernel(Thread):
         self.card_def = ""
         self.defs = False
     def run(self):
-        self.send(str(v))
-        if self.receive() == str(v):
-            time.sleep(latence)
-            self.send("ok")
-            if self.receive() == "ok":
-                depart = random.random()
-                self.send(depart)
-                if float(depart) > float(self.receive()):
-                    self.depart = "no"
-                else:
-                    self.depart = "yes"
+        if self.receive() != "bon":
+            retour()
         else:
-            showerror(lang[18], lang[19]+"\n"+lang[20])
-        for i in range(7):
-            self.pioche()
-            ennemi_main_bdd.new_card("0")
-        if self.depart == "yes":
-            self.depart = ""
-            self.your_phase_principale()
-            self.ennemi_phase_principale()
-            while ennemi_life.get() > 0 or user_life.get() > 0:
+            self.send(str(v))
+            if self.receive() == str(v):
+                self.send("ok")
+                if self.receive() == "ok":
+                    depart = random.random()
+                    self.send(depart)
+                    if float(depart) > float(self.receive()):
+                        self.depart = "no"
+                    else:
+                        self.depart = "yes"
+            else:
+                showerror(lang[18], lang[19]+"\n"+lang[20])
+            for i in range(7):
+                self.pioche()
+                ennemi_main_bdd.new_card("0")
+            if self.depart == "yes":
+                self.depart = ""
                 self.your_phase_principale()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
-                self.your_phase_attaque()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
                 self.ennemi_phase_principale()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
-                self.ennemi_phase_attaque()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
-        else:
-            self.depart = ""
-            self.ennemi_phase_principale()
-            self.your_phase_principale()
-            while ennemi_life.get() > 0 or user_life.get() > 0:
+                while ennemi_life.get() >= 0 or user_life.get() >= 0:
+                    self.your_phase_principale()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+                    self.your_phase_attaque()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+                    self.ennemi_phase_principale()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+                    self.ennemi_phase_attaque()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+            else:
+                self.depart = ""
                 self.ennemi_phase_principale()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
-                self.ennemi_phase_attaque()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
                 self.your_phase_principale()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
-                self.your_phase_attaque()
-                if ennemi_life.get() <= 0 or user_life.get() <= 0:
-                    break
-        if user_life.get() <= 0:
-            print(lang[35])
-            create_booster()
-        elif ennemi_life.get() <=0:
-            print(lang[36])
-            for i in range(4):
-                print(lang[49]+create_booster()+lang[50])
-        client.client_close()
-        retour()
+                while ennemi_life.get() >= 0 or user_life.get() >= 0:
+                    self.ennemi_phase_principale()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+                    self.ennemi_phase_attaque()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+                    self.your_phase_principale()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+                    self.your_phase_attaque()
+                    if ennemi_life.get() <= 0 or user_life.get() <= 0:
+                        break
+            if user_life.get() <= 0:
+                print(lang[41])
+                print(lang[43]+create_booster()+lang[44])
+            elif ennemi_life.get() <=0:
+                print(lang[42])
+                for i in range(4):
+                    print(lang[43]+create_booster()+lang[44])
+            client.client_close()
+            retour()
 """_________________________________________________________________________________________________________"""
 def create_booster():
     """creer des booster"""
@@ -326,13 +324,27 @@ def create_booster():
         create_booster()
 def starting_system():
     global kernel
-    client.client_open(server_ip.get(), server_port.get())
-    Tk_serv.choice_serv.destroy()
+    client.client_send(Tk_ennemi.ennemi_choice.get())
+    Tk_ennemi.ennemi_can.destroy()
     Tk_game.place_game()
     Tk_game.reload()
     Tk_game.reload_var()
     kernel = Kernel()
     kernel.start()
+def rafraich():
+    client.client_send("client")
+    Tk_ennemi.ennemi_all_choice = client.client_receive().split(",")
+    Tk_ennemi.change_menu(Tk_ennemi.ennemi_all_choice)
+def choice_ennemi():
+    client.client_open(server_ip.get(), server_port.get())
+    Tk_serv.choice_serv.destroy()
+    Tk_ennemi.place_ennemi()
+    Tk_ennemi.rafraich.configure(command=rafraich)
+    Tk_ennemi.finish.configure(command=starting_system)
+    rafraich()
+
+
+
 def set_deck(evt):
     global deck_use
     deck_use = []
@@ -350,15 +362,17 @@ def set_deck(evt):
         random.shuffle(deck_use)
         Tk_lector.var_deck_lector.destroy()
         Tk_serv.place_serv()
-        Tk_serv.choice_serv_button.configure(command=starting_system)
+        Tk_serv.choice_serv_button.configure(command=choice_ennemi)
 def start_game():
     Tk_lector.place_lector()
     Tk_lector.var_deck_lector_button.destroy()
+
     for item in os.listdir("deck"):
         Tk_lector.var_deck_lector_listbox.insert(END, item)
     Tk_lector.var_deck_lector_listbox.bind('<<ListboxSelect>>', set_deck)
-
 for i in card_name:
+
+    print(i)
     exec("Tk_game.photo"+str(card_name.index(i))+" = ImageTk.PhotoImage(fr.card_model("+str(fr.nb_by_name(i))+").resize((Tk_game.px, Tk_game.py)))")
 """
 Tk_game.place_game()

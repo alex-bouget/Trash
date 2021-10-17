@@ -39,3 +39,7 @@ Deck
 Booster
 Settings
 Destroy Phase
+You lost
+You have won
+you win a 
+ booster

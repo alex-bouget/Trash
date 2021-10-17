@@ -1,5 +1,4 @@
 """v : version du jeu
-latence : temps d'attente entre 2 socket
 fenetre : fenetre principale
 Dolpe : monnaie de jeu
 music : class pour musique
@@ -24,9 +23,6 @@ import fich_crea
 TK_x = int(open("save/resolution.txt", "r").read())
 TK_y = int(TK_x*(2/3))
 
-with open("save/latence.txt", "r") as r:
-    latence = float(r.read())
-
 from tkinter import *
 from tkinter.messagebox import *
 from PIL import Image, ImageTk, ImageFont, ImageDraw
@@ -39,9 +35,9 @@ import urllib.request as serv
 import os
 import pytopy
 import numpy as np
+import Motor
 
-#server = "http://serv001ftpsql.000webhostapp.com/Card/"
-server = "http://mescouillessurtonfront.000webhostapp.com/card/"
+server = "http://utopia-card.000webhostapp.com/Card/"
 def down_card():
     """Mise a jour des cartes"""
     with serv.urlopen(server+"card/v.txt") as d:
@@ -49,7 +45,9 @@ def down_card():
     print("download card ("+version+")")
     with serv.urlopen(server+"card/"+version+"/down.txt") as d:
         systeme = d.read().decode().split('\n')
+    print(systeme)
     for i in systeme:
+        print(i)
         if i == systeme[0]:
             directory = i.split(":/:")
             for create in directory:
@@ -57,6 +55,7 @@ def down_card():
                     os.mkdir(create)
         else:
             download = i.split('-->')
+            print(download)
             print("download: "+download[1])
             try:
                 serv.urlretrieve(server+'card/'+version+"/d/"+download[0], download[1])
@@ -67,41 +66,9 @@ def down_card():
                     serv.urlretrieve(server+'card/'+version+"/d/"+download[0], download[1])
     with open("card/v.txt", "w") as d:
         d.write(version)
-    if os.path.isfile("save/card.dat"):
-        with open("save/card.dat") as card_debloque:
-            unlock = card_debloque.read().split('\n')
-        if codec.ifencode("card/nb.txt"):
-            all_card = codec.decode_fich("card/nb.txt").split('/')
-        else:
-            with open("card/nb.txt") as t:
-                all_card = t.read().split('\n/')
-        #are = all_card
-        if len(all_card) > len(unlock):
-            for i in range(len(all_card)):
-                try:
-                    if unlock[i] == "a":
-                        pass
-                except:
-                    if i == 1 or i ==7 or i == 14:
-                        unlock.append("1")
-                    else:
-                        unlock.append("0")
-            with open("save/card.dat", "w") as card_debloque:
-                card_debloque.write('\n'.join(unlock))
-    else:
-        with open("card/nb.txt") as t:
-                card_nb = t.read().split('\n/')
-        h= []
-        for i in range(len(card_nb)):
-            if i == 1 or i ==7 or i == 14:
-                h.append("1")
-            else:
-                h.append("0")
-        with open("save/card.dat", "w") as s:
-            s.write('\n'.join(h))
 def retour():
     """retour"""
-    fenetre.destroy()
+    fenetre.root.destroy()
     os.system("cmd /c return.bat")
 
 if os.path.isfile("card/v.txt"):
@@ -129,7 +96,12 @@ if codec.ifencode("card/nb.txt"):
 else:
     encodesys = 0
 
+fenetre = Motor.Engine("Utopia "+v, TK_x, TK_y)
+"""
 fenetre = Tk()
+fenetre.geometry("%dx%d+0+0" % (TK_x, TK_y))
+fenetre.iconphoto(False, PhotoImage(file="icone2.png"))
+"""
 
 Dolpe = IntVar()
 def Change_Dolpe():
@@ -198,9 +170,8 @@ with open("save/lang.txt", "r") as s:
     with open("lang/"+s.read()+"/system.txt","r") as s:
         lang = s.read().split('\n')
 
-fenetre.iconphoto(False, PhotoImage(file="icone2.png"))
-fenetre.geometry("%dx%d+0+0" % (TK_x, TK_y))
-class var_creator():
+
+class var_creator:
     def __init__(self):
         self.card_deck_bdd = []
         self.px = int(TK_x*(1/3))
@@ -226,16 +197,16 @@ class var_creator():
         self.ret.place(x=(TK_x//2)-30, y=TK_y//1.2)
         self.deck_name.place(x=(TK_x//2.25)-30, y=TK_y//10)
         self.save_b.place(x=(TK_x//2.25)-30, y=TK_y//5)
-class var_deck_lector():
+class var_deck_lector:
     def __init__(self):
         self.var_deck_lector = Canvas(fenetre, height=TK_x, width=TK_y)
         self.var_deck_lector_listbox = Listbox(self.var_deck_lector, height=TK_x//30, width=TK_y)
         self.var_deck_lector_button = Button(self.var_deck_lector, text=lang[6])
     def place_lector(self):
-        self.var_deck_lector.pack()
+        self.var_deck_lector.place(x=0, y=0)
         self.var_deck_lector_button.place(x=0, y=TK_y-30)
         self.var_deck_lector_listbox.place(x=0,y=0)
-class var_game():
+class var_game:
     def __init__(self):
         self.px = (TK_x//4)-40
         self.py = int(self.px*float(1.32))
@@ -252,15 +223,15 @@ class var_game():
         self.board_ennemi = Canvas(self.game, width=(TK_x//4)*2, height=TK_y//2-35, bg="green")
         self.board_ennemi2 = Frame(self.board_ennemi, bg="green")
         self.board_ennemi_bar = Scrollbar(self.board_ennemi, orient="horizontal", command=self.board_ennemi.xview)
-        self.info_canvas = Canvas(self.game, width=(TK_x//4)*2, height=60)
         self.info1 = StringVar()
         self.info2 = StringVar()
-        self.info_text1 = Label(self.info_canvas, textvariable=self.info1)
-        self.info_text2 = Label(self.info_canvas, textvariable=self.info2)
-        self.yl = Label(self.info_canvas, text=lang[11]+str(user_life.get()))
-        self.el = Label(self.info_canvas, text=lang[12]+str(ennemi_life.get()))
-        self.ye = Label(self.info_canvas, text=lang[13]+str(eclat_user.get()))
-        self.ee = Label(self.info_canvas, text=lang[14]+str(eclat_ennemi.get()))
+
+        self.info_photo = Image.open("card/info.png").convert("RGBA")
+        self.info_photo_draw = ImageDraw.Draw(self.info_photo)
+
+        self.info_canvas = Label(self.game, width=(TK_x//4)*2, height=60)
+
+
         self.photo_suivant = ImageTk.PhotoImage(Image.open("suivant.png").resize((100,100)))
         self.suivant = Button(self.game, image=self.photo_suivant)
         self.help_card = Canvas(self.game, width=(TK_x//4)*2, height=10)
@@ -275,13 +246,10 @@ class var_game():
         self.board_user_bar.place(relx=0, rely=1, relwidth=1, anchor='sw')
         self.ennemi_main.place(x=TK_x-(TK_x//4),y=0)
         self.ennemi_main_bar.place(relx=1, rely=0, relheight=1, anchor='ne')
+
         self.info_canvas.place(x=TK_x//4,y=TK_y-61)
-        self.info_text1.place(x=0,y=0)
-        self.info_text2.place(x=0,y=30)
-        self.yl.place(x=(TK_x//4),y=0)
-        self.el.place(x=(TK_x//4),y=30)
-        self.ye.place(x=(TK_x//4)+175, y=0)
-        self.ee.place(x=(TK_x//4)+175, y=30)
+
+
         self.suivant.place(x=TK_x-120, y=TK_y-100)
         self.help_card.place(x=TK_x//4, y=0)
         self.ME.place(x=0, y=0)
@@ -299,11 +267,17 @@ class var_game():
         self.board_ennemi.update_idletasks()
         self.board_ennemi.configure(scrollregion=self.board_ennemi.bbox('all'), xscrollcommand=self.board_ennemi_bar.set)
     def reload_var(self):
-        self.yl.configure(text=lang[11]+str(user_life.get()))
-        self.el.configure(text=lang[12]+str(ennemi_life.get()))
-        self.ye.configure(text=lang[13]+str(eclat_user.get()))
-        self.ee.configure(text=lang[14]+str(eclat_ennemi.get()))
-class var_serv():
+        self.info_photo = Image.open("card/info.png").convert("RGBA")
+        self.info_photo_draw = ImageDraw.Draw(self.info_photo)
+        self.info_photo_draw.text((0, 0),self.info1.get(),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        self.info_photo_draw.text((0, 30),self.info2.get(),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        self.info_photo_draw.text((270, 0),lang[11]+str(user_life.get()),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        self.info_photo_draw.text((270, 30),lang[12]+str(ennemi_life.get()),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        self.info_photo_draw.text((430, 0),lang[13]+str(eclat_user.get()),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        self.info_photo_draw.text((430, 30),lang[14]+str(eclat_ennemi.get()),(0,0,0),font=ImageFont.truetype("font.ttf", 16))
+        self.info_photo_tk = ImageTk.PhotoImage(self.info_photo.resize((TK_x//4*2, 60)))
+        self.info_canvas.configure(image=self.info_photo_tk)
+class var_serv:
     def __init__(self):
         self.choice_serv = Canvas(fenetre, width=TK_x, height=TK_y)
         self.choice_serv_ip = Entry(self.choice_serv, textvariable=server_ip)
@@ -318,3 +292,20 @@ class var_serv():
         self.choice_serv_port_l.place(x=TK_x//4, y=TK_y//2)
         self.choice_serv_port.place(x=TK_x//2, y=TK_y//2)
         self.choice_serv_button.place(x=TK_x//3.5, y=TK_y//1.5)
+class ennemi:
+    def __init__(self):
+        self.ennemi_can = Canvas(fenetre, width=TK_x, height=TK_y)
+        self.ennemi_choice = StringVar()
+        self.ennemi_all_choice = [None]
+        self.choice = OptionMenu(self.ennemi_can, self.ennemi_choice, *self.ennemi_all_choice)
+        self.rafraich = Button(self.ennemi_can, text="rafraichir")
+        self.finish = Button(self.ennemi_can, text="choice")
+    def place_ennemi(self):
+        self.ennemi_can.place(x=0, y=0)
+        self.choice.place(x=TK_x//2, y=TK_y//4)
+        self.finish.place(x=TK_x//2, y=TK_y//3)
+        self.rafraich.place(x=0, y=0)
+    def change_menu(self, new_menu):
+        self.choice.destroy()
+        self.choice = OptionMenu(self.ennemi_can, self.ennemi_choice, *new_menu)
+        self.choice.place(x=TK_x//2, y=TK_y//4)

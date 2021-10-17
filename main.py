@@ -1,7 +1,6 @@
 import game
 import deck_creator as deck
 from tkinter import *
-deck.fenetre.title("Utopia "+str(deck.v))
 class obj:
     def __init__(self, x, y, etat, cv="sa"):
         self.X = x
@@ -171,14 +170,10 @@ def depart():
     sa = Canvas(deck.fenetre, width=1000, height=800)
     sa.pack()
     try:
-        s = deck.serv.urlopen(deck.server+"menu.txt")
-        s = s.read()
-        exec(s.decode(),globals())
+        exec(deck.serv.urlopen(deck.server+"menu.txt").read().decode(),globals())
     except:
         try:
-            s = deck.serv.urlopen(deck.server+"menu.txt")
-            s = s.read()
-            exec(s.decode(),globals())
+            exec(deck.serv.urlopen(deck.server+"menu.txt").read().decode(),globals())
         except:
             with open("menu.dat", "r") as f:
                 exec(f.read(),globals())
@@ -284,4 +279,4 @@ def booster_op():
             ki.insert(END, i)
 if __name__ == '__main__':
     depart()
-    deck.fenetre.mainloop()
+    deck.fenetre.start_game()

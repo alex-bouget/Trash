@@ -12,9 +12,6 @@ if os.path.isdir("save/options.txt")==False:
 if os.path.isfile("save/Dell.dat")==False:
     with open("save/Dell.dat", "w") as f:
         f.write("0")
-if os.path.isfile("save/latence.txt")==False:
-    with open("save/latence.txt", "w") as f:
-        f.write('0.5')
 
 if os.path.isfile("save/resolution.txt")==False:
     with open("save/resolution.txt", "w") as f:
