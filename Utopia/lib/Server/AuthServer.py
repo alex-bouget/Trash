@@ -1,4 +1,4 @@
-from .Lib import Server
+from .ServerParent import Server
 import json
 from base64 import b64decode
 import os
@@ -60,16 +60,13 @@ class AuthServ(Server):
         self.thread_return.append("AuthServer.begin")
         while True:
             data = self.GetSend()
-            print(data)
             if data == "AuthServer.End":
                 self.thread_return.append("AuthServer.TaskFinish")
                 break
             elif data == "AuthServer.TestBdd":
                 self.TestBdd()
                 self.thread_return.append("AuthServer.TestBddFinish")
-                print("finish")
             elif data == "AuthServer.ServerName":
-                print(self.ServerName)
                 self.thread_return.append("AuthServer.ServerName." + self.ServerName)
 
 

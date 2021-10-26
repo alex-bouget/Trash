@@ -1,5 +1,6 @@
 from .AuthServer import Auth_Server
 from .BattleServer import Battle_Server
+from .PrincipalServer import Principal_Server
 
 
 class AuthServerCom:
@@ -62,3 +63,26 @@ class BattleServerCom:
     def SendBattle(self, card_id=None, system=None):
         self.BattleSend("BattleServer.SendBattle")
         self.BattleSend({"CardId": card_id, "System": system})
+
+
+class PrincipalServerCom:
+    def __init__(self, url, client_file):
+        self.PrincipalSend, self.PrincipalGet = Principal_Server(url, client_file)
+        self.PrincipalSend("PrincipalServer.Start")
+        while True:
+            ret = self.PrincipalGet()
+            if ret is not None:
+                break
+        if ret != "PrincipalServer.begin":
+            raise RuntimeError("Unspecified Problem: PrincipalServerCom.Start not return begin")
+
+    def Get(self):
+        return self.PrincipalGet()
+
+    def CreateAccount(self, username, password):
+        self.PrincipalSend("PrincipalServer.CreateAccount")
+        self.PrincipalSend({"username": username, "password": password})
+
+    def ConnectAccount(self, username, password):
+        self.PrincipalSend("PrincipalServer.ConnectAccount")
+        self.PrincipalSend({"username": username, "password": password})

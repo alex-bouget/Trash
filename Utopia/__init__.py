@@ -1,42 +1,40 @@
 from .lib import UtopiaLib
-from .window.Loading.StartCanvas import StartCanvas
-from .window.Principal_Menu import PrincipalMenu
+from .window import Game
 from tkinter import *
+import logging
 
 
 class Utopia(Tk):
-    def __init__(self, ide, battle_server, version):
+    def __init__(self, principal_server, battle_server, folder, version):
         super().__init__()
-        self.id = ide
         self.configure(width=720, height=480)
-        self.Lib = UtopiaLib(battle_server, "Data/", "fr")
-        self.start = StartCanvas(self, self.Lib)
-        self.start.place(x=0, y=0)
+        self.Lib = UtopiaLib(principal_server, battle_server, folder, "fr", version)
         self.battle_server = battle_server+"Battle/B1/"
-        self.Menu = PrincipalMenu(self, ide, self.Lib, version, self.battle_server)
+        self.Game = Game(self, self.Lib, self.battle_server)
+        self.old_w = 0
+        self.old_h = 0
+        self.tk_log = logging.getLogger("Tkinter")
         self.bind("<Configure>", self.resize)
-        self.after(500, self.test)
         self.resize(forced=True)
-
-    def test(self):
-        if self.start.StartFinish:
-            self.start.place_forget()
-            self.Menu.place(x=0, y=0)
-        else:
-            self.after(500, self.test)
 
     def resize(self, evt=None, forced=False):
         if forced is True:
+            self.old_w = self.winfo_width()
+            self.old_h = self.winfo_height()
             for child in self.winfo_children():
                 child.resize()
         else:
-            print(str(evt.widget))
             try:
                 if str(evt.widget) == ".":
-                    for child in self.winfo_children():
-                        if child.winfo_ismapped():
-                            child.resize()
+                    if self.old_w != self.winfo_width() or self.old_h != self.winfo_height():
+                        self.tk_log.debug("resize all window")
+                        for child in self.winfo_children():
+                            if child.winfo_ismapped():
+                                child.resize()
+                        self.old_h = self.winfo_height()
+                        self.old_w = self.winfo_width()
                 else:
+                    self.tk_log.debug("resize " + str(evt.widget))
                     evt.widget.resize()
             except AttributeError:
                 pass

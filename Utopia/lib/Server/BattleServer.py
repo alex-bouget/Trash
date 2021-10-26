@@ -1,4 +1,4 @@
-from .Lib import Server
+from .ServerParent import Server
 import json
 
 
