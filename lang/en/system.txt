@@ -43,3 +43,7 @@ You lost
 You have won
 you win a 
  booster
+mod problem
+Enemy have no mod
+Enemy have mod
+You have not same mod

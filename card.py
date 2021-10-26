@@ -18,6 +18,43 @@ else:
     card_cout = open("card/cout.txt", "r").read().split('/')
     card_effect = open("card/effect.txt", "r").read().split('/')
     card_desciption = open("lang/"+lang[0]+"/desc.txt", "r").read().split('/')
+for i in os.listdir("mods"):
+    if os.path.isdir("mods/"+i):
+        for x in codec.decode_fich("mods/"+i+"/lang/"+lang[0]+"/name.txt").split('/'):
+            card_name.append(x)
+        for x in codec.decode_fich("mods/"+i+"/card/nb.txt").split('/'):
+            card_nb.append(i+mods_nb_enter+x)
+        for x in codec.decode_fich("mods/"+i+"/card/att.txt").split('/'):
+            card_att.append(x)
+        for x in codec.decode_fich("mods/"+i+"/card/rarity.txt").split('/'):
+            card_rarity.append(x)
+        for x in codec.decode_fich("mods/"+i+"/card/def.txt").split('/'):
+            card_def.append(x)
+        for x in codec.decode_fich("mods/"+i+"/card/cout.txt").split('/'):
+            card_cout.append(x)
+        for x in codec.decode_fich("mods/"+i+"/card/effect.txt").split('/'):
+            card_effect.append(x)
+        for x in codec.decode_fich("mods/"+i+"/lang/"+lang[0]+"/desc.txt").split('/'):
+            card_desciption.append(x)
+    elif zipfile.is_zipfile("mods/"+i):
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("card/nb.txt").decode()).split("/"):
+            card_nb.append(i.split(".")[0]+mods_nb_enter+x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("card/att.txt").decode()).split("/"):
+            card_att.append(x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("card/def.txt").decode()).split("/"):
+            card_def.append(x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("card/rarity.txt").decode()).split("/"):
+            card_rarity.append(x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("card/cout.txt").decode()).split("/"):
+            card_cout.append(x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("card/effect.txt").decode()).split("/"):
+            card_effect.append(x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("lang/"+lang[0]+"/desc.txt").decode()).split("/"):
+            card_desciption.append(x)
+        for x in codec.decode(zipfile.ZipFile("mods/"+i, "r").read("lang/"+lang[0]+"/name.txt").decode()).split("/"):
+            card_name.append(x)
+for i in card_nb:
+    print(i)
 
 all_card = []
 if os.path.isfile("save/card.dat")==False:
@@ -32,10 +69,10 @@ if os.path.isfile("save/card.dat")==False:
 
 with open("save/card.dat", "r") as s:
     card_debloque = s.read().split('\n')
-    for i in range(len(card_nb)):
+    for i in range(len(codec.decode_fich("card/nb.txt").split('/'))):
         try:
             if card_debloque[i] == "1":
-                all_card.append(card_name[i])
+                all_card.append(str(i))
         except IndexError:
             card_debloque.append("0")
             with open("save/card.dat", "w") as f:
@@ -69,7 +106,6 @@ class Card:
     def cout_carte_name(self, name):
         return card_cout[card_name.index(str(name))]
     def nb_by_name(self, name):
-        print(str(name))
         return card_nb[card_name.index(str(name))]
     def name_by_nb(self, nb):
         return card_name[card_nb.index(str(nb))]
@@ -78,9 +114,15 @@ class Card:
         return(h)
     def card_model(self, nb):
         try:
-            tete = Image.open("card/tete/"+str(nb)+".png").convert("RGBA")
+            if len(str(nb).split(mods_nb_enter)) >= 2:
+                if zipfile.is_zipfile("mods/"+str(nb.split(mods_nb_enter)[0]+".zip")):
+                    tete = Image.open(BytesIO(zipfile.ZipFile("mods/"+str(nb.split(mods_nb_enter)[0])+".zip", "r").read("card/tete/"+str(nb.split(mods_nb_enter)[1])+".png"))).convert("RGBA")
+                else:
+                    tete = Image.open("mods/"+str(nb.split(mods_nb_enter)[0])+"/card/tete/"+str(nb.split(mods_nb_enter)[1])+".png").convert("RGBA")
+            else:
+                tete = Image.open("card/tete/"+str(nb)+".png").convert("RGBA")
         except FileNotFoundError:
-            tete = Image.open("card/tete/error.png").convert("RGBA")
+                tete = Image.open("card/tete/error.png").convert("RGBA")
         background = Image.open("card/card/"+card_rarity[card_nb.index(str(nb))]+".png").convert("RGBA")
         if tete.size == (291,219):
             background.paste(tete, (4, 5), tete)

@@ -1,59 +1,66 @@
 from Card import *
 
-fr = Card()
+fr = Card() #récuperation de la BDD
 Tk_game = var_game()
 Tk_lector = var_deck_lector()
 Tk_serv = var_serv()
-Tk_ennemi = ennemi()
-ME = ['']
+Tk_ennemi = ennemi() #récupération des menus complexes
+double_tap = '' #écrit la dernière cartes cliqué
 
 def board_ennemi(nb):
-    if kernel.myturn == 1:
-        if Tk_game.info1.get() == lang[40]:
+    """si on appuie sur une carte dans le board ennemi"""
+    if kernel.myturn == 1: #si c'est ton tour
+        if Tk_game.info1.get() == lang[40]: #
             kernel.depart = str(nb)
             kernel.turn = False
 def board_user(nb):
-    global ME
-    if ME[0] == str(nb):
-        if Tk_game.info1.get() == lang[26]:
+    """si on appuie sur une carte dans notre board"""
+    global double_tap
+    if double_tap == str(nb):
+        #si c'est la deuxième fois qu'on appuie sur la carte.
+        if Tk_game.info1.get() == lang[26]: #attaqué
             kernel.card_att = str(nb)
             kernel.send(str(nb))
             kernel.turn = False
-        elif Tk_game.info1.get() == lang[28]:
+        elif Tk_game.info1.get() == lang[28]: #défendre
             kernel.send(str(nb))
             kernel.card_def = str(nb)
             kernel.defs = True
             kernel.turn = False
-        ME = [""]
+        double_tap = ""
         Tk_game.reload_var()
     else:
-        ME = [str(nb)]
+        #si c'est la première fois qu'on appuie sur la carte.
+        double_tap = str(nb)
         Tk_game.ME.configure(text=fr.name_by_nb(nb)+","+str(user_board_bdd.atts[user_board_bdd.nb.index(nb)])+"/"+str(user_board_bdd.defs[user_board_bdd.nb.index(nb)]))
 
 
 def main_user(nb):
+    """si on appuie sur un carte dans notre main"""
     nb = str(nb)
-    if Tk_game.info1.get() == lang[22]:
+    if Tk_game.info1.get() == lang[22]: #si c'est notre phase principale
         if int(fr.cout_carte_nb(nb)) <= int(eclat_user.get()):
             user_main_bdd.delete_card(nb)
             eclat_user.set(int(int(eclat_user.get())-int(fr.cout_carte_nb(nb))))
             kernel.send(str(nb))
             kernel.change_info(2, lang[24]+fr.name_by_nb(str(nb)))
-            kernel.rt_si_t_a_compris.append(nb)
+            kernel.rt_si_t_a_compris.append(nb) #pour réglé un bug (si on appuie trop rapidement certaine carte ne passe pas)
             Tk_game.reload_var()
     Tk_game.reload_var()
 def main_ennemi(nb):
+    """si on appuie sur un carte dans la main ennemie"""
     pass
 
 def other_button():
+    """boutton suivant"""
     if kernel.myturn == 1:
         kernel.myturn = 0
         kernel.turn = False
-ennemi_board_bdd = board_card("ennemi", Tk_game.board_ennemi2, Tk_game, board_ennemi)
+ennemi_board_bdd = board_card("ennemi", Tk_game.board_ennemi2, Tk_game, board_ennemi) #création des BDD des board (main et table)
 user_board_bdd = board_card("user", Tk_game.board_user2, Tk_game, board_user)
 user_main_bdd = main(Tk_game.user_main2, Tk_game, main_user)
 ennemi_main_bdd = main(Tk_game.ennemi_main2, Tk_game, main_ennemi)
-Tk_game.suivant.configure(command=other_button)
+Tk_game.suivant.configure(command=other_button) #config du boutton suivant
 
 class Kernel(Thread):
     """Thread donnant les phase de jeu
@@ -62,16 +69,16 @@ class Kernel(Thread):
         Thread.__init__(self)
         self.depart = "" #donne la persone qui commence
         self.nb_pioche = 0 #numero de carte pioche
-        self.myturn = 0
-        self.turn = True
-        self.card_att = ""
-        self.defs = False
-        self.card_def = ""
-        self.rt_si_t_a_compris = []
+        self.myturn = 0 #si c'est ton tour
+        self.turn = True #pour les while
+        self.card_att = "" #nb de la carte qui attaque
+        self.defs = False #pour savoir si il y'aura une défense
+        self.card_def = "" #carte qui défends
+        self.rt_si_t_a_compris = [] #liste pour ajouter des cartes (si on appuie trop rapidement certaine carte ne passe pas)
     def pioche(self):
         """piocher une carte"""
         try:
-            user_main_bdd.new_card(str(fr.nb_by_name(deck_use[self.nb_pioche])))
+            user_main_bdd.new_card(str(deck_use[self.nb_pioche]))
         except:
             self.change_info(2, lang[21]) #vous ne pouvez plus piocher
         self.nb_pioche = self.nb_pioche+1 #rajoute 1 carte piocher
@@ -223,15 +230,40 @@ class Kernel(Thread):
             retour()
         else:
             self.send(str(v))
-            if self.receive() == str(v):
-                self.send("ok")
-                if self.receive() == "ok":
-                    depart = random.random()
-                    self.send(depart)
-                    if float(depart) > float(self.receive()):
-                        self.depart = "no"
+            v_e = self.receive().split(mods_enter+" ")
+            if v_e[0] in v_enter:
+                try:
+                    if v_e[1] == v.split(mods_enter+" ")[1]:
+                        self.send("ok")
+                        if self.receive() == "ok":
+                            depart = random.random()
+                            self.send(depart)
+                            if float(depart) > float(self.receive()):
+                                self.depart = "no"
+                            else:
+                                self.depart = "yes"
                     else:
-                        self.depart = "yes"
+                        #pas les meme mods
+                        showerror(lang[45], lang[48])
+                except IndexError:
+                    try:
+                        #ennemi mods
+                        v_e[1]
+                        showerror(lang[45], lang[47])
+                    except IndexError:
+                        #vous mods
+                        try:
+                            v.split(mods_enter+" ")[1]
+                            showerror(lang[45], lang[46])
+                        except IndexError:
+                            self.send("ok")
+                            if self.receive() == "ok":
+                                depart = random.random()
+                                self.send(depart)
+                                if float(depart) > float(self.receive()):
+                                    self.depart = "no"
+                                else:
+                                    self.depart = "yes"
             else:
                 showerror(lang[18], lang[19]+"\n"+lang[20])
             for i in range(7):
@@ -254,7 +286,7 @@ class Kernel(Thread):
                     self.ennemi_phase_attaque()
                     if ennemi_life.get() <= 0 or user_life.get() <= 0:
                         break
-            else:
+            elif self.depart == "no":
                 self.depart = ""
                 self.ennemi_phase_principale()
                 self.your_phase_principale()
@@ -284,107 +316,92 @@ class Kernel(Thread):
 def create_booster():
     """creer des booster"""
     s = []
-    if os.path.isfile("save/box.dat"):
-        s = open("save/box.dat", "r")
-        s = s.read()
-        s = s.split('\n')
-    x = open("save/box.dat", "w")
-    t = random.random()
+    if os.path.isfile("save/box.dat"): #récupération des booster déja existant
+        s = open("save/box.dat", "r").read().split('\n')
+    t = random.random() #chiffre random
     if t > 0.50:
         s.append("normal")
         s = '\n'.join(s)
-        x.write(s)
-        x.close()
+        open("save/box.dat", "w").write(s) #récréeture de la save des boosters
         return "normal"
     elif t > 0.30:
         s.append("rare")
         s = '\n'.join(s)
-        x.write(s)
-        x.close()
+        open("save/box.dat", "w").write(s)
         return "rare"
     elif t > 0.15:
         s.append("mythique")
         s = '\n'.join(s)
-        x.write(s)
-        x.close()
+        open("save/box.dat", "w").write(s)
         return "mythique"
     elif t > 0.04:
         s.append("legende")
         s = '\n'.join(s)
-        x.write(s)
-        x.close()
+        open("save/box.dat", "w").write(s)
         return "legende"
     elif t > 0.01:
         s.append("ultra")
         s = '\n'.join(s)
-        x.write(s)
-        x.close()
+        open("save/box.dat", "w").write(s)
         return "ultra"
     else:
-        create_booster()
+        return create_booster()
 def starting_system():
+    """début du jeu"""
     global kernel
-    client.client_send(Tk_ennemi.ennemi_choice.get())
+    client.client_send(Tk_ennemi.ennemi_choice.get()) #envoie au serveur le choix de l'ennemi
     Tk_ennemi.ennemi_can.destroy()
     Tk_game.place_game()
     Tk_game.reload()
     Tk_game.reload_var()
-    kernel = Kernel()
-    kernel.start()
+    kernel = Kernel() #récupération du Thread
+    kernel.start() #début du Thread
 def rafraich():
-    client.client_send("client")
-    Tk_ennemi.ennemi_all_choice = client.client_receive().split(",")
-    Tk_ennemi.change_menu(Tk_ennemi.ennemi_all_choice)
+    client.client_send("client") #demande au serveur les clients connecté (pas compté celui ci)
+    Tk_ennemi.ennemi_all_choice = client.client_receive().split(",") #récupération des clients
+    Tk_ennemi.change_menu(Tk_ennemi.ennemi_all_choice) #reload de l'OptionMenu
 def choice_ennemi():
-    client.client_open(server_ip.get(), server_port.get())
+    """connexion au serveur"""
+    client.client_open(server_ip.get(), server_port.get()) #mise en marche du protocole TCP
     Tk_serv.choice_serv.destroy()
     Tk_ennemi.place_ennemi()
-    Tk_ennemi.rafraich.configure(command=rafraich)
+    Tk_ennemi.rafraich.configure(command=rafraich) #config des boutton
     Tk_ennemi.finish.configure(command=starting_system)
-    rafraich()
+    rafraich() #raffraichissement des joueurs connecter au serveur
 
 
 
 def set_deck(evt):
+    """créer le deck"""
     global deck_use
-    deck_use = []
+    deck_use = [] #list des carte du deck
     x=0
-    value=str(Tk_lector.var_deck_lector_listbox.get(Tk_lector.var_deck_lector_listbox.curselection()))
-    for i in open("deck/"+value, "r").read().split('\n'):
-        if fr.name_by_nb(i) in all_card:
-            deck_use.append(fr.name_by_nb(i))
+    value=str(Tk_lector.var_deck_lector_listbox.get(Tk_lector.var_deck_lector_listbox.curselection())) #récupération du nom de la listbox
+    for i in open("deck/"+value, "r").read().split('\n'): #test des carte du deck
+        if str(i) in all_card or i.split(mods_nb_enter)[0] in os.listdir("mods") or i.split(mods_nb_enter)[0]+".zip" in os.listdir("mods"):
+            deck_use.append(str(i))
         else:
+            #si la carte n'est pas débloqué
             showwarning(lang[7], lang[8]+"\n"+lang[9]+"\n"+lang[10])
             deck_use = []
             x=1
             break
     if x==0:
-        random.shuffle(deck_use)
+        random.shuffle(deck_use)  #mélange du deck
         Tk_lector.var_deck_lector.destroy()
         Tk_serv.place_serv()
-        Tk_serv.choice_serv_button.configure(command=choice_ennemi)
+        Tk_serv.choice_serv_button.configure(command=choice_ennemi) #config du boutton
 def start_game():
+    """commencer le jeu"""
     Tk_lector.place_lector()
-    Tk_lector.var_deck_lector_button.destroy()
+    Tk_lector.var_deck_lector_button.destroy() #création du lecteur (fait pour deck_creator donc suppression d'un bouton)
 
-    for item in os.listdir("deck"):
+    for item in os.listdir("deck"): #ajout des deck dans la listbox
         Tk_lector.var_deck_lector_listbox.insert(END, item)
     Tk_lector.var_deck_lector_listbox.bind('<<ListboxSelect>>', set_deck)
-for i in card_name:
 
-    print(i)
-    exec("Tk_game.photo"+str(card_name.index(i))+" = ImageTk.PhotoImage(fr.card_model("+str(fr.nb_by_name(i))+").resize((Tk_game.px, Tk_game.py)))")
-"""
-Tk_game.place_game()
-for i in range(10):
-    for i in card_nb:
-        if i != card_nb[0] :
-            user_main_bdd.new_card(i)
-            ennemi_main_bdd.new_card(i)
-Tk_game.reload_var()
-Tk_game.reload()
-fenetre.mainloop()
-"""
+for i in card_nb: #création des modèles de cartes
+    exec("Tk_game.photo"+str(i)+" = ImageTk.PhotoImage(fr.card_model('"+str(i)+"').resize((Tk_game.px, Tk_game.py)))")
 if __name__ == "__main__":
     start_game()
     fenetre.mainloop()

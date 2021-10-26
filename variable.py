@@ -16,12 +16,10 @@ button_play : fonction du bouton principale
 ennemi_nbmain : nombre de carte dans la main de l'ennemi
 lang : dictionnaire des phrases demande par le jeu
 encode_sys : si la bdd est encoder"""
-v = "1.0"
 
 import fich_crea
+from system_data_version import *
 
-TK_x = int(open("save/resolution.txt", "r").read())
-TK_y = int(TK_x*(2/3))
 
 from tkinter import *
 from tkinter.messagebox import *
@@ -32,10 +30,19 @@ import time
 import codec
 import song
 import urllib.request as serv
-import os
 import pytopy
 import numpy as np
 import Motor
+import zipfile
+from io import BytesIO
+
+if open("save/resolution.txt", "r").read().split("\n")[0]=="yes":
+    TK_x = int(open("save/resolution.txt", "r").read().split("\n")[1])
+else:
+    TK_x = int(Motor.usr32.GetSystemMetrics(0)//1.25)
+TK_y = int(TK_x*(2/3))
+
+
 
 server = "http://utopia-card.000webhostapp.com/Card/"
 def down_card():
@@ -45,9 +52,7 @@ def down_card():
     print("download card ("+version+")")
     with serv.urlopen(server+"card/"+version+"/down.txt") as d:
         systeme = d.read().decode().split('\n')
-    print(systeme)
     for i in systeme:
-        print(i)
         if i == systeme[0]:
             directory = i.split(":/:")
             for create in directory:
@@ -55,7 +60,6 @@ def down_card():
                     os.mkdir(create)
         else:
             download = i.split('-->')
-            print(download)
             print("download: "+download[1])
             try:
                 serv.urlretrieve(server+'card/'+version+"/d/"+download[0], download[1])

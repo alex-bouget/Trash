@@ -6,7 +6,7 @@ Sauvegarder
 voulez vous le remplacez ?
 Creer Un deck
 Ouverture impossible
-Ce deck ne peut etre ouver car
+Ce deck ne peut etre ouvert car
 il y a eu un bug ou vous n'avez
 pas une des cartes du deck
 Votre vie: 
@@ -43,3 +43,7 @@ Vous avez perdu
 Vous avez gagne 
 Vous gagnez un 
  booster
+probleme de mods
+L'ennemi n'a pas de mods
+L'ennemi a des mods
+Vous n'avez pas les meme mods

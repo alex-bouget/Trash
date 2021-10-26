@@ -6,7 +6,7 @@ if os.path.isdir("mods")==False:
     os.mkdir("mods")
 if os.path.isdir("save")==False:
     os.mkdir("save")
-if os.path.isdir("save/options.txt")==False:
+if os.path.isfile("save/options.txt")==False:
     with open("save/options.txt", "w") as f:
         f.write('1\n1')
 if os.path.isfile("save/Dell.dat")==False:
@@ -15,4 +15,4 @@ if os.path.isfile("save/Dell.dat")==False:
 
 if os.path.isfile("save/resolution.txt")==False:
     with open("save/resolution.txt", "w") as f:
-        f.write("1080")
+        f.write("yes\n1080")
