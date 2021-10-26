@@ -1,11 +1,11 @@
-from .ServerParent import Server
+from .ServerParent import RcJsApi
 import json
 from base64 import b64decode
 import os
 import logging
 
 
-class AuthServ(Server):
+class AuthServ(RcJsApi):
     def __init__(self, url, folders):
         super().__init__(url)
         if not os.path.isdir(folders):

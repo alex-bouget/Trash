@@ -1,8 +1,8 @@
-from .ServerParent import Server
+from .ServerParent import RcJsApi
 import json
 
 
-class BattleServ(Server):
+class BattleServ(RcJsApi):
     def __init__(self, url, player_id, battle_id):
         super().__init__(url)
         self.PlayerId = player_id

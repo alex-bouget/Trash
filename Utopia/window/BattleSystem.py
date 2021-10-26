@@ -14,7 +14,7 @@ class BattleSystem:
                                       os.path.join(lib.Card.BddFolder, "font.ttf"),
                                       lib.Card.Model, lib.Card.Card.AllCard,
                                       {"Hand": self.Hand, "Board": self.Board, "Enemy": self.Enemy,
-                                       "Pass": self.Pass, "Finish": self.Finish})
+                                       "Pass": self.Pass})
         self.start_canvas = BattleStartCanvas(master, lib)
         self.Deck = DeckChoiceSys(master, "grey", lib.Deck.get_deck_name(), {"set": self.choice_deck},
                                   DeckChoiceSys.DeckSys)
@@ -93,6 +93,3 @@ class BattleSystem:
 
     def Pass(self):
         self.lib.Server.BattleServer.SendBattle(system="Pass")
-
-    def Finish(self):
-        self.lib.Server.BattleServer.StopServer()

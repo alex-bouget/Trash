@@ -72,8 +72,8 @@ class BattleServerCom:
 
 
 class PrincipalServerCom:
-    def __init__(self, url, client_file):
-        self.PrincipalSend, self.PrincipalGet = Principal_Server(url, client_file)
+    def __init__(self, url, client_file, client_path):
+        self.PrincipalSend, self.PrincipalGet = Principal_Server(url, client_file, client_path)
         self.PrincipalSend("PrincipalServer.Start")
         while True:
             ret = self.PrincipalGet()

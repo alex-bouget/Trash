@@ -38,6 +38,12 @@ class BoardCanvas(Canvas):
                 self.add_card(key, self.model[game_dict[key]["Id"]], game_dict[key]["att"], game_dict[key]["def"])
             if game_dict[key]["state"] == "Dead":
                 self.Card[key].destroy()
+            if game_dict[key]["state"] == "Attack":
+                self.Card[key].configure(bg="#FF0000")
+            if game_dict[key]["state"] == "OnAttack":
+                self.Card[key].configure(bg="#FFFB00")
+            if game_dict[key]["state"] == "Alive":
+                self.Card[key].configure(bg="#FFFFFF")
             if game_dict[key]["att"] != self.Card[key].attack or game_dict[key]["def"] != self.Card[key].defence:
                 self.Card[key].change(game_dict[key]["att"], game_dict[key]["def"])
         self.resize()

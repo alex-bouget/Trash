@@ -1,13 +1,14 @@
-from .ServerParent import Server
+from .ServerParent import RcJsApi
 import json
 import os
 import sys
 
 
-class PrincipalServer(Server):
-    def __init__(self, url, account_file):
+class PrincipalServer(RcJsApi):
+    def __init__(self, url, account_file, client_path):
         super().__init__(url)
         self.account_file = account_file
+        self.client_path = client_path
 
     def start_client(self):
         if sys.argv[0].split(".")[-1] == "py":
@@ -16,14 +17,14 @@ class PrincipalServer(Server):
                 print("token:")
                 self.thread_return.append(input(">>"))
                 return
-        file = json.load(open("Client.json"))
+        file = json.load(open(self.client_path))
         data = self.getJsBySystem("ConnectClient", {"ClientID": file["ClientID"], "C-Token": file["C-Token"]})
         if "Error" in data.keys():
             if data["Error"] == "Client not exist or bad token":
                 raise OSError("Your game is not authenticate")
         else:
             file["C-Token"] = data["C-Token"]
-            open("Client.json", "w").write(json.dumps(file))
+            open(self.client_path, "w").write(json.dumps(file))
             if not os.path.isfile(self.account_file):
                 self.thread_return.append("PrincipalServer.Account.NotConnected")
                 return
@@ -76,7 +77,7 @@ class PrincipalServer(Server):
                 self.connect_account(param["username"], param["password"])
 
 
-def Principal_Server(url, account_file):
-    principal_class = PrincipalServer(url, account_file)
+def Principal_Server(url, account_file, client_path):
+    principal_class = PrincipalServer(url, account_file, client_path)
     principal_class.start()
     return principal_class.ThreadSend, principal_class.ThreadReturn

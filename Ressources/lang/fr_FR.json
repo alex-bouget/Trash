@@ -1,84 +1,84 @@
 {
 	"PrincipalSystem": {
 		"test0": [
-			"Creating Deck Model"
+			"Creation des deck model"
 		]
 	},
 	"DeckSystem": {
 		"new_deck": [
-			"new_deck",
-			"name of your new deck"
+			"nouveau_deck",
+			"nom du nouveau deck"
 		],
 		"save_quit": [
-			"Not enough card",
-			"You must put at least 20 cards"
+			"Pas assez de carte",
+			"Vous devez mettre minimum 20 cartes"
 		]
 	},
 	"BattleSystem": {
 		"choice_deck": [
-			"Not enough card",
-			"your deck have less than 20 cards"
+			"Pas assez de carte",
+			"Vous devez mettre minimum 20 cartes"
 		]
 	},
 	"PrincipalMenu": {
 		"init": [
-			"Play",
+			"Jouer",
 			"Deck"
 		]
 	},
 	"AuthenticationCanvas": {
 		"init": [
-			"Create Account",
-			"connect to an existing accounts",
-			"Log in",
-			"create a new accounts"
+			"Creer un compte",
+			"Connection a un compte existant",
+			"Connection",
+			"Creer un nouveau compte"
 		]
 	},
 	"StartCanvas": {
 		"start": [
-			"loading Model"
+			"Charge Modele"
 		]
 	},
 	"BattleStartCanvas": {
 		"start": [
-			"Loading..."
+			"Chargement..."
 		]
 	},
 	"Deck": {
 		"init": [
-			"Save and quit"
+			"Sauvegarder"
 		]
 	},
 	"DeckChoice": {
 		"init": [
-			"delete",
-			"create Deck",
-			"return"
+			"Supprimer",
+			"Creer un deck",
+			"Retour"
 		]
 	},
 	"DeckChoiceSystem": {
 		"init": [
-			"use deck",
-			"change"
+			"Utiliser",
+			"Changer"
 		]
 	},
 	"Info": {
 		"init": [
 			"Eclat: ",
-			"Life: ",
+			"Vie: ",
 			"Phase: ",
-			"User: ",
-			"Enemy: ",
-			"Your",
-			"Enemy",
-			"Pass"
+			"Vous: ",
+			"Ennemie: ",
+			"Vous",
+			"Ennemie",
+			"Passer"
 		]
 	},
 	"Battle": {
 		"change_battle": [
-			"No one win",
-			"You win",
-			"You lose"
+			"Aucun a gagner",
+			"Vous avez gagner",
+			"Vous avez perdu"
 		]
 	}
 }

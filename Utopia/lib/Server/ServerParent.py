@@ -3,7 +3,7 @@ import json
 from requests import get, post
 
 
-class Server(Thread):
+class RcJsApi(Thread):
     def __init__(self, url):
         super().__init__()
         self.url = url
@@ -22,6 +22,7 @@ class Server(Thread):
                 data_get.append(key + "=" + value)
             return url + "?" + "&".join(data_get)
         resolve = post(getUrl(self.url, self.System[name]["GET"]), data=post_data).text
+        print(resolve)
         return json.loads(resolve)
 
     def ThreadReturn(self):
