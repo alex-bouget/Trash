@@ -1,23 +1,20 @@
-from ..System.CardSystem import CardSys
+from ..System.CardSystem import CardSys, deepcopy
 from PIL import ImageTk, ImageDraw, ImageFont
 
 
 class Card(CardSys):
-    def __init__(self, master, card_image, attack, defense, font_path, height=True, **kwargs):
-        super().__init__(master, card_image=card_image, attack=attack, defense=defense, font_path=font_path, **kwargs)
+    def __init__(self, master, card_name, card_image, attack, defense, font_path, height=True, **kwargs):
+        super().__init__(master, card_name=card_name, card_image=card_image, attack=attack,
+                         defense=defense, font_path=font_path, **kwargs)
         self.height = height
         self.resize()
 
-    def change_att(self, att, lock=True):
+    def change(self, att, defense, lock=True):
         self.attack = att
+        self.defence = defense
+        self.CardDraw = deepcopy(self.CardImage)
         draw = ImageDraw.Draw(self.CardDraw)
         draw.text((246, 1529), str(att), (0, 0, 0), anchor="mm", font=ImageFont.truetype(self.FontPath, 160))
-        if lock:
-            self.resize(True)
-
-    def change_def(self, defense, lock=True):
-        self.defence = defense
-        draw = ImageDraw.Draw(self.CardDraw)
         draw.text((952, 1529), str(defense), (0, 0, 0), anchor="mm", font=ImageFont.truetype(self.FontPath, 160))
         if lock:
             self.resize(True)

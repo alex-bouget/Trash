@@ -1,7 +1,9 @@
 from .Menu.Deck import Deck
 from .Menu.Deck.DeckChoice import DeckChoice
 from tkinter.simpledialog import askstring
+from tkinter.messagebox import showinfo
 import os
+from ..Lang import getlang
 
 
 class DeckSystem:
@@ -15,7 +17,7 @@ class DeckSystem:
         self.name = ""
 
     def new_deck(self):
-        name = askstring("new_deck", "name of your new deck:")
+        name = askstring(getlang()["DeckSystem"]["new_deck"][0], getlang()["DeckSystem"]["new_deck"][1])
         self.lib.Deck.add_deck(name, [])
         self.set_deck(name)
 
@@ -26,10 +28,14 @@ class DeckSystem:
         self.DeckCanvas.add_deck(self.lib.Deck.get_deck(name))
         self.name = name
         self.DeckCanvas.Info.DeckName.set(self.name)
+        self.lib.Discord.change_activity(state="on deck creator")
 
     def save_quit(self):
-        self.lib.Deck.change_deck(name=self.name, obj=self.DeckCanvas.DeckCanvas.deck)
-        self.DeckCanvas.place_forget()
+        if len(self.DeckCanvas.DeckCanvas.deck) < 20:
+            showinfo(getlang()["DeckSystem"]["save_quit"][0], getlang()["DeckSystem"]["save_quit"][1])
+        else:
+            self.lib.Deck.change_deck(name=self.name, obj=self.DeckCanvas.DeckCanvas.deck)
+            self.DeckCanvas.place_forget()
 
     def start_deck(self):
         self.DeckChoice.all_deck = self.lib.Deck.get_deck_name()

@@ -22,7 +22,7 @@ class BoardCanvas(Canvas):
         pass
 
     def add_card(self, ide, card_image, attack, defence):
-        self.Card[ide] = Card(self.Frame, card_image, attack, defence, self.FontPath,
+        self.Card[ide] = Card(self.Frame, ide, card_image, attack, defence, self.FontPath,
                               command=lambda card_id=ide: self.command(card_id))
         self.Card[ide].pack(side=LEFT)
         self.resize()
@@ -38,10 +38,8 @@ class BoardCanvas(Canvas):
                 self.add_card(key, self.model[game_dict[key]["Id"]], game_dict[key]["att"], game_dict[key]["def"])
             if game_dict[key]["state"] == "Dead":
                 self.Card[key].destroy()
-            if game_dict[key]["att"] != self.Card[key].attack:
-                self.Card[key].change_att(game_dict[key]["att"])
-            if game_dict[key]["def"] != self.Card[key].defence:
-                self.Card[key].change_def(game_dict[key]["def"])
+            if game_dict[key]["att"] != self.Card[key].attack or game_dict[key]["def"] != self.Card[key].defence:
+                self.Card[key].change(game_dict[key]["att"], game_dict[key]["def"])
         self.resize()
 
     def resize(self):

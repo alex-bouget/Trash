@@ -26,7 +26,7 @@ def Card_Model(card_name, card_data, rarity_data, bdd_folder, lang_use):
     if os.path.isfile(os.path.join(bdd_folder, "head", card_name + ".png")):  # load card head or error head
         head = Image.open(os.path.join(bdd_folder, "head", card_name + ".png")).convert("RGBA")
     else:
-        head = Image.open(os.path.join(bdd_folder, "head", "U5.png")).convert("RGBA")
+        head = Image.open(os.path.join(bdd_folder, "head", "error.png")).convert("RGBA")
 
     data[head_index] = Image.new("RGBA", data[0].size)
     if head.size == data[head_index].size:

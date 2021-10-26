@@ -1,0 +1,84 @@
+{
+	"PrincipalSystem": {
+		"test0": [
+			"Creating Deck Model"
+		]
+	},
+	"DeckSystem": {
+		"new_deck": [
+			"new_deck",
+			"name of your new deck"
+		],
+		"save_quit": [
+			"Not enough card",
+			"You must put at least 20 cards"
+		]
+	},
+	"BattleSystem": {
+		"choice_deck": [
+			"Not enough card",
+			"your deck have less than 20 cards"
+		]
+	},
+	"PrincipalMenu": {
+		"init": [
+			"Play",
+			"Deck"
+		]
+	},
+	"AuthenticationCanvas": {
+		"init": [
+			"Create Account",
+			"connect to an existing accounts",
+			"Log in",
+			"create a new accounts"
+		]
+	},
+	"StartCanvas": {
+		"start": [
+			"loading Model"
+		]
+	},
+	"BattleStartCanvas": {
+		"start": [
+			"Loading..."
+		]
+	},
+	"Deck": {
+		"init": [
+			"Save and quit"
+		]
+	},
+	"DeckChoice": {
+		"init": [
+			"delete",
+			"create Deck",
+			"return"
+		]
+	},
+	"DeckChoiceSystem": {
+		"init": [
+			"use deck",
+			"change"
+		]
+	},
+	"Info": {
+		"init": [
+			"Eclat: ",
+			"Life: ",
+			"Phase: ",
+			"User: ",
+			"Enemy: ",
+			"Your",
+			"Enemy",
+			"Pass"
+		]
+	},
+	"Battle": {
+		"change_battle": [
+			"No one win",
+			"You win",
+			"You lose"
+		]
+	}
+}

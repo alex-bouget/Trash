@@ -40,7 +40,14 @@ class AuthServ(Server):
                 if ex.get("Image") is not None:
                     open(os.path.join(thread_self.folders, "head", Image + ".png"), "wb").write(b64decode(ex["Image"]))
                 else:
-                    logging.warning(Image + "Head not found")
+                    logging.warning(Image + " Head not found")
+            logging.info("Download Card Head error")
+            thread_self.thread_return.append("AuthServer.DownloadBDD.head.error")
+            ex = thread_self.getJsBySystem("GetImage", {"imageType": "head", "idImage": "error.png"})
+            if ex.get("Image") is not None:
+                open(os.path.join(thread_self.folders, "head", "error.png"), "wb").write(b64decode(ex["Image"]))
+            else:
+                logging.warning("error Head not found")
             logging.info("Download Font")
             thread_self.thread_return.append("AuthServer.DownloadBDD.font.Font")
             with open(os.path.join(thread_self.folders, "font.ttf"), "wb") as temp_file:

@@ -1,4 +1,5 @@
 from tkinter import *
+from ...Lang import getlang
 
 
 class Connect(Canvas):
@@ -26,9 +27,11 @@ class Authentication(Canvas):
     def __init__(self, master, lib):
         super().__init__(master)
         self.lib = lib
-        self.create_account = Connect(self, {"B1": "Create Account", "B2": "connect to an existing accounts"},
+        self.create_account = Connect(self, {"B1": getlang()["AuthenticationCanvas"]["init"][0],
+                                             "B2": getlang()["AuthenticationCanvas"]["init"][1]},
                                       {"B1": self.CreateAccount, "B2": self.pass_to_connect})
-        self.connect_account = Connect(self, {"B1": "Log in", "B2": "create a new accounts"},
+        self.connect_account = Connect(self, {"B1": getlang()["AuthenticationCanvas"]["init"][2],
+                                              "B2": getlang()["AuthenticationCanvas"]["init"][3]},
                                        {"B1": self.login, "B2": self.pass_to_create})
 
     def changeInfo(self, text):

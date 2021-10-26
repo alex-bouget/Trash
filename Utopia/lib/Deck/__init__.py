@@ -25,7 +25,10 @@ class Deck:
             self._deck = json.load(open(os.path.join(self.deck_folder, "deck.json")))
         else:
             self._deck = {"Time": time.time(), "Deck": {self.server_name: {}}}
-        self.server_deck = self._deck["Deck"][self.server_name]
+        try:
+            self.server_deck = self._deck["Deck"][self.server_name]
+        except KeyError:
+            self.server_deck = {}
         self.save_deck()
 
     def save_deck(self):

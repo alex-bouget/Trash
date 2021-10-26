@@ -2,8 +2,8 @@ from ..System.VerticalSystem import VerticalSys
 from ..System.CardSystem import CardSys
 
 
-def Card(master, card_image, attack, defense, font_path, **kwargs):
-    return CardSys(master, card_image, attack, defense, font_path, thread=True, compound='left', **kwargs)
+def Card(master, card_name, card_image, attack, defense, font_path, **kwargs):
+    return CardSys(master, card_name, card_image, attack, defense, font_path, thread=True, compound='left', **kwargs)
 
 
 class DeckCanvas(VerticalSys):
@@ -19,8 +19,9 @@ class DeckCanvas(VerticalSys):
         if ide in self.deck:
             self.Card[ide].configure(text=str(self.deck.count(ide) + 1))
         else:
-            self.Card[ide] = Card(self.Frame, self.model[ide], self.CardSystem[ide].Att, self.CardSystem[ide].Def,
-                                  self.FontPath, command=lambda card_id=ide: self.delete_card(ide), text=str(1))
+            self.Card[ide] = Card(self.Frame, ide, self.model[ide], self.CardSystem[ide].Att,
+                                  self.CardSystem[ide].Def, self.FontPath,
+                                  command=lambda card_id=ide: self.delete_card(ide), text=str(1))
             self.Card[ide].pack()
             self.resize()
         self.deck.append(ide)

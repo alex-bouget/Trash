@@ -1,6 +1,7 @@
 from .ServerParent import Server
 import json
 import os
+import sys
 
 
 class PrincipalServer(Server):
@@ -9,6 +10,12 @@ class PrincipalServer(Server):
         self.account_file = account_file
 
     def start_client(self):
+        if sys.argv[0].split(".")[-1] == "py":
+            print("Dev mode: Allow Client connection to principal server ? y/other")
+            if input(">>") != "y":
+                print("token:")
+                self.thread_return.append(input(">>"))
+                return
         file = json.load(open("Client.json"))
         data = self.getJsBySystem("ConnectClient", {"ClientID": file["ClientID"], "C-Token": file["C-Token"]})
         if "Error" in data.keys():

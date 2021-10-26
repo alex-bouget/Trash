@@ -1,4 +1,5 @@
 from .LoadingSystem import LoadingSys
+from ....Lang import getlang
 
 
 class StartCanvas(LoadingSys):
@@ -18,8 +19,8 @@ class StartCanvas(LoadingSys):
             self.after(500, self.start)
         elif data == "AuthServer.TestBddFinish":
             self.Lib.Card.CreateModelInThread()
-            self.wr.set("loading Model")
+            self.wr(getlang()["StartCanvas"]["start"][0])
             self.loop2()
         else:
-            self.wr.set(data)
+            self.wr(data)
             self.after(500, self.start)

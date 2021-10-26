@@ -2,6 +2,8 @@ from tkinter import *
 from .Hand import HandCanvas
 from .Board import BoardCanvas
 from .Info import InfoCanvas
+from tkinter.messagebox import showinfo
+from ....Lang import getlang
 
 
 class GameCanvas(Canvas):
@@ -31,6 +33,17 @@ class GameCanvas(Canvas):
         self.Board.reload_Dict(game_dict[self.PlayerId]["Board"])
         self.EnemyBoard.reload_Dict(game_dict[enemy]["Board"])
         self.hand.reload_Dict(game_dict[self.PlayerId]["Hand"])
+        if game_dict[enemy]["Life"] <= 0 and game_dict[self.PlayerId]["Life"] <= 0:
+            showinfo(getlang()["Battle"]["change_battle"][0])
+            return "Finish"
+        elif game_dict[self.PlayerId]["Life"] <= 0:
+            showinfo(getlang()["Battle"]["change_battle"][2])
+            return "Finish"
+        elif game_dict[enemy]["Life"] <= 0:
+            showinfo(getlang()["Battle"]["change_battle"][1])
+            return "Finish"
+        else:
+            return "ui"
 
     def resize(self):
         self.configure(height=self.root.winfo_height(), width=self.root.winfo_width())

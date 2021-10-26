@@ -5,11 +5,13 @@ import logging
 
 
 class Utopia(Tk):
-    def __init__(self, principal_server, battle_server, folder, version):
+    def __init__(self, principal_server, battle_server, folder, version, lang):
         super().__init__()
+        self.title("Utopia V"+version)
+        self.iconbitmap("Ressources/icone.ico")
         self.configure(width=720, height=480)
-        self.Lib = UtopiaLib(principal_server, battle_server, folder, "fr", version)
-        self.battle_server = battle_server+"Battle/B1/"
+        self.Lib = UtopiaLib(principal_server, battle_server, folder, lang, version)
+        self.battle_server = battle_server+"Battle/"
         self.Game = Game(self, self.Lib, self.battle_server)
         self.old_w = 0
         self.old_h = 0

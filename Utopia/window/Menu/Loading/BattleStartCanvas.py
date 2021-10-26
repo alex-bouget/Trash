@@ -1,4 +1,5 @@
 from .LoadingSystem import LoadingSys
+from ....Lang import getlang
 
 
 class BattleStartCanvas(LoadingSys):
@@ -7,10 +8,10 @@ class BattleStartCanvas(LoadingSys):
         self.Lib = lib
         self.deck = []
 
-    def start(self, battle_url_server, player_id, deck):
-        self.Lib.Server.StartBattle(battle_url_server, player_id)
+    def start(self, battle_url_server, player_id, deck, battle_id):
+        self.Lib.Server.StartBattle(battle_url_server, player_id, battle_id)
         self.deck = deck
-        self.wr.set("Loading...")
+        self.wr(getlang()["BattleStartCanvas"]["start"][0])
         self.after(500, self.loop1)
 
     def loop1(self):

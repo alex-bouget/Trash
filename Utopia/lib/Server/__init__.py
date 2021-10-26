@@ -33,8 +33,8 @@ class AuthServerCom:
 
 
 class BattleServerCom:
-    def __init__(self, url, player_id):
-        self.BattleSend, self.BattleGet = Battle_Server(url, player_id)
+    def __init__(self, url, player_id, battle_id):
+        self.BattleSend, self.BattleGet = Battle_Server(url, player_id, battle_id)
         self.BattleSend("BattleServer.Start")
         while True:
             ret = self.BattleGet()
@@ -48,7 +48,7 @@ class BattleServerCom:
 
     def Start(self, client_version, bdd_version):
         self.BattleSend("BattleServer.StartConnection")
-        self.BattleSend("BattleServer." + client_version + "." + bdd_version)
+        self.BattleSend([client_version, bdd_version])
 
     def WaitServer(self):
         self.BattleSend("BattleServer.WaitServer")
@@ -63,6 +63,12 @@ class BattleServerCom:
     def SendBattle(self, card_id=None, system=None):
         self.BattleSend("BattleServer.SendBattle")
         self.BattleSend({"CardId": card_id, "System": system})
+
+    def StopServer(self):
+        self.BattleSend("BattleServer.End")
+        while self.Get() != "BattleServer.Task_Finish":
+            pass
+        del self.BattleSend, self.BattleGet
 
 
 class PrincipalServerCom:

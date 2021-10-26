@@ -5,10 +5,11 @@ from threading import Thread
 
 
 class CardSys(Button):
-    def __init__(self, master, card_image, attack, defense, font_path, thread=False, **kwargs):
+    def __init__(self, master, card_name, card_image, attack, defense, font_path, thread=False, **kwargs):
         super().__init__(master, **kwargs)
+        self.CardName = card_name
         self.ThreadFinish = False
-        self.CardImage = deepcopy(card_image)
+        self.CardImage = card_image
         self.FontPath = font_path
         self.attack = attack
         self.defence = defense
@@ -18,7 +19,7 @@ class CardSys(Button):
             self.thread()
 
     def thread(self):
-        self.CardDraw = self.CardImage
+        self.CardDraw = deepcopy(self.CardImage)
         self.ImageTk = ImageTk.PhotoImage(self.CardImage)
         draw = ImageDraw.Draw(self.CardDraw)
         draw.text((246, 1529), str(self.attack), (0, 0, 0), anchor="mm", font=ImageFont.truetype(self.FontPath, 160))

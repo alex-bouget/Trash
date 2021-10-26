@@ -25,5 +25,6 @@ class ChoiceMenu(Canvas):
 
     def DataReload(self):
         self.configure(height=self.master.winfo_height(), width=self.master.winfo_width())
-        self.TagCanvas.configure(height=self.winfo_height()//1.13, width=self.winfo_width()//1.36)
+        self.TagCanvas.configure(height=self.winfo_height()//1.13, width=self.winfo_width()//1.36,
+                                 scrollregion=(0, 0, 0, self.Frame.winfo_height()))
         self.TagCanvas.place(x=4, y=self.winfo_height()//7.6)

@@ -1,6 +1,7 @@
 from .CardLib import CardLib
 from .ServerLib import ServerLib
 from .Deck import Deck
+from .Discord import DiscordLib
 import os
 
 
@@ -13,3 +14,4 @@ class UtopiaLib:
                                 version)
         self.Card = CardLib(os.path.join(folder, "s.load", self.Server.AuthServerName), lang)
         self.Deck = Deck(os.path.join(folder, "p.load"), self.Server.AuthServerName)
+        self.Discord = DiscordLib()

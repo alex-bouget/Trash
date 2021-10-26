@@ -14,14 +14,11 @@ class ServerLib:
         self.AuthServerName = self.AuthServer.GetServerName()  # Name of server
         self.AuthServer.LoadBdd()
 
-    def StartBattle(self, url, player_id):
-        """
-        Start Server Battle
-
-        :param url:
-        :param player_id:
-        :return:
-        """
-        self.BattleServer = BattleServerCom(url, player_id)
+    def StartBattle(self, url, player_id, battle_id):
+        try:
+            self.BattleServer.StopServer()
+        except AttributeError:
+            pass
+        self.BattleServer = BattleServerCom(url, player_id, battle_id)
         self.BattleServer.Start(self.Version,
                                 json.load(open(os.path.join(self.BddFolder, self.AuthServerName, "v.json")))[0])
