@@ -1,0 +1,26 @@
+"""python"""
+class String(Exec):
+    def __init__(self):
+        super(String, self).__init__()
+        self.string = ""
+        self.command = {
+            "set": self.set,
+            "get": self.get,
+            "count": self.count,
+            "linecut": self.linecut
+        }
+
+    def set(self, p1):
+        self.string = p1
+
+    def get(self):
+        return self.string
+
+    def count(self, p1=None, number=None):
+        if p1 is None:
+            return len(self.string)
+        else:
+            return len(p1)
+
+    def linecut(self, p1=None):
+        return module.linup.List(*p1.split("\n"))

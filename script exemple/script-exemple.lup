@@ -1,0 +1,16 @@
+// LineUp root command:
+// v : adding a variable / ex: v name command_name
+// e : exit
+
+// LineUp root class command:
+// list
+// int
+// float
+// string
+
+v str lineup-String
+v lister lineup-List
+
+lister set "salutation francais"
+
+e lister fresh (lister get 0) (str count (lister get 0) a)
