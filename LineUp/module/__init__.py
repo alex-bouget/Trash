@@ -5,6 +5,7 @@ import json
 from .command import Exec
 from ..version import modules_version
 
+
 module = ModuleSystem()
 
 
@@ -20,7 +21,7 @@ def load_modules(module_folder):
             if module_can:
                 module.add_modules(mod["packages-name"])
                 data = runpy.run_path(os.path.join(module_folder, folder, mod["py-files"]["file"]),
-                                      init_globals={"Exec": Exec})
+                                      init_globals={"Exec": Exec, "module": module})
                 for class_name in mod["py-files"]["class-name"]:
                     module.add_class(mod["packages-name"], class_name, data[class_name])
 

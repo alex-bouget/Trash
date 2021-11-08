@@ -43,24 +43,34 @@ class Line:
             open_bracket = sub[2*i]
             close_bracket = sub[2*i+1]
             if i == 0:
-                for i in decode_space[0:self.line[0:open_bracket].count(" ")]:
-                    finish.append(i)
+                for x in decode_space[0:self.line[0:open_bracket].count(" ")]:
+                    finish.append(x)
                 finish.append(Line(self.line[open_bracket+1:close_bracket]))
             else:
                 close_last_bracket = sub[2*i-1]
-                for i in decode_space[close_last_bracket:self.line[close_last_bracket:open_bracket].count(" ")]:
-                    finish.append(i)
+                for x in decode_space[close_last_bracket:self.line[close_last_bracket:open_bracket].count(" ")]:
+                    finish.append(x)
                 finish.append(Line(self.line[open_bracket+1:close_bracket]))
         return finish
 
     def execute(self, global_variable, global_class):
         execution = []
+        is_instance_command = False
+        print(self.decoded_line)
         for i in self.decoded_line:
             if isinstance(i, Line):
-                execution.append(str(i.execute(global_variable, global_class)))
+                data = i.execute(global_variable, global_class)
+                if len(execution) == 0 and type(data) is str:
+                    is_instance_command = True
+                execution.append(data)
             else:
-                execution.append(str(i))
-        if len("".join(execution)) > 0:
+                execution.append(i)
+        try:
             if "".join(execution[0][:2]) == "//":
                 return
-            return global_variable[execution[0]].load_command(*execution[1:])
+        except IndexError:
+            return
+        print(execution)
+        if is_instance_command:
+            return execution[0].load_command(*execution[1:])
+        return global_variable[execution[0]].load_command(*execution[1:])

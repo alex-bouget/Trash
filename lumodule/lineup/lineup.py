@@ -6,7 +6,8 @@ class String(Exec):
             "set": self.set,
             "get": self.get,
             "count": self.count,
-            "linecut": self.linecut
+            "linecut": self.linecut,
+            "fresh": self.fresh
         }
 
     def set(self, p1):
@@ -15,7 +16,7 @@ class String(Exec):
     def get(self):
         return self.string
 
-    def count(self, p1=None, number=None):
+    def count(self, p1=None):
         if p1 is None:
             return len(self.string)
         else:
@@ -23,15 +24,18 @@ class String(Exec):
 
     def linecut(self, p1=None):
         return module.linup.List(*p1.split("\n"))
-        
+
+    def fresh(self, string, number):
+        return module.lineup.List(*[string[i:i+int(number)] for i in range(0, len(string), int(number))])
+
+
 class List(Exec):
-    def __init__(self):
+    def __init__(self, *args):
         super(List, self).__init__()
-        self.list = []
+        self.list = [i for i in args]
         self.command = {
             "get": self.get,
-            "set": self.set,
-            "fresh": self.fresh
+            "set": self.set
         }
 
     def get(self, index, list=None):
@@ -42,6 +46,3 @@ class List(Exec):
 
     def set(self, new):
         self.list.append(new)
-
-    def fresh(self, string, number):
-        return [string[i:i+int(number)] for i in range(0, len(string), int(number))]

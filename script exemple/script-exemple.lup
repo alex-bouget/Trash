@@ -13,4 +13,4 @@ v lister lineup-List
 
 lister set "salutation francais"
 
-e lister fresh (lister get 0) (str count (lister get 0) a)
+e (str fresh (lister get 0) (str count abx)) display
