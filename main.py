@@ -1,11 +1,9 @@
 from LineUp.Interpreter import Interpreter
-from LineUp import lumodule
-from io import StringIO
+from LineUp.module import load_modules, decode_modules
 
-lumodule.load_modules("lumodule")
+if __name__ == "__main__":
+    load_modules("lumodule")
 
-data = lumodule.decode_modules()
-
-
-inter = Interpreter(data)
-inter.execute("script exemple/script-exemple.lup")
+    data = decode_modules()
+    inter = Interpreter(data)
+    inter.execute("script exemple/script-exemple.lup")

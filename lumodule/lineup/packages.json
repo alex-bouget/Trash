@@ -1,0 +1,17 @@
+{
+	"packages-id": {
+		"name": "LineUp",
+		"version": "1.0",
+		"interpreter-version": [
+			"py-1"
+		]
+	},
+	"packages-name": "lineup",
+	"py-files": {
+		"file": "lineup.py",
+		"class-name": [
+			"List",
+			"String"
+		]
+	}
+}
