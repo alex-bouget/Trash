@@ -1,0 +1,5 @@
+fleches bas = @t b
+fleches haut = @t h
+fleches gauche = @t g
+fleches droite = @t d
+espace @t esp
