@@ -5,14 +5,14 @@ class Line:
         self.decoded_line = self.decode_line()
 
     def get_sub_line(self):
-        entry_indices = [i for i, x in enumerate(self.line) if x == "("]
-        close_indices = [i for i, x in enumerate(self.line) if x == ")"]
+        entry_indices = [[i, x] for i, x in enumerate(self.line) if x == "(" or x == "{"]
+        close_indices = [[i, x] for i, x in enumerate(self.line) if x == ")" or x == "}"]
 
         finish = []
         for i in range(len(entry_indices)):
             finish.append(entry_indices[i])
             finish.append(close_indices[i])
-            if i != 0 and finish[-3] > finish[-2]:
+            if i != 0 and finish[-3][0] > finish[-2][0]:
                 del finish[-2]
                 del finish[-2]
         return finish
@@ -43,26 +43,27 @@ class Line:
             open_bracket = sub[2*i]
             close_bracket = sub[2*i+1]
             if i == 0:
-                for x in decode_space[0:self.line[0:open_bracket].count(" ")]:
+                for x in decode_space[0:self.line[0:open_bracket[0]].count(" ")]:
                     finish.append(x)
-                finish.append(Line(self.line[open_bracket+1:close_bracket]))
+                finish.append([0 if open_bracket[1] == "(" else 1,
+                               Line(self.line[open_bracket[0]+1:close_bracket[0]])])
             else:
                 close_last_bracket = sub[2*i-1]
-                for x in decode_space[close_last_bracket:self.line[close_last_bracket:open_bracket].count(" ")]:
+                for x in decode_space[close_last_bracket[0]:self.line[close_last_bracket[0]:open_bracket[0]].count(" ")]:
                     finish.append(x)
-                finish.append(Line(self.line[open_bracket+1:close_bracket]))
+                finish.append([0 if open_bracket[1] == "(" else 1,
+                               Line(self.line[open_bracket[0]+1:close_bracket[0]])])
         return finish
 
     def execute(self, global_variable, global_class):
         execution = []
-        is_instance_command = False
-        print(self.decoded_line)
         for i in self.decoded_line:
-            if isinstance(i, Line):
-                data = i.execute(global_variable, global_class)
-                if len(execution) == 0 and type(data) is str:
-                    is_instance_command = True
-                execution.append(data)
+            if isinstance(i, list):
+                if i[0] == 0:
+                    data = i[1].execute(global_variable, global_class)
+                    execution.append(data)
+                else:
+                    execution.append(i[1])
             else:
                 execution.append(i)
         try:
@@ -70,7 +71,4 @@ class Line:
                 return
         except IndexError:
             return
-        print(execution)
-        if is_instance_command:
-            return execution[0].load_command(*execution[1:])
         return global_variable[execution[0]].load_command(*execution[1:])

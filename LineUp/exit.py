@@ -1,6 +1,3 @@
-from .Interpreter.line import Line
-
-
 class Exit:
     def __init__(self, interpreter):
         self.interpreter = interpreter

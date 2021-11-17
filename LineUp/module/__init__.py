@@ -9,9 +9,9 @@ from ..version import modules_version
 module = ModuleSystem()
 
 
-def load_modules(module_folder):
-    for folder in os.listdir(module_folder):
-        if os.path.isdir(folder):
+def load_modules(module_folder, file):
+    for folder in json.load(open(file)):
+        if os.path.isdir(os.path.join(module_folder, folder)):
             mod = json.load(open(os.path.join(module_folder, folder, "packages.json")))
             module_can = False
             for i in mod["packages-id"]["interpreter-version"]:

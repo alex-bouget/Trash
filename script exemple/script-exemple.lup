@@ -10,7 +10,12 @@
 
 v str lineup-String
 v lister lineup-List
+v op lineup-Operation
+
 
 lister set "salutation francais"
+lister setnew (str fresh (lister get 0) (str count abx))
 
-e (str fresh (lister get 0) (str count abx)) display
+
+e lister display
+e op + 5 2
