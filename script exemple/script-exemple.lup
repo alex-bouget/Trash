@@ -10,12 +10,14 @@
 
 v str lineup-String
 v lister lineup-List
+v int lineup-Int
 v op lineup-Operation
-
+v co lineup-Condition
+v pr lineup-Process global
 
 lister set "salutation francais"
-lister setnew (str fresh (lister get 0) (str count abx))
+lister setnew (str fresh (lister get 0) 3)
 
 
-e lister display
-e op + 5 2
+e op + (int descript 5) (int descript 2)
+e pr if {co = (lister get 0) sal} {lister display} {str descript salut}

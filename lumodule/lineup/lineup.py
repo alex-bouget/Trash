@@ -28,7 +28,8 @@ class String(EasyVar):
             "get": self.get,
             "count": self.count,
             "linecut": self.linecut,
-            "fresh": self.fresh
+            "fresh": self.fresh,
+            "descript": self.descript
         }
 
     def count(self, p1=None):
@@ -45,15 +46,15 @@ class String(EasyVar):
 
 
 class Int(EasyVar):
-    def __init__(self, *args):
+    def __init__(self, args=0):
         super(Int, self).__init__(int)
-        self.value = int(args[0])
+        self.value = int(args)
 
 
 class Float(EasyVar):
-    def __init__(self, *args):
+    def __init__(self, args=0):
         super(Float, self).__init__(float)
-        self.value = float(args[0])
+        self.value = float(args)
 
 
 class Operation(Exec):
@@ -70,30 +71,71 @@ class Operation(Exec):
         }
 
     def plus(self, n1, n2):
-        return float(n1)+float(n2)
+        return n1 + n2
 
     def moins(self, n1, n2):
-        return float(n1)-float(n2)
+        return n1 - n2
 
     def multi(self, n1, n2):
-        return float(n1)*float(n2)
+        return n1 * n2
 
     def divide(self, n1, n2):
-        return float(n1)/float(n2)
+        return n1 / n2
 
     def dividei(self, n1, n2):
-        return float(n1)//float(n2)
+        return n1 // n2
 
     def exp(self, n1, n2):
-        return float(n1)**float(n2)
+        return n1 ** n2
 
     def modulo(self, n1, n2):
-        return float(n1) % float(n2)
+        return n1 % n2
 
 
 class Condition(Exec):
     def __init__(self):
         super(Condition, self).__init__()
+        self.command = {
+            "=": self.equal,
+            ">=": self.much_equal,
+            "<=": self.low_equal,
+            "!=": self.not_equal
+        }
+
+    def equal(self, n1, n2):
+        return n1 == n2
+
+    def much_equal(self, n1, n2):
+        return n1 >= n2
+
+    def low_equal(self, n1, n2):
+        return n1 <= n2
+
+    def not_equal(self, n1, n2):
+        return n1 != n2
+
+
+class Process(Exec):
+    def __init__(self, global_variable, global_class):
+        super(Process, self).__init__()
+        self.global_variable = global_variable
+        self.global_class = global_class
+        self.command = {
+            "if": self.if_pro,
+            "while": self.while_pro,
+        }
+
+    def if_pro(self, *args):
+        # {} {} {}
+        if args[0].execute(self.global_variable, self.global_class):
+            return args[1].execute(self.global_variable, self.global_class)
+        else:
+            if len(args) == 3:
+                return args[2].execute(self.global_variable, self.global_class)
+        return None
+
+    def while_pro(self, *arg):
+        print("no")
 
 
 class List(Exec):

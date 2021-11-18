@@ -53,6 +53,9 @@ class Line:
                     finish.append(x)
                 finish.append([0 if open_bracket[1] == "(" else 1,
                                Line(self.line[open_bracket[0]+1:close_bracket[0]])])
+            if i == (len(sub)//2)-1:
+                for x in decode_space[self.line[0:close_bracket[0]].count(" ")+1:self.line[0:-1].count(" ")+1]:
+                    finish.append(x)
         return finish
 
     def execute(self, global_variable, global_class):

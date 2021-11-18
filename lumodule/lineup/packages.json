@@ -14,7 +14,9 @@
 			"String",
 			"Int",
 			"Float",
-			"Operation"
+			"Operation",
+			"Condition",
+			"Process"
 		]
 	}
 }
