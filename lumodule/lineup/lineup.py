@@ -123,6 +123,7 @@ class Process(Exec):
         self.command = {
             "if": self.if_pro,
             "while": self.while_pro,
+            "multiple": self.multiple
         }
 
     def if_pro(self, *args):
@@ -133,6 +134,14 @@ class Process(Exec):
             if len(args) == 3:
                 return args[2].execute(self.global_variable, self.global_class)
         return None
+
+    def multiple(self, *args):
+        if isinstance(args[0], str):
+            data = []
+            for i in args[1].decoded_line:
+                data.append(i[1].execute(self.global_variable, self.global_class))
+            return data[int(args[0])]
+        return [i[1].execute(self.global_variable, self.global_class) for i in args[0].decoded_line]
 
     def while_pro(self, *arg):
         print("no")
@@ -159,7 +168,10 @@ class List(Exec):
         self.list.append(new)
 
     def setnew(self, new):
-        self.list = new.list
+        if isinstance(new, list):
+            self.list = new
+        else:
+            self.list = new.list
 
     def display(self):
         return "[" + ", ".join([str(i) for i in self.list]) + "]"

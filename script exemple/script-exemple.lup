@@ -1,23 +1,31 @@
-// LineUp root command:
-// v : adding a variable / ex: v name command_name
-// e : exit
+//
+LineUp root command:
+v : adding a variable / ex: v name command_name
+e : exit
 
-// LineUp root class command:
-// list
-// int
-// float
-// string
+LineUp root class command:
+list
+int
+float
+string
+;
 
-v str lineup-String
-v lister lineup-List
-v int lineup-Int
-v op lineup-Operation
-v co lineup-Condition
-v pr lineup-Process global
+v str lineup-String;
+v lister lineup-List;
+v int lineup-Int;
+v op lineup-Operation;
+v co lineup-Condition;
+v pr lineup-Process global;
 
-lister set "salutation francais"
-lister setnew (str fresh (lister get 0) 3)
+lister set "salutation francais";
+lister setnew (str fresh (lister get 0) 3);
 
 
-e op + (int descript 5) (int descript 2)
-e pr if {co = (lister get 0) sal} {lister display} {str descript salut}
+e pr if {co = (lister get 0) sal} {
+    pr multiple {
+        (lister display)
+        (str descript salut)
+    }
+} {
+    str descript salut
+};

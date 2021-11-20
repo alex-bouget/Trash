@@ -1,9 +1,5 @@
-from LineUp.Interpreter import Interpreter
-from LineUp.module import load_modules, decode_modules
+from LineUp import LineUp
 
 if __name__ == "__main__":
-    load_modules("lumodule", "lumodule/module.lum")
-
-    data = decode_modules()
-    inter = Interpreter(data)
-    inter.execute("script exemple/script-exemple.lup")
+    inter = LineUp(lum="lumodule/module.lum", m_dir="lumodule", e_type="return")
+    print(inter.execute("script exemple/script-exemple.lup"))

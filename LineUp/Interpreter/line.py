@@ -1,6 +1,6 @@
 class Line:
     def __init__(self, line):
-        self.line = line
+        self.line = self.clean_line(line)
         self.comment = False
         self.decoded_line = self.decode_line()
 
@@ -16,6 +16,9 @@ class Line:
                 del finish[-2]
                 del finish[-2]
         return finish
+
+    def clean_line(self, line):
+        return " ".join([i for i in line.split(" ") if i != ""])
 
     def decode_line(self):
         sub = self.get_sub_line()
