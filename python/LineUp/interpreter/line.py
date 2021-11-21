@@ -1,7 +1,6 @@
 class Line:
     def __init__(self, line):
         self.line = self.clean_line(line)
-        self.comment = False
         self.decoded_line = self.decode_line()
 
     def get_sub_line(self):

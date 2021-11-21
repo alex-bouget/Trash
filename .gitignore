@@ -1,2 +1,3 @@
 python/.idea/
 *__pycache__*
+/php/nbproject/private/
