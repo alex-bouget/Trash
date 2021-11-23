@@ -25,10 +25,13 @@ function load_module($module_folder, $file) {
             }
             if ($module_can) {
                 $module->add_module($mod["packages-name"]);
-                $data = eval('include("'.$module_folder."/".$folder."/".$mod["php-files"]["file"].'"); return $GLOBALS;');
-                var_dump($data["GLOBALS"]);
+                include($module_folder."/".$folder."/".$mod["php-files"]["file"]);
+                foreach (get_declared_classes() as $test) {
+                    
+                var_dump($test);
+                }
                 foreach ($mod["php-files"]["class-name"] as $class_name) {
-                    $module->add_class($mod["packages-name"], $class_name, $data["GLOBALS"][$class_name]);
+                    $module->add_class($mod["packages-name"], $class_name, $class_name);
                 }
             }
         }
