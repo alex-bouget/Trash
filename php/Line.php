@@ -125,6 +125,7 @@ class Line {
                 }
                 $finish[] = array($line_type, new Line(substr($this->line, $open_bracket[0]+1, $close_bracket[0]-(1+$open_bracket[0]))));
             }
+            
             if ($i == (count($sub)/2)-1) {
                 var_dump($decode_space);
                 foreach (
@@ -136,9 +137,9 @@ class Line {
                                                 $close_bracket[0]
                                                 ),
                                         " "
-                                        )-1
+                                        )-1,
+                                0
                                 ) as $value) {
-                echo "   ".$value."</br>";
                     $finish[] = $value;
                 }
             }
