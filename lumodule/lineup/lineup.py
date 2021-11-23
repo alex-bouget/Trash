@@ -13,7 +13,7 @@ class EasyVar(Exec):
         self.value = self.type(p1)
 
     def get(self):
-        return self.int
+        return self.value
 
     def descript(self, value):
         return self.type(value)

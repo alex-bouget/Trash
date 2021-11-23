@@ -56,12 +56,12 @@ class Line {
             if (count($splited_word) > 0) {
                 if ($splited_word[0] == "\"") {
                     $joined = true;
-                    $decode_space[] = join("", array_slice($splited[$i], 1));
+                    $decode_space[] = $splited[$i];
                     continue;
                 }
                 if ($splited_word[count($splited_word) - 1] == "\"") {
                     $joined = false;
-                    $data = array($decode_space[-1]);
+                    $data = array($decode_space[count($decode_space)-1]);
                     foreach (array_slice($splited_word, 0, count($splited_word) - 1) as $value) {
                         $data[] = $value;
                     }
@@ -151,7 +151,7 @@ class Line {
         foreach ($this->decoded_line as $value) {
             if (is_array($value)) {
                 if ($value[0] == 0) {
-                    $data = $value[1]->execute($global_variable, $global_class);
+                    $data = ($value[1])->execute($global_variable, $global_class);
                     $execution[] = $data;
                 } else {
                     $execution[] = $value[1];
@@ -166,7 +166,7 @@ class Line {
                     return;
                 }
             } else {
-                $global_variable[$execution[0]]->load_command($execution[1], array_splice($execution, 2));
+                return ($global_variable[$execution[0]])->load_command($execution[1], array_splice($execution, 2));
             }
         }
     }

@@ -20,7 +20,7 @@ class ExitUp {
             $com = $command_name->load_command($parameters[0], array_splice($parameters, 1));
         }
         if ($this->e_type == "print") {
-            print($com);
+            echo $com;
         } else {
             return array("/L_e*/", $com);
         }
