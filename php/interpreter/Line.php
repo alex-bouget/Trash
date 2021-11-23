@@ -29,8 +29,8 @@ class Line {
         for ($i = 0; $i < count($entry_indices); $i++) {
             $finish[] = $entry_indices[$i];
             $finish[] = $close_indices[$i];
-            if (($i != 0) && ($finish[count($finish)-3][0] > $finish[count($finish)-2][0])) {
-                array_splice($finish, count($finish)-3, 2);
+            if (($i != 0) && ($finish[count($finish) - 3][0] > $finish[count($finish) - 2][0])) {
+                array_splice($finish, count($finish) - 3, 2);
             }
         }
         return $finish;
@@ -59,7 +59,7 @@ class Line {
                     $decode_space[] = join("", array_slice($splited[$i], 1));
                     continue;
                 }
-                if ($splited_word[count($splited_word)-1] == "\"") {
+                if ($splited_word[count($splited_word) - 1] == "\"") {
                     $joined = false;
                     $data = array($decode_space[-1]);
                     foreach (array_slice($splited_word, 0, count($splited_word) - 1) as $value) {
@@ -80,66 +80,65 @@ class Line {
             return $decode_space;
         }
         $finish = array();
-        for ($i = 0; $i < count($sub)/2; $i++) {
-            $open_bracket = $sub[2*$i];
-            $close_bracket = $sub[2*$i+1];
+        for ($i = 0; $i < count($sub) / 2; $i++) {
+            $open_bracket = $sub[2 * $i];
+            $close_bracket = $sub[2 * $i + 1];
             if ($i == 0) {
                 foreach (
-                        array_splice($decode_space,
-                                0,
-                                substr_count(
-                                        substr(
-                                                $this->line,
-                                                0,
-                                                $open_bracket[0]
-                                                ),
-                                        " "
-                                        )
-                                ) as $value) {
+                array_splice($decode_space,
+                        0,
+                        substr_count(
+                                substr(
+                                        $this->line,
+                                        0,
+                                        $open_bracket[0]
+                                ),
+                                " "
+                        )
+                ) as $value) {
                     $finish[] = $value;
                 }
                 $line_type = 1;
                 if ($open_bracket[1] == "(") {
                     $line_type = 0;
                 }
-                $finish[] = array($line_type, new Line(substr($this->line, $open_bracket[0]+1, $close_bracket[0]-(1+$open_bracket[0]))));
+                $finish[] = array($line_type, new Line(substr($this->line, $open_bracket[0] + 1, $close_bracket[0] - (1 + $open_bracket[0]))));
             } else {
-                $close_last_bracket = $sub[2*$i-1];
+                $close_last_bracket = $sub[2 * $i - 1];
                 foreach (
-                        array_splice($decode_space,
-                                $close_last_bracket[0],
-                                substr_count(
-                                        substr(
-                                                $this->line,
-                                                $close_last_bracket[0],
-                                                $open_bracket[0]-$close_last_bracket[0]
-                                                ),
-                                        " "
-                                        )-1
-                                ) as $value) {
+                array_splice($decode_space,
+                        $close_last_bracket[0],
+                        substr_count(
+                                substr(
+                                        $this->line,
+                                        $close_last_bracket[0],
+                                        $open_bracket[0] - $close_last_bracket[0]
+                                ),
+                                " "
+                        ) - 1
+                ) as $value) {
                     $finish[] = $value;
                 }
                 $line_type = 1;
                 if ($open_bracket[1] == "(") {
                     $line_type = 0;
                 }
-                $finish[] = array($line_type, new Line(substr($this->line, $open_bracket[0]+1, $close_bracket[0]-(1+$open_bracket[0]))));
+                $finish[] = array($line_type, new Line(substr($this->line, $open_bracket[0] + 1, $close_bracket[0] - (1 + $open_bracket[0]))));
             }
-            
-            if ($i == (count($sub)/2)-1) {
-                var_dump($decode_space);
+
+            if ($i == (count($sub) / 2) - 1) {
                 foreach (
-                        array_splice($decode_space,
-                                substr_count(
-                                        substr(
-                                                $this->line,
-                                                0,
-                                                $close_bracket[0]
-                                                ),
-                                        " "
-                                        )-1,
-                                0
-                                ) as $value) {
+                array_splice($decode_space,
+                        substr_count(
+                                substr(
+                                        $this->line,
+                                        0,
+                                        $close_bracket[0]
+                                ),
+                                " "
+                        ) - 1,
+                        0
+                ) as $value) {
                     $finish[] = $value;
                 }
             }
@@ -147,9 +146,28 @@ class Line {
         return $finish;
     }
 
-    //put your code here
+    public function execute($global_variable, $global_class) {
+        $execution = array();
+        foreach ($this->decoded_line as $value) {
+            if (is_array($value)) {
+                if ($value[0] == 0) {
+                    $data = $value[1]->execute($global_variable, $global_class);
+                    $execution[] = $data;
+                } else {
+                    $execution[] = $value[1];
+                }
+            } else {
+                $execution[] = $value;
+            }
+        }
+        if (count($execution) > 0) {
+            if (is_string($execution[0])) {
+                if (substr($execution[0], 0, 2) == "//") {
+                    return;
+                }
+            } else {
+                $global_variable[$execution[0]]->load_command($execution[1], array_splice($execution, 2));
+            }
+        }
+    }
 }
-
-$test = new Line("e pr if {co = (lister get 0) sal} {pr multiple {(lister display) (str desceript saludt)}} {str descript salut}");
-
-echo json_encode($test->decoded_line);
