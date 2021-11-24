@@ -1,4 +1,9 @@
 <?php
 
-$data = eval('include("Version.php"); return $GLOBALS;');
+class Test {
+    public  $t;
+}
+
+$test = Test;
+$data = array($test);
 var_dump($data);

@@ -1,5 +1,3 @@
-e "p"
-
 //
 LineUp root command:
 v : adding a variable / ex: v name command_name
@@ -12,9 +10,9 @@ float
 string
 ;
 
+v int lineup-IntL;
 v str lineup-String;
 v lister lineup-List;
-v int lineup-Int;
 v op lineup-Operation;
 v co lineup-Condition;
 v pr lineup-Process global;

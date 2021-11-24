@@ -27,7 +27,7 @@ function load_module($module_folder, $file) {
                 $module->add_module($mod["packages-name"]);
                 include($module_folder."/".$folder."/".$mod["php-files"]["file"]);
                 foreach ($mod["php-files"]["class-name"] as $class_name) {
-                    $module->add_class($mod["packages-name"], $class_name, new $class_name);
+                    $module->add_class($mod["packages-name"], $class_name, new $class_name());
                 }
             }
         }
@@ -37,8 +37,8 @@ function load_module($module_folder, $file) {
 function decode_modules() {
     global $module;
     $data = array();
-    foreach ($module->module_name as $module_name => $module_data) {
-        foreach ($module_data->class_data as $class_name => $class_data) {
+    foreach ($module as $module_name => $module_data) {
+        foreach ($module_data as $class_name => $class_data) {
             $data[$module_name."-".$class_name] = $class_data;
         }
     } 

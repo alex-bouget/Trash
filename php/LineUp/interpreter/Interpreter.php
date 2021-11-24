@@ -14,8 +14,8 @@ class Interpreter {
     
     public function __construct($module, $e_string) {
         $this->global_variable = array(
-            new Variable($this),
-            new ExitUp($this, $e_string)
+            "v" => new Variable($this),
+            "e" => new ExitUp($this, $e_string)
         );
         $this->global_class = $module;
     }
@@ -26,7 +26,7 @@ class Interpreter {
     
     public function execute($file) {
         foreach (explode(";", file_get_contents($file)) as $value) {
-            $data = (new Line(implode(" ", explode("\n", $value))))->execute($this->global_variable, $this->global_class);
+            $data = (new Line(implode(" ", explode(PHP_EOL, $value))))->execute($this->global_variable, $this->global_class);
             if (is_array($data) && $data[0] == "/L_e*/") {
                 return $data[1];
             }

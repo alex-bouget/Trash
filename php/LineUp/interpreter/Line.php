@@ -53,7 +53,7 @@ class Line {
         $joined = false;
         for ($i = 0; $i < count($splited); $i++) {
             $splited_word = str_split($splited[$i]);
-            if (count($splited_word) > 0) {
+            if (count($splited_word) > 0 || $splited_word != '') {
                 if ($splited_word[0] == "\"") {
                     $joined = true;
                     $decode_space[] = $splited[$i];
@@ -69,8 +69,8 @@ class Line {
                     continue;
                 }
                 if ($joined) {
-                    $data = array($decode_space[-1]);
-                    $decode_space[-1] = join(" ", array_merge($data, $splited[$i]));
+                    $data = array($decode_space[count($decode_space)-1]);
+                    $decode_space[count($decode_space)-1] = join(" ", array_merge($data, explode(" ", $splited[$i])));
                     continue;
                 }
                 $decode_space[] = $splited[$i];
@@ -165,9 +165,8 @@ class Line {
                 if (substr($execution[0], 0, 2) == "//") {
                     return;
                 }
-            } else {
-                return ($global_variable[$execution[0]])->load_command($execution[1], array_splice($execution, 2));
             }
+            return ($global_variable[$execution[0]])->load_command($execution[1], array_splice($execution, 2));
         }
     }
 }

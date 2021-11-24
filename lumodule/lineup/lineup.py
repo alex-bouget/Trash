@@ -19,7 +19,7 @@ class EasyVar(Exec):
         return self.type(value)
 
 
-class String(EasyVar):
+class StringL(EasyVar):
     def __init__(self, *args):
         super(String, self).__init__(str)
         self.value = " ".join(args)
@@ -45,13 +45,13 @@ class String(EasyVar):
         return module.lineup.List(*[string[i:i+int(number)] for i in range(0, len(string), int(number))])
 
 
-class Int(EasyVar):
+class IntL(EasyVar):
     def __init__(self, args=0):
         super(Int, self).__init__(int)
         self.value = int(args)
 
 
-class Float(EasyVar):
+class FloatL(EasyVar):
     def __init__(self, args=0):
         super(Float, self).__init__(float)
         self.value = float(args)
@@ -147,7 +147,7 @@ class Process(Exec):
         print("no")
 
 
-class List(Exec):
+class ListL(Exec):
     def __init__(self, *args):
         super(List, self).__init__()
         self.list = [i for i in args]

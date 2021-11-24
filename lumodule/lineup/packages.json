@@ -11,10 +11,10 @@
     "py-files": {
         "file": "lineup.py",
         "class-name": [
-            "List",
-            "String",
-            "Int",
-            "Float",
+            "ListL",
+            "StringL",
+            "IntL",
+            "FloatL",
             "Operation",
             "Condition",
             "Process"
