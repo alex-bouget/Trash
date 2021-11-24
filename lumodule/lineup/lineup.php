@@ -3,40 +3,40 @@
 class EasyVar extends Execution {
     public $type;
     public $value;
+	public $command;
 
 
     public function __construct($typer) {
         parent::__construct();
         $this->type = $typer;
         $this->value = null;
+		var_dump($this);
         $this->command = array(
-            "set" => $this->set,
-            "get" => $this->get,
-            "descript" => $this->descript
+            "set" => function ($p1) {
+				$this->value = $this->type($p1[0]);
+			},
+            "get" => function () {
+				return $this->value;
+			},
+            "descript" => function ($value) {
+				return $this->type($value[0]);
+			}
         );
-    }
-    
-    public function set($p1) {
-        $this->value = $this->type($p1[0]);
-    }
-    
-    public function get() {
-        return $this->value;
-    }
-    public function descript($value) {
-        return $this->type($value[0]);
     }
 }
 
 class IntL extends EasyVar {
     public function __construct() {
-        parent::__construct(intval);
+        parent::__construct("intval");
     }
 }
 
 class FloatL extends EasyVar {
+	public $command;
+	
     public function __construct() {
-        parent::__construct(floatval);
+        parent::__construct("floatval");
+		$this->command = parent::command;
     }
 }
 

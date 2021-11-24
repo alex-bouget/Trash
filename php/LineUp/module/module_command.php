@@ -26,12 +26,8 @@ function load_module($module_folder, $file) {
             if ($module_can) {
                 $module->add_module($mod["packages-name"]);
                 include($module_folder."/".$folder."/".$mod["php-files"]["file"]);
-                foreach (get_declared_classes() as $test) {
-                    
-                var_dump($test);
-                }
                 foreach ($mod["php-files"]["class-name"] as $class_name) {
-                    $module->add_class($mod["packages-name"], $class_name, $class_name);
+                    $module->add_class($mod["packages-name"], $class_name, new $class_name);
                 }
             }
         }

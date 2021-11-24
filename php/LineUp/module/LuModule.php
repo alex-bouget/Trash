@@ -28,7 +28,7 @@ class ModuleSystem {
         $this->module_name = $this->$name;
     }
     
-    public function add_class($module_name, $class_name, $class_data) {
-        $this->module_name[$name].add_class($class_name, $class_data);
+    public function add_class($name, $class_name, $class_data) {
+        $this->$name->add_class($class_name, $class_data);
     }
 }
