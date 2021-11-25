@@ -56,21 +56,20 @@ class Line {
             if (count($splited_word) > 0 || $splited_word != '') {
                 if ($splited_word[0] == "\"") {
                     $joined = true;
-                    $decode_space[] = $splited[$i];
+                    $decode_space[] = implode("", array_splice($splited_word, 1));
                     continue;
                 }
                 if ($splited_word[count($splited_word) - 1] == "\"") {
                     $joined = false;
                     $data = array($decode_space[count($decode_space)-1]);
-                    foreach (array_slice($splited_word, 0, count($splited_word) - 1) as $value) {
-                        $data[] = $value;
-                    }
-                    $decode_space[-1] = join(" ", $data);
+                    $decode_space[count($decode_space)-1] = join(" ",
+                            array_merge($data,
+                                    array(implode("", array_slice($splited_word, 0, count($splited_word)-1)))));
                     continue;
                 }
                 if ($joined) {
                     $data = array($decode_space[count($decode_space)-1]);
-                    $decode_space[count($decode_space)-1] = join(" ", array_merge($data, explode(" ", $splited[$i])));
+                    $decode_space[count($decode_space)-1] = join(" ", array_merge($data, array($splited[$i])));
                     continue;
                 }
                 $decode_space[] = $splited[$i];
@@ -151,7 +150,7 @@ class Line {
         foreach ($this->decoded_line as $value) {
             if (is_array($value)) {
                 if ($value[0] == 0) {
-                    $data = ($value[1])->execute($global_variable, $global_class);
+                    $data = $value[1]->execute($global_variable, $global_class);
                     $execution[] = $data;
                 } else {
                     $execution[] = $value[1];
@@ -166,7 +165,9 @@ class Line {
                     return;
                 }
             }
-            return ($global_variable[$execution[0]])->load_command($execution[1], array_splice($execution, 2));
+            var_dump($execution);
+            $ex = array_splice($execution, 2);
+            return ($global_variable[$execution[0]])->load_command($execution[1], $ex);
         }
     }
 }

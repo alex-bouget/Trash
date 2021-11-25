@@ -23,8 +23,12 @@
     "php-files": {
         "file": "lineup.php",
         "class-name": [
+			"ListL",
             "IntL",
-            "FloatL"
+            "FloatL",
+			"StringL",
+			"Operation",
+			"Condition"
         ]
     }
 }

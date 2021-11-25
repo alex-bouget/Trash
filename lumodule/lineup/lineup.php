@@ -10,6 +10,14 @@ class EasyVar extends Execution {
         $this->type = $typer;
         $this->value = null;
     }
+	
+	public function set($parameters) {
+		return $this->value;
+	}
+	
+	public function get($parameters) {
+		$this->value = $this->type($parameters[0]);
+	}
 }
 
 class IntL extends EasyVar {
@@ -44,67 +52,97 @@ class StringL extends EasyVar {
 	
 	public function fresh($parameters) {
 		global $module;
-		return $module->lineup->ListL(str_split($parameters[0], $parameters[1]));
+		var_dump($parameters);
+		return new $module->lineup->ListL(str_split($parameters[0], $parameters[1]));
 	}
 }
 
+class Operation extends Execution {
+	public function __construct() {
+		parent::__construct();
+	}
+	
+	public function plus($parameters) {
+		return $parameters[0] + $parameters[1];
+	}
+	
+	public function minus($parameters) {
+		return $parameters[0] - $parameters[1];
+	}
+	
+	public function multi($parameters) {
+		return $parameters[0] * $parameters[1];
+	}
+	
+	public function divide($parameters) {
+		return $parameters[0] / $parameters[1];
+	}
+	
+	public function divideFloat($parameters) {
+		return floatval($parameters[0]) / $parameters[1];
+	}
+	
+	public function exp($parameters) {
+		return $parameters[0] ** $parameters[1];
+	}
+	
+	public function modulo($parameters) {
+		return $parameters[0] % $parameters[1];
+	}
+}
+
+class Condition extends Execution {
+	public function __construct() {
+		parent::__construct();
+	}
+	
+	public function equal($parameters) {
+		return ($parameters[0] == $parameters[1]);
+	}
+	
+	public function Iequal($parameters) {
+		return ($parameters[0] >= $parameters[1]);
+	}
+	
+	public function equalI($parameters) {
+		return ($parameters[0] <= $parameters[1]);
+	}
+	
+	public function Nequal($parameters) {
+		return ($parameters[0] != $parameters[1]);
+	}
+}
+
+class ListL extends Execution {	
+	public $listing;
+	
+	public function __construct() {
+		parent::__construct();
+		$this->listing = array();
+	}
+	
+	public function get($parameters) {
+		if (isset($parameters[1])) {
+			return $parameters[1]->get(array($parameters[0]));
+		} else {
+			return $this->listing[$parameters[0]];
+		}
+	}
+	
+	public function set($parameters) {
+		$this->listing[] = $parameters[0];
+	}
+	
+	public function setnew($parameters) {
+		return;
+	}
+	
+	public function display($parameters) {
+        return "[".implode(", ", $this->listing)."]";
+		
+	} 
+}
 /*
-class Operation(Exec):
-    def __init__(self):
-        super(Operation, self).__init__()
-        self.command = {
-            "+": self.plus,
-            "-": self.moins,
-            "*": self.multi,
-            "/": self.divide,
-            "//": self.dividei,
-            "**": self.exp,
-            "%": self.modulo
-        }
-
-    def plus(self, n1, n2):
-        return n1 + n2
-
-    def moins(self, n1, n2):
-        return n1 - n2
-
-    def multi(self, n1, n2):
-        return n1 * n2
-
-    def divide(self, n1, n2):
-        return n1 / n2
-
-    def dividei(self, n1, n2):
-        return n1 // n2
-
-    def exp(self, n1, n2):
-        return n1 ** n2
-
-    def modulo(self, n1, n2):
-        return n1 % n2
-
-
-class Condition(Exec):
-    def __init__(self):
-        super(Condition, self).__init__()
-        self.command = {
-            "=": self.equal,
-            ">=": self.much_equal,
-            "<=": self.low_equal,
-            "!=": self.not_equal
-        }
-
-    def equal(self, n1, n2):
-        return n1 == n2
-
-    def much_equal(self, n1, n2):
-        return n1 >= n2
-
-    def low_equal(self, n1, n2):
-        return n1 <= n2
-
-    def not_equal(self, n1, n2):
-        return n1 != n2
 
 
 class Process(Exec):
@@ -139,32 +177,9 @@ class Process(Exec):
         print("no")
 
 
-class ListL(Exec):
-    def __init__(self, *args):
-        super(List, self).__init__()
-        self.list = [i for i in args]
-        self.command = {
-            "get": self.get,
-            "set": self.set,
-            "setnew": self.setnew,
-            "display": self.display
-        }
-
-    def get(self, index, lister=None):
-        if lister is None:
-            return self.list[int(index)]
-        else:
-            return lister.get(index)
-
-    def set(self, new):
-        self.list.append(new)
-
     def setnew(self, new):
         if isinstance(new, list):
             self.list = new
         else:
             self.list = new.list
-
-    def display(self):
-        return "[" + ", ".join([str(i) for i in self.list]) + "]"
 		*/

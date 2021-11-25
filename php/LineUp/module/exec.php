@@ -11,6 +11,6 @@ class Execution {
     }
     
     public function load_command($command_name, $parameters) {
-        $this->$command_name($parameters);
+        return $this->$command_name($parameters);
     }
 }
