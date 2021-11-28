@@ -18,6 +18,11 @@ class EasyVar extends Execution {
 	public function get($parameters) {
 		$this->value = $this->type($parameters[0]);
 	}
+	
+	public function descript($parameters) {
+		$data = $this->type;
+		return $data($parameters[0]);
+	}
 }
 
 class IntL extends EasyVar {
@@ -52,7 +57,6 @@ class StringL extends EasyVar {
 	
 	public function fresh($parameters) {
 		global $module;
-		var_dump($parameters);
 		return new $module->lineup->ListL(str_split($parameters[0], $parameters[1]));
 	}
 }
@@ -136,34 +140,58 @@ class ListL extends Execution {
 	public function setnew($parameters) {
 		return;
 	}
+	/*
+	def setnew(self, new):
+        if isinstance(new, list):
+            self.list = new
+        else:
+            self.list = new.list
+			*/
 	
 	public function display($parameters) {
         return "[".implode(", ", $this->listing)."]";
 		
 	} 
 }
+
+
+class Process extends Execution {
+	public $global_variable;
+	public $global_class;
+	
+	public function __construct(&$global_variable, &$global_class) {
+		$this->global_variable = &$global_variable;
+		$this->global_class = &$global_class;
+	}
+	
+	public function if($parameters) {
+		if ($parameters[0]->execute($this->global_variable, $this->global_class)) {
+			return $parameters[1]->execute($this->global_variable, $this->global_class);
+		} else {
+			if (count($parameters) == 3) {
+				return $parameters[2]->execute($this->global_variable, $this->global_class);
+			}
+		}
+		return null;
+	}
+	
+	public function multiple($parameters) {
+		$data = array();
+		if (is_string($parameters[0])) {
+			$t = null;
+			foreach ($parameters[1]->decoded_line as $value) {
+				$data[] = $value[1]->execute($this->global_variable, $this->global_class);
+			}
+			return $data[$t];
+		}
+		foreach ($parameters[0]->decoded_line as $value) {
+			$data[] = $value[1]->execute($this->global_variable, $this->global_class);
+		}
+		return $data;
+	}
+}
+
 /*
-
-
-class Process(Exec):
-    def __init__(self, global_variable, global_class):
-        super(Process, self).__init__()
-        self.global_variable = global_variable
-        self.global_class = global_class
-        self.command = {
-            "if": self.if_pro,
-            "while": self.while_pro,
-            "multiple": self.multiple
-        }
-
-    def if_pro(self, *args):
-        # {} {} {}
-        if args[0].execute(self.global_variable, self.global_class):
-            return args[1].execute(self.global_variable, self.global_class)
-        else:
-            if len(args) == 3:
-                return args[2].execute(self.global_variable, self.global_class)
-        return None
 
     def multiple(self, *args):
         if isinstance(args[0], str):
@@ -177,9 +205,5 @@ class Process(Exec):
         print("no")
 
 
-    def setnew(self, new):
-        if isinstance(new, list):
-            self.list = new
-        else:
-            self.list = new.list
+    
 		*/

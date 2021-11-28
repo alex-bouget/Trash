@@ -28,7 +28,8 @@
             "FloatL",
 			"StringL",
 			"Operation",
-			"Condition"
+			"Condition",
+			"Process"
         ]
     }
 }

@@ -53,7 +53,7 @@ class Line {
         $joined = false;
         for ($i = 0; $i < count($splited); $i++) {
             $splited_word = str_split($splited[$i]);
-            if (count($splited_word) > 0 || $splited_word != '') {
+            if ((count($splited_word) > 0) && ($splited[$i] != '')) {
                 if ($splited_word[0] == "\"") {
                     $joined = true;
                     $decode_space[] = implode("", array_splice($splited_word, 1));
@@ -127,7 +127,7 @@ class Line {
 
             if ($i == (count($sub) / 2) - 1) {
                 foreach (
-                array_splice($decode_space,
+                array_slice($splited,
                         substr_count(
                                 substr(
                                         $this->line,
@@ -135,8 +135,7 @@ class Line {
                                         $close_bracket[0]
                                 ),
                                 " "
-                        ) - 1,
-                        0
+                        ) +1
                 ) as $value) {
                     $finish[] = $value;
                 }
@@ -165,7 +164,6 @@ class Line {
                     return;
                 }
             }
-            var_dump($execution);
             $ex = array_splice($execution, 2);
             return ($global_variable[$execution[0]])->load_command($execution[1], $ex);
         }

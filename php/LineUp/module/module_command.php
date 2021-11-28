@@ -27,7 +27,12 @@ function load_module($module_folder, $file) {
                 $module->add_module($mod["packages-name"]);
                 include($module_folder."/".$folder."/".$mod["php-files"]["file"]);
                 foreach ($mod["php-files"]["class-name"] as $class_name) {
-                    $module->add_class($mod["packages-name"], $class_name, new $class_name());
+                    try {
+                        $module->add_class($mod["packages-name"], $class_name, new $class_name());
+                    } catch (ArgumentCountError  $e) {
+                        $f = array();
+                        $module->add_class($mod["packages-name"], $class_name, new $class_name($f, $f));
+                    }
                 }
             }
         }
