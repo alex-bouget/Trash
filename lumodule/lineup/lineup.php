@@ -57,7 +57,9 @@ class StringL extends EasyVar {
 	
 	public function fresh($parameters) {
 		global $module;
-		return new $module->lineup->ListL(str_split($parameters[0], $parameters[1]));
+		$data = new $module->lineup->ListL();
+		$data->listing = str_split($parameters[0], $parameters[1]);
+		return $data;
 	}
 }
 
@@ -138,7 +140,11 @@ class ListL extends Execution {
 	}
 	
 	public function setnew($parameters) {
-		return;
+		if (is_array($parameters[0])) {
+			$this->listing = $parameters[0];
+		} else {
+			$this->listing = $parameters[0]->listing;
+		}
 	}
 	/*
 	def setnew(self, new):

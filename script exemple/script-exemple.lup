@@ -20,8 +20,6 @@ v pr lineup-Process global;
 lister set "salutation francais";
 lister setnew (str fresh (lister get 0) 3);
 
-e lister get 0;
-
 e pr if {co equal (lister get 0) sal} {
     pr multiple {
         (lister display)
