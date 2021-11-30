@@ -21,7 +21,7 @@ class EasyVar(Exec):
 
 class StringL(EasyVar):
     def __init__(self, *args):
-        super(String, self).__init__(str)
+        super(StringL, self).__init__(str)
         self.value = " ".join(args)
         self.command = {
             "set": self.set,
@@ -42,38 +42,29 @@ class StringL(EasyVar):
         return module.linup.List(*p1.split("\n"))
 
     def fresh(self, string, number):
-        return module.lineup.List(*[string[i:i+int(number)] for i in range(0, len(string), int(number))])
+        return module.lineup.ListL(*[string[i:i+int(number)] for i in range(0, len(string), int(number))])
 
 
 class IntL(EasyVar):
     def __init__(self, args=0):
-        super(Int, self).__init__(int)
+        super(IntL, self).__init__(int)
         self.value = int(args)
 
 
 class FloatL(EasyVar):
     def __init__(self, args=0):
-        super(Float, self).__init__(float)
+        super(FloatL, self).__init__(float)
         self.value = float(args)
 
 
 class Operation(Exec):
     def __init__(self):
         super(Operation, self).__init__()
-        self.command = {
-            "+": self.plus,
-            "-": self.moins,
-            "*": self.multi,
-            "/": self.divide,
-            "//": self.dividei,
-            "**": self.exp,
-            "%": self.modulo
-        }
 
     def plus(self, n1, n2):
         return n1 + n2
 
-    def moins(self, n1, n2):
+    def minus(self, n1, n2):
         return n1 - n2
 
     def multi(self, n1, n2):
@@ -82,7 +73,7 @@ class Operation(Exec):
     def divide(self, n1, n2):
         return n1 / n2
 
-    def dividei(self, n1, n2):
+    def divideFloat(self, n1, n2):
         return n1 // n2
 
     def exp(self, n1, n2):
@@ -95,23 +86,17 @@ class Operation(Exec):
 class Condition(Exec):
     def __init__(self):
         super(Condition, self).__init__()
-        self.command = {
-            "=": self.equal,
-            ">=": self.much_equal,
-            "<=": self.low_equal,
-            "!=": self.not_equal
-        }
 
     def equal(self, n1, n2):
         return n1 == n2
 
-    def much_equal(self, n1, n2):
+    def Iequal(self, n1, n2):
         return n1 >= n2
 
-    def low_equal(self, n1, n2):
+    def equalI(self, n1, n2):
         return n1 <= n2
 
-    def not_equal(self, n1, n2):
+    def Nequal(self, n1, n2):
         return n1 != n2
 
 
@@ -120,13 +105,8 @@ class Process(Exec):
         super(Process, self).__init__()
         self.global_variable = global_variable
         self.global_class = global_class
-        self.command = {
-            "if": self.if_pro,
-            "while": self.while_pro,
-            "multiple": self.multiple
-        }
 
-    def if_pro(self, *args):
+    def when(self, *args):
         # {} {} {}
         if args[0].execute(self.global_variable, self.global_class):
             return args[1].execute(self.global_variable, self.global_class)
@@ -149,14 +129,8 @@ class Process(Exec):
 
 class ListL(Exec):
     def __init__(self, *args):
-        super(List, self).__init__()
+        super(ListL, self).__init__()
         self.list = [i for i in args]
-        self.command = {
-            "get": self.get,
-            "set": self.set,
-            "setnew": self.setnew,
-            "display": self.display
-        }
 
     def get(self, index, lister=None):
         if lister is None:

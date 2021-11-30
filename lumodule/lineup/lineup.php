@@ -170,7 +170,7 @@ class Process extends Execution {
 		$this->global_class = &$global_class;
 	}
 	
-	public function if($parameters) {
+	public function when($parameters) {
 		if ($parameters[0]->execute($this->global_variable, $this->global_class)) {
 			return $parameters[1]->execute($this->global_variable, $this->global_class);
 		} else {
