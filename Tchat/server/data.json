@@ -1,0 +1,101 @@
+{
+    "Account_API": {
+        "ask": {
+            "accounts": "True"
+        },
+        "php": "accounts.php",
+        "name_function": "accounts",
+        "create_accounts": {
+            "value": [
+                "ide",
+                "passw",
+                "name"
+            ],
+            "ask": {
+                "create": "True"
+            },
+            "php_function": "acc_create_accounts",
+            "python_return": "self.token=get['token']"
+        },
+        "connect_accounts": {
+            "value": [
+                "ide",
+                "passw"
+            ],
+            "ask": {
+                "create": "False"
+            },
+            "php_function": "acc_connect_accounts",
+            "python_return": "self.token=get['token']"
+        },
+        "get_all_name": {
+            "ask": {
+                "get": "True",
+                "name": "all"
+            },
+            "php_function": "acc_all_name",
+            "python_return": "return get['data']"
+        }
+    },
+    "Group_API": {
+        "ask": {
+            "group": "True"
+        },
+        "php": "group.php",
+        "name_function": "group",
+        "create_group": {
+            "value": [
+                "group_name"
+            ],
+            "ask": {
+                "create": "True"
+            },
+            "php_function": "gro_create_group",
+            "python_return": "if get['sending'] != 'check': raise OSError('get not check')"
+        },
+        "add_name_in_group": {
+            "value": [
+                "name",
+                "group_name"
+            ],
+            "ask": {
+                "create": "False"
+            },
+            "php_function": "gro_add_group",
+            "python_return": "if get['sending'] != 'check': raise OSError('get not check')"
+        },
+        "send_to": {
+            "value": [
+                "token",
+                "group_name",
+                "msg"
+            ],
+            "ask": {
+                "get": "False"
+            },
+            "php_function": "gro_send_in_group",
+            "python_return": "if get['sending'] != 'check': raise OSError('get not check')"
+        },
+        "get_group": {
+            "value": [
+                "token"
+            ],
+            "ask": {
+                "get_group": "True"
+            },
+            "php_function": "gro_get_account",
+            "python_return": "return get['data']"
+        },
+        "get": {
+            "value": [
+                "group_name",
+                "lastn"
+            ],
+            "ask": {
+                "get": "True"
+            },
+            "php_function": "gro_get_in_group",
+            "python_return": "return get['data']"
+        }
+    }
+}
