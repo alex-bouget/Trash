@@ -1,0 +1,233 @@
+{
+	"artic": {
+		"data": {
+			"humidity": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0,
+				"maximum": 0.4
+			},
+			"colors": {
+				"R": 255,
+				"G": 122,
+				"B": 229
+			}
+		}
+	},
+	"steppe": {
+		"data": {
+			"humidity": {
+				"minimum": 0,
+				"maximum": 0.2
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.4,
+				"maximum": 0.65
+			},
+			"colors": {
+				"R": 122,
+				"G": 255,
+				"B": 176
+			}
+		}
+	},
+	"swamp": {
+		"data": {
+			"humidity": {
+				"minimum": 0.65,
+				"maximum": 1
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.4,
+				"maximum": 0.65
+			},
+			"colors": {
+				"R": 0,
+				"G": 0,
+				"B": 86
+			}
+		}
+	},
+	"forest": {
+		"data": {
+			"humidity": {
+				"minimum": 0.5,
+				"maximum": 0.65
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.4,
+				"maximum": 0.65
+			},
+			"colors": {
+				"R": 3,
+				"G": 182,
+				"B": 63
+			}
+		}
+	},
+	"plains": {
+		"data": {
+			"humidity": {
+				"minimum": 0.2,
+				"maximum": 0.5
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.4,
+				"maximum": 0.65
+			},
+			"colors": {
+				"R": 73,
+				"G": 255,
+				"B":0
+			}
+		}
+	},
+	"jungle": {
+		"data": {
+			"humidity": {
+				"minimum": 0.8,
+				"maximum": 1
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.65,
+				"maximum": 1
+			},
+			"colors": {
+				"R": 129,
+				"G": 203,
+				"B":0
+			}
+		}
+	},
+	"desert": {
+		"data": {
+			"humidity": {
+				"minimum": 0,
+				"maximum": 0.4
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.65,
+				"maximum": 1
+			},
+			"colors": {
+				"R": 205,
+				"G": 205,
+				"B": 0
+			}
+		}
+	},
+	"savanna": {
+		"data": {
+			"humidity": {
+				"minimum": 0.4,
+				"maximum": 0.8
+			},
+			"latitude": {
+				"minimum": 0.33,
+				"maximum": 0.7
+			},
+			"temperature": {
+				"minimum": 0.65,
+				"maximum": 1
+			},
+			"colors": {
+				"R": 0,
+				"G": 86,
+				"B": 0
+			}
+		}
+	},
+	"ocean": {
+		"data": {
+			"humidity": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"latitude": {
+				"minimum": 0,
+				"maximum": 0.3
+			},
+			"temperature": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"colors": {
+				"R": 0,
+				"G": 0,
+				"B": 255
+			}
+		}
+	},
+	"beach": {
+		"data": {
+			"humidity": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"latitude": {
+				"minimum": 0.3,
+				"maximum": 0.33
+			},
+			"temperature": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"colors": {
+				"R": 255,
+				"G": 255,
+				"B": 0
+			}
+		}
+	},
+	"mountains": {
+		"data": {
+			"humidity": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"latitude": {
+				"minimum": 0.7,
+				"maximum": 1
+			},
+			"temperature": {
+				"minimum": 0,
+				"maximum": 1
+			},
+			"colors": {
+				"R": 44,
+				"G": 44,
+				"B": 14
+			}
+		}
+	}
+}

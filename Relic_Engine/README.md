@@ -23,3 +23,7 @@ The two loader can compile Scripts, It take the Relic_Engine class and all code 
 ### The Scripts
 
 The scripts is a file who contains the code who will be injected in the Relic_Engine **class**
+
+## Others
+
+In his dir they have also *Survival*, a procedural generation test
