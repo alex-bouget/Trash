@@ -1,0 +1,63 @@
+LAUNCHER :
+
+::#compte
+::Window "Launcher/compte" 500 500
+::Button "conn" "connexion a un compte" 0 300 500 200
+::Button "create" "Creer un compte" 0 0 500 200
+::#EndGui
+
+::#comptecre
+::Window "launcher/création" 500 500
+::Button "creterminer" "terminer la création du compte" 10 10 300 50
+::Text "mots de passe" 10 385 100 15
+::Text "name in game" 10 285 100 15
+::Edit "pass" "mots de passe" 0 400 500 15
+::Text "adresse mail" 10 185 50 15
+::Text "prénom" 10 85 50 15
+::Edit "naig" "name in game" 0 300 500 15
+::Edit "mail" "adresse mail" 0 200 500 15
+::Edit "name" "prénom" 0 100 500 15
+::#EndGui
+
+::#comptecon
+::Window "Launcher/connexion" 500 500
+::Edit "mdp" "mots de passe" 10 300 100 15
+::Edit "mail" "adresse mail" 10 200 100 15
+::Edit "naig" "name in game" 10 100 100 15
+::Button "connexion" "connexion" 10 10 490 50
+::Text "mots de passe" 10 289 100 15
+::Text "adresse" 10 189 100 15
+::Text "nom in game" 10 89 100 15
+::#EndGui
+
+::#launcher
+::Window "launcher" 500 500
+::Button "quit" "QUITTER" 5 330 490 150
+::Button "options" "OPTIONS" 5 170 490 150
+::Button "play" "JOUER" 5 10 490 150
+::#EndGui
+
+::#options
+::Window "launcher/options" 500 500
+::Button "ret" "retour" 5 310 490 150
+::Button "decco" "deconnexion" 5 160 490 150
+::Button "supcompte" "supprimer le compte" 5 10 490 150
+::#EndGui
+
+::#play
+::Window "launcher/play" 500 500
+::Button "scratch" "scratch" 5 5 95 95
+::Button "advgame" "adventure game" 5 100 95 95
+::Button "ret" "retour" 5 400 95 95
+::#EndGui
+
+::#gestionnaire
+::Window "launcher/gestionnaire de jeu" 500 500
+::Button "ret" "Retour" 250 350 245 150
+::Button "des" "Desinstaller" 5 350 245 150
+::Button "maj" "tester les mise a jour" 5 200 490 150
+::Button "jouer" "Jouer" 5 50 490 150
+::Text "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------" 0 30 500 15
+::Text "                                                               Gestionaire de jeu" 0 15 500 15
+::Text "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------" 0 0 500 15
+::#EndGui

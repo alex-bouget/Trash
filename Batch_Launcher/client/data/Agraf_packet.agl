@@ -1,0 +1,8 @@
+NEWLOAD :
+
+::#load
+::Window "launcher/load" 500 210
+::Button "cont" "continuer" 250 50 245 150
+::Button "install" "installer la nouvelle version" 5 50 245 150
+::Text "Votre version : %launchload%. Nouvelle version : %new%" 5 5 500 15
+::#EndGui

@@ -1,0 +1,14 @@
+::#L1
+::Window "Scratch Launcher" 500 500
+::Button "play" "play" 250 250 245 240
+::Button "install_game" "installer un jeu" 5 250 240 240
+::Button "Scratch_engine" "Moteur Scratch" 5 5 490 240
+::#EndGui
+
+::#ENGINE
+::Window "Scratch Launcher/ENGINE" 500 500
+::Button "majengine" "mettre a jour Scratch Engine" 5 150 490 250
+::Text "                                                                     %Vengine%" 5 100 490 60
+::Text "Version du moteur :" 200 60 100 15
+::Button "ret" "Retour" 5 5 490 50
+::#EndGui
