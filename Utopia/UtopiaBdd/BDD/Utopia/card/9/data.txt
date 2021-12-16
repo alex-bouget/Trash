@@ -1,0 +1,5 @@
+0
+0
+3
+self.ulife(6) if self.mylife() <= 3 else self.elife(3)
+O

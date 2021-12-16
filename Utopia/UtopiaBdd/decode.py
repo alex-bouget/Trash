@@ -1,0 +1,4 @@
+import codec
+mdp = "l9gpfor4sv5bfor4dbu5for4pmdsfor4dfjkfor49r8bfor468qefor49g4tfor46dthfor4gv6kfor4sv5bl9gpfor4sv5bsv5bfor4sv5bdbu5for4sv5bpmdsfor4sv5bdfjkfor4sv5b9r8bfor4sv5b68qefor4sv5b9g4tfor4sv5b6dthfor4sv5bgv6kfor4dbu5l9gpfor4dbu5sv5bfor4dbu5dbu5"
+print(len(codec.decode(mdp).split("/")))
+print(codec.decode(mdp))

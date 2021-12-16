@@ -1,0 +1,5 @@
+0
+0
+4
+[self.more_att(i, 1) for i in range(len(self.nb)) if str(self.nb[i]) == '5']
+O

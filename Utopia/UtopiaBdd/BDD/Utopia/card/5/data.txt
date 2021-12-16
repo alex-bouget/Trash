@@ -1,0 +1,5 @@
+3
+3
+4
+for mister in self.defs: self.ulife(mister)
+L

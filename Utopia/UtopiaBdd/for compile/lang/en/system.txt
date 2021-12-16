@@ -1,0 +1,45 @@
+en
+New deck
+Return
+Save
+ Already exists
+do you want to replace it?
+Create a deck
+Impossible opening
+This deck will could be open because
+they are a bug or you haven't a card
+in this deck
+Your life: 
+Enemy life: 
+Your eclat: 
+Enemy eclat: 
+Put ip here
+Put port here
+connecting to server
+version not equal
+This player is not in
+your version
+You can't draw
+Your Main Phase
+Main Phase Enemy
+You have played 
+Enemy played 
+Your Battle Phase
+Battle Phase Enemy
+Your Defense Phase
+Defense Phase Enemy
+ attack you !!!
+ attack !!!
+You have won 
+ Dolpes
+music
+noise
+Play
+Deck
+Booster
+Settings
+Destroy Phase
+You lost
+You have won
+you win a 
+ booster

@@ -1,0 +1,35 @@
+play_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"play.png", headers={'User-Agent': 'Mozilla/5.0'}))).resize((50, 50)))
+deck_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"deck.png", headers={'User-Agent': 'Mozilla/5.0'}))).resize((50, 50)))
+booster_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"booster.png", headers={'User-Agent': 'Mozilla/5.0'}))).resize((50, 50)))
+setting_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"set.png", headers={'User-Agent': 'Mozilla/5.0'}))).resize((50, 50)))
+background_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"back.jpg", headers={'User-Agent': 'Mozilla/5.0'}))).resize((deck.TK_x, deck.TK_y)))
+menu_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"bk.jpg", headers={'User-Agent': 'Mozilla/5.0'}))))
+news_photo = deck.ImageTk.PhotoImage(deck.Image.open(deck.serv.urlopen(deck.serv.Request(deck.server+"news.jpg", headers={'User-Agent': 'Mozilla/5.0'}))).resize((400, 500)))
+
+deck.Label(sa, image=background_photo).place(x=0, y=0)
+
+menu = deck.Canvas(sa)
+menu.place(x=deck.TK_x*0.81,y=0)
+
+menu_back = deck.Label(menu, image=menu_photo)
+menu_back.place(x=0, y=0)
+
+play_button = deck.Button(menu, image=play_photo, command=play)
+play_button.place(x=60,y=0)
+Label(menu, text=deck.lang[36]).place(x=10, y=25)
+deck_button = deck.Button(menu, image=deck_photo, command=crea)
+deck_button.place(x=60,y=60)
+Label(menu, text=deck.lang[37]).place(x=10,y=85)
+booster_button = deck.Button(menu, image=booster_photo, command=booster_op)
+booster_button.place(x=60, y=120)
+Label(menu, text=deck.lang[38]).place(x=10,y=145)
+setting_button = deck.Button(menu, image=setting_photo, command=options)
+setting_button.place(x=60, y=180)
+Label(menu, text=deck.lang[39]).place(x=10, y=205)
+
+deck.Label(sa, text="NEWS").place(x=deck.TK_x*0.42,y=deck.TK_y*0.0625)
+
+news = deck.Canvas(sa)
+news.place(x=deck.TK_x*0.27, y=deck.TK_y*0.11)
+
+deck.Label(news, image=news_photo).place(x=0, y=0)

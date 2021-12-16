@@ -1,0 +1,5 @@
+0
+0
+3
+self.elife(int(5+self.nb.count("4")))
+O

@@ -1,0 +1,57 @@
+fr
+Nouveau deck
+, att/def: 
+ carte ennemi
+Votre vie: 
+Vie de L'ennemi: 
+Vos Eclat: 
+Eclat ennemi: 
+suivant
+ajouter cette carte
+enlever cette carte
+Sauvegarder le deck
+Creer Un deck
+Changer Un deck
+retour
+musique
+bruit
+Jouer
+Deck
+Mode Hors Ligne
+Mettez l'adresse ip de l'hote
+Mettez le port de l'hote
+        se connecter         
+Board de l'Ennemi
+Votre Board
+Vous ne pouvez plus pioche
+Votre Phase Principale
+Jouez cette carte
+Phase Principale Ennemi
+Votre Phase D'Attaque
+Attaquez avec cette carte
+Phase D'Attaque Ennemi
+ vous attaque
+Defendre avec cette carte
+L'Ennemi doit choisir la defense
+Vous avez perdu
+Vous avez gagne 
+Sortie impossible
+Vous ne pouvez retourner
+sauvegarde
+ existe deja
+voulez vous le remplacez ?
+a l'ecran d'acceuil pendant
+une partie
+DEFENDRE
+ancien Deck
+Votre deck a ete creer dans une version inferieur a la 0.8. L'ouverture de ce deck dans une langue autre que francais peut faire beuguer le jeu. Etes vous sur de vouloir ouvrir ce deck ?
+ce deck a ete creer dans dans une version inferieur a la 0.8.
+Il est impossible de jouer avec.
+Vous gagnez un 
+ booster
+ Dolpes
+carte non trouvé
+vous n'avez pas debloque cette carte : 
+l'ennemi a jouer 
+Vous avez jouer 
+options

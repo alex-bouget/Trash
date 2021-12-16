@@ -1,0 +1,5 @@
+0
+0
+1
+self.ulife(-2); self.uclat(4)
+O

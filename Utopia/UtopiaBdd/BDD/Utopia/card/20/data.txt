@@ -1,0 +1,5 @@
+0
+0
+2
+self.destroy(); self.ulife(0) if "21" in self.nb else self.ulife(-5)
+O

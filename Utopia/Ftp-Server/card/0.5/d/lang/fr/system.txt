@@ -1,0 +1,45 @@
+fr
+Nouveau deck
+Retour
+Sauvegarder
+ existe deja
+voulez vous le remplacez ?
+Creer Un deck
+Ouverture impossible
+Ce deck ne peut etre ouver car
+il y a eu un bug ou vous n'avez
+pas une des cartes du deck
+Votre vie: 
+Vie ennemi: 
+Vos eclat: 
+Eclat ennemi: 
+ip du serveur
+port du serveur
+connection au serveur
+version non egale
+Ce joueur n'est pas de
+la meme version que vous
+Plus de pioche
+Votre Phase Principale
+Phase Principale Ennemi
+Vous avez jouer 
+L'ennemi a jouer 
+Votre Phase D'Attaque
+Phase D'Attaque Ennemi
+Votre Phase De Defense
+Phase De Defense Ennemi
+ vous attaque !!!
+ attaque !!!
+Vous avez gagne 
+ Dolpes
+musique
+bruit
+Jouer
+Deck
+Booster
+Options
+Phase De Destruction
+Vous avez perdu
+Vous avez gagne 
+Vous gagnez un 
+ booster
