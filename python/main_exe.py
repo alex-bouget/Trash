@@ -4,6 +4,7 @@ import getopt
 import sys
 import os
 
+
 def usage():
     print("Usage: \n" +
           "-m: lum file, Modules loaded (.lum)\n" +
@@ -11,6 +12,7 @@ def usage():
           "[-f]: lup file, LineUp code\n" +
           "if -f not use, open the interpreter"
           )
+
 
 if __name__ == "__main__":
     opts, args = getopt.getopt(sys.argv[1:], "f:m:d:")
