@@ -1,0 +1,21 @@
+{
+    "packages-id": {
+        "name": "Graphic",
+        "version": "1.0",
+        "interpreter-version": [
+            "py-1",
+            "php-1"
+        ]
+    },
+    "packages-name": "graphic",
+    "py-files": {
+        "file": "graphic.py",
+        "class-name": ["Main"]
+    },
+    "php-files": {
+        "file": "graphic.php",
+        "class-name": [
+            "Main"
+        ]
+    }
+}

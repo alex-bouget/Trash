@@ -76,4 +76,5 @@ class Line:
                 return
         except IndexError:
             return
+        print(execution)
         return global_variable[execution[0]].load_command(*execution[1:])

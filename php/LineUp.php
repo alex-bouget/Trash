@@ -16,4 +16,4 @@ class LineUp extends Interpreter {
 }
 
 $test = new LineUp("../lumodule", "../lumodule/module.lum", "print");
-$test->execute("../script exemple/script-exemple.lup");
+$test->execute("../script exemple/main_window.lup");
