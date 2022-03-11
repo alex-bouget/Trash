@@ -24,10 +24,13 @@ class EpicExt:
 
 if __name__ == "__main__":
     ext = EpicExt("legendary")
+    if not ext.logged:
+        ext.auth()
+
     while True:
         print(">>")
         t = input()
-        if t == "auth":
-            ext.auth()
-        elif t == "exit":
+        if t == "exit":
             exit(0)
+        elif t == "game":
+            print("")
