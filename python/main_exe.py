@@ -40,4 +40,4 @@ if __name__ == "__main__":
         print("LineUp Interpreter 0.12.31")
         LineUp(**data).console()
     else:
-        LineUp(**data).execute(lup)
+        LineUp(**data).global_variable["l"].execute(lup)

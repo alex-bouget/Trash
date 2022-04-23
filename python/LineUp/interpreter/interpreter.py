@@ -1,12 +1,13 @@
 from .line import Line
-from ..root_command import Variable, Exit
+from ..root_command import Variable, Exit, Lup
 
 
 class Interpreter:
     def __init__(self, module, e_type):
         self.global_variable = {
             "v": Variable(self),
-            "e": Exit(self, e_type)
+            "e": Exit(self, e_type),
+            "l": Lup(self)
         }
         self.global_class = module
 
@@ -31,11 +32,10 @@ class Interpreter:
                 for i in self.global_variable.keys():
                     print(i)
             else:
-                print(Line(t).execute(self.global_variable, self.global_class))
+                try:
+                    print(Line(t).execute(self.global_variable, self.global_class))
+                except KeyError:
+                    print("<<ERROR, command not found>>")
+                except TypeError:
+                    print("<<ERROR, command not use like it should>>")
             t = ""
-
-    def execute(self, file):
-        for i in open(file).read().split(";"):
-            data = Line(" ".join(i.split("\n"))).execute(self.global_variable, self.global_class)
-            if isinstance(data, list) and data[0] == "/L_e*/":
-                return data[1]

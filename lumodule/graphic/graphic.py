@@ -1,7 +1,4 @@
-from ast import arg
-from re import S
 from tkinter import Tk
-from turtle import ht
 from tkhtmlview import HTMLLabel
 
 class Main(Exec):

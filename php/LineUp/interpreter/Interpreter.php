@@ -2,6 +2,7 @@
 include(dirname(__FILE__)."/Line.php");
 include(dirname(__FILE__)."/../root_command/Exit.php");
 include(dirname(__FILE__)."/../root_command/Variable.php");
+include(dirname(__FILE__)."/../root_command/Lup.php");
 
 /**
  * Description of Interpreter
@@ -15,21 +16,13 @@ class Interpreter {
     public function __construct($module, $e_string) {
         $this->global_variable = array(
             "v" => new Variable($this),
-            "e" => new ExitUp($this, $e_string)
+            "e" => new ExitUp($this, $e_string),
+            "l" => new Lup($this)
         );
         $this->global_class = $module;
     }
     
     public function set_class($name, $value) {
         $this->global_class[$name] = $value;
-    }
-    
-    public function execute($file) {
-        foreach (explode(";", file_get_contents($file)) as $value) {
-            $data = (new Line(implode(" ", explode(PHP_EOL, $value))))->execute($this->global_variable, $this->global_class);
-            if (is_array($data) && $data[0] == "/L_e*/") {
-                return $data[1];
-            }
-        }
     }
 }

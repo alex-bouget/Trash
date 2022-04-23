@@ -20,7 +20,7 @@ v pr lineup-Process global;
 lister set "salutation francais";
 lister setnew (str fresh (lister get 0) 3);
 
-e pr when {co equal (lister get 0) sal} {
+pr when {co equal (lister get 0) sal} {
     pr multiple {
         (lister display)
         (str descript salut)
@@ -28,3 +28,5 @@ e pr when {co equal (lister get 0) sal} {
 } {
     str descript salut
 };
+
+l "../script exemple/main_window.lup";
