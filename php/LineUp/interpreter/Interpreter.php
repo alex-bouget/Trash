@@ -4,11 +4,6 @@ include(dirname(__FILE__)."/../root_command/Exit.php");
 include(dirname(__FILE__)."/../root_command/Variable.php");
 include(dirname(__FILE__)."/../root_command/Lup.php");
 
-/**
- * Description of Interpreter
- *
- * @author MisterMine01
- */
 class Interpreter {
     public $global_variable;
     public $global_class;

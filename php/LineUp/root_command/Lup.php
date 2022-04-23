@@ -1,9 +1,8 @@
 <?php
 
+/* It executes a file. */
 class Lup
 {
-
-    //put your code here
     public $interpreter;
 
     public function __construct(&$interpreter)
