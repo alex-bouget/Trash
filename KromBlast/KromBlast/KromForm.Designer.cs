@@ -55,6 +55,7 @@
             this.Name = "KromForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "KromBlast";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KromForm_FormClosing);
             this.SizeChanged += new System.EventHandler(this.KromForm_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.Viewer)).EndInit();
             this.ResumeLayout(false);
