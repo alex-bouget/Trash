@@ -1,10 +1,11 @@
+from typing import List
 from ..version import kromblast
 
 class ApiInfo:
     is_debug: bool
     krom_id: list
 
-    def __init__(self, is_debug: bool, krom_id: list) -> None:
+    def __init__(self, is_debug: bool, krom_id: List[str]) -> None:
         self.is_debug = is_debug
         self.krom_id = krom_id
 

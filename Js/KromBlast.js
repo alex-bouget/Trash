@@ -3,14 +3,16 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 var KromBlast = new class {
     constructor() {
-        this.krom_id = 'null';
+        this.krom_id = 'KromBlastTest55698';
         this.init_load = false;
         this.is_in_krom = false;
+        this.id_loaded = false;
         this.api = null;
         this.plugins = {};
         this.event = {
             "initialized": () => { },
-            "not_in_krom": () => { }
+            "not_in_krom": () => { },
+            "id_refused": () => { },
         }
         window.addEventListener('pywebviewready', this.init.bind(this));
         setTimeout(
@@ -59,7 +61,6 @@ var KromBlast = new class {
             typeof window.pywebview !== 'undefined' &&
             typeof window.pywebview.api !== 'undefined' &&
             (await window.pywebview.api.is_kromblast_running())
-            && (await window.pywebview.api.id_good(this.krom_id))
         ) {
             this.api = window.pywebview.api;
             if (await this.api.is_debug_mode()) {
@@ -69,7 +70,11 @@ var KromBlast = new class {
             }
             this.is_in_krom = true;
 
-            var api_data = await this.api.get_plugins_data();
+            var api_data = await this.api.get_plugins_data(this.krom_id);
+            if (api_data == false) {
+                this.event.id_refused();
+                return;                
+            }
             await this.decode_plugin_data(this, api_data);
 
             console.log('KromBlast initialized');

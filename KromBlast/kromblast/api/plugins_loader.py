@@ -11,11 +11,13 @@ class PluginLoader:
     def __init__(self, path: str):
         self.plugins_path = path
         self.plugins = {}
-        for plugin in os.listdir(path):
+    
+    def _load_plugin(self) -> None:
+        for plugin in os.listdir(self.plugins_path):
             if plugin.endswith(".py"):
-                self._load_plugin(plugin)
+                self._load_plugin_data(plugin)
 
-    def _load_plugin(self, plugin: str) -> dict:
+    def _load_plugin_data(self, plugin: str) -> None:
         temp = runpy.run_path(
             os.path.join(self.plugins_path, plugin),
             init_globals={"Plugins": Plugins}

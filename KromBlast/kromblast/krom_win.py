@@ -14,14 +14,14 @@ class Window:
         window_config: Dict[str, Any],
         api_config: Dict[str, Any],
     ) -> None:
-        self.api = Api(True, api_config["plugin_path"])
+        self.api = Api(True, api_config["plugin_path"], api_config["krom_id"])
         self.win = webview.create_window(
             title=api_config["title"],
             url=api_config["url"],
             js_api=self.api,
             **window_config
         )
-        self.debug = api_config["debug"] == "true"
+        self.debug = api_config["debug"]
         self.gui = "gtk"
 
     def show(self) -> None:
