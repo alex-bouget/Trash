@@ -1,8 +1,9 @@
-KromBlast.setEvent('launchStart', () => {
-    KromBlast.KromId = "KromBlastTest";
-});
-
-KromBlast.setEvent('launchFinish', async () => {
-    console.log(KromBlast.KromId);
-    console.log(await KromBlast.sendCmd("dir"));
-});
+KromBlast.set_event("initialized", async () => {
+    var p = document.getElementById("p");
+    var data = await KromBlast.File.listdir(".");
+    for (var i of Object.values(data)) {
+        var li = document.createElement("li");
+        li.innerText = i;
+        p.appendChild(li);
+    }
+})
