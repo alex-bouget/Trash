@@ -3,15 +3,14 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--workpath", help="Set the workpath, with kromblast.ini")
+parser.add_argument("config", help="Set the ini file", type=str)
+parser.add_argument("-d", "--dir", "-D", help="Set the workpath. if not used, the workpath is the ini folder", type=str)
+args = parser.parse_args()
 
 if __name__ == "__main__":
-    dir_path = os.path.abspath(os.path.dirname(__file__))
-    os.chdir(dir_path)
-    args = parser.parse_args()
-    if args.workpath:
-        dir_path = os.path.abspath(args.workpath)
+    ini = os.path.abspath(args.config)
+    directory = os.path.dirname(ini)
     kromblast.Kromblast(
-        dir_path,
-        os.path.join(dir_path, "kromblast.ini")
+        directory,
+        ini
     ).show()

@@ -27,7 +27,10 @@ class Window:
             js_api=self.api,
             **window_config
         )
-        self.debug = api_config["debug"]
+        if "debug" in api_config.keys():
+            self.debug = api_config["debug"]
+        else:
+            self.debug = False
         self.gui = "gtk"
 
     def show(self) -> None:
