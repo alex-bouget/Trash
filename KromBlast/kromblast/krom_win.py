@@ -1,9 +1,12 @@
 from typing import Any, Dict
 import webview
 from .api import Api
+from KromBlast.kromblast import api
 
 """
 Window for kromblast (pywebview)."""
+
+
 class Window:
     api: Api
     """Api injected in javascript"""
@@ -13,6 +16,8 @@ class Window:
     """Debug mode."""
     gui: str
     """Gui used by the window."""
+    api_mode: str
+    """type of the code executed in the webview, (server, local, or hosted)"""
 
     def __init__(
         self,
@@ -21,6 +26,14 @@ class Window:
     ) -> None:
         """Initialize the window."""
         self.api = Api(True, api_config["plugin_path"], api_config["krom_id"])
+        if "mode" in api_config:
+            if api_config["mode"] not in ["server", "local", "hosted"]:
+                raise ValueError(
+                    "api_config['mode'] must be 'server', 'local', or 'hosted'"
+                )
+            self.api.mode = api_config["mode"]
+        else:
+            self.api.mode = "server"
         self.win = webview.create_window(
             title=api_config["title"],
             url=api_config["url"],
@@ -35,4 +48,8 @@ class Window:
 
     def show(self) -> None:
         """Show the window."""
-        webview.start(gui=self.gui, debug=self.debug)
+        webview.start(
+            gui=self.gui,
+            debug=self.debug,
+            http_server=(self.api.mode == "hosted")
+        )
