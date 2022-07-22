@@ -1,11 +1,9 @@
 from typing import Any, Dict
 import webview
 from .api import Api
+from .exceptions import ModeError, InvalidWindowParameter
 
-"""
-Window for kromblast (pywebview)."""
-
-
+"""Window for kromblast (pywebview)."""
 class Window:
     api: Api
     """Api injected in javascript"""
@@ -27,8 +25,10 @@ class Window:
         self.api = Api(True, api_config["plugin_path"], api_config["krom_id"])
         if "mode" in api_config:
             if api_config["mode"] not in ["server", "local", "hosted"]:
-                raise ValueError(
-                    "api_config['mode'] must be 'server', 'local', or 'hosted'"
+                raise ModeError(
+                    "{}, invalid mode for api, must be server, local or hosted".format(
+                        api_config["mode"]
+                    )
                 )
             self.api.mode = api_config["mode"]
         else:
@@ -40,10 +40,7 @@ class Window:
             js_api=self.api,
             **window_config
         )
-        if "debug" in api_config.keys():
-            self.debug = api_config["debug"]
-        else:
-            self.debug = False
+        self.debug = api_config["debug"] if "debug" in api_config else False
         self.gui = "qt"
 
     def test_window(self, window: Dict[str, Any]) -> None:
@@ -58,7 +55,8 @@ class Window:
         ]
         for key in window.keys():
             if key not in all_key:
-                raise Exception(f"{key} is not a valid key for window")
+                raise InvalidWindowParameter(
+                    "{} is not a valid key for window".format(key))
 
     def show(self) -> None:
         """Show the window."""
