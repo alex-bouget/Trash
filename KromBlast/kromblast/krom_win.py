@@ -1,7 +1,6 @@
 from typing import Any, Dict
 import webview
 from .api import Api
-from KromBlast.kromblast import api
 
 """
 Window for kromblast (pywebview)."""
@@ -34,6 +33,7 @@ class Window:
             self.api.mode = api_config["mode"]
         else:
             self.api.mode = "server"
+        self.test_window(window_config)
         self.win = webview.create_window(
             title=api_config["title"],
             url=api_config["url"],
@@ -45,6 +45,20 @@ class Window:
         else:
             self.debug = False
         self.gui = "gtk"
+
+    def test_window(self, window: Dict[str, Any]) -> None:
+        """Test the window configuration,
+        raise Exception if a key is not valid."""
+        all_key = [
+            "width", "height", "x", "y", "resizable",
+            "fullscreen", "min_size", "hidden",
+            "frameless", "easy_drag", "minimized",
+            "on_top", "confirm_close", "background_color",
+            "transparent", "text_select", "localization"
+        ]
+        for key in window.keys():
+            if key not in all_key:
+                raise Exception(f"{key} is not a valid key for window")
 
     def show(self) -> None:
         """Show the window."""
