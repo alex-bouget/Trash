@@ -1,5 +1,4 @@
 import os
-import runpy
 from typing import Any, Dict, List
 from .plugins import Plugins
 from .decoded import DecodedLoader
@@ -22,6 +21,8 @@ class PluginLoader:
     
     def _load_plugin(self, krom_id: List[str]) -> None:
         """Load all plugins."""
+        if len(self.plugins.keys()) != 0:
+            return
         if self.plugin_type == "decoded":
             self.plugins = DecodedLoader().load_plugin(self.plugins_path)
         else:
