@@ -1,6 +1,6 @@
 from typing import Dict, List
 from .api_info import ApiInfo
-from .plugins_loader import PluginLoader
+from .plugin_loader import PluginLoader
 
 """Api injected in javascript"""
 class Api(PluginLoader, ApiInfo):
@@ -13,5 +13,5 @@ class Api(PluginLoader, ApiInfo):
         """Return the data of all plugins if the id is good"""
         if not self.id_good(krom_id):
             return False
-        self._load_plugin()
+        self._load_plugin(self.krom_id)
         return PluginLoader.get_plugins_data(self)
