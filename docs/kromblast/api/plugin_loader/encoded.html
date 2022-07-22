@@ -40,6 +40,9 @@
                                 <a class="variable" href="#EncodedLoader.plugins">plugins</a>
                         </li>
                         <li>
+                                <a class="variable" href="#EncodedLoader.krom_id">krom_id</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#EncodedLoader.load_plugin">load_plugin</a>
                         </li>
                 </ul>
@@ -76,27 +79,29 @@
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>    <span class="n">plugins</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>    <span class="sd">&quot;&quot;&quot;All plugins loaded by kromblast.&quot;&quot;&quot;</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span> <span class="o">=</span> <span class="n">krom_id</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">def</span> <span class="nf">load_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]:</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="sd">&quot;&quot;&quot;Load KromBlastPlugin (.kbp).&quot;&quot;&quot;</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.kbp&quot;</span><span class="p">):</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>            <span class="n">kbp</span> <span class="o">=</span> <span class="n">KBP</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span><span class="p">)</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_length</span><span class="p">()):</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_load_plugin_data</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_to_path</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="k">def</span> <span class="nf">_load_plugin_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="sd">&quot;&quot;&quot;Load a plugin.&quot;&quot;&quot;</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="n">temp</span> <span class="o">=</span> <span class="n">runpy</span><span class="o">.</span><span class="n">run_path</span><span class="p">(</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin</span><span class="p">),</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>            <span class="n">init_globals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Plugins&quot;</span><span class="p">:</span> <span class="n">Plugins</span><span class="p">}</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="p">)</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="k">for</span> <span class="n">api_data</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;__kromblast__&quot;</span><span class="p">]:</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">api_data</span><span class="p">()</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="sd">&quot;&quot;&quot;List of krom_ids.&quot;&quot;&quot;</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="sd">&quot;&quot;&quot;Initialize the encoded plugin loader.&quot;&quot;&quot;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span> <span class="o">=</span> <span class="n">krom_id</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="nf">load_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]:</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="sd">&quot;&quot;&quot;Load KromBlastPlugin (.kbp).&quot;&quot;&quot;</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.kbp&quot;</span><span class="p">):</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>            <span class="n">kbp</span> <span class="o">=</span> <span class="n">KBP</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span><span class="p">)</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_length</span><span class="p">()):</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_load_plugin_data</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_to_path</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">def</span> <span class="nf">_load_plugin_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="sd">&quot;&quot;&quot;Load a plugin.&quot;&quot;&quot;</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="n">temp</span> <span class="o">=</span> <span class="n">runpy</span><span class="o">.</span><span class="n">run_path</span><span class="p">(</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin</span><span class="p">),</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>            <span class="n">init_globals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Plugins&quot;</span><span class="p">:</span> <span class="n">Plugins</span><span class="p">}</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        <span class="p">)</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="k">for</span> <span class="n">api_data</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;__kromblast__&quot;</span><span class="p">]:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">api_data</span><span class="p">()</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 </span></pre></div>
 
 
@@ -116,27 +121,29 @@
 </span><span id="EncodedLoader-9"><a href="#EncodedLoader-9"><span class="linenos"> 9</span></a>    <span class="n">plugins</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 </span><span id="EncodedLoader-10"><a href="#EncodedLoader-10"><span class="linenos">10</span></a>    <span class="sd">&quot;&quot;&quot;All plugins loaded by kromblast.&quot;&quot;&quot;</span>
 </span><span id="EncodedLoader-11"><a href="#EncodedLoader-11"><span class="linenos">11</span></a>    <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-</span><span id="EncodedLoader-12"><a href="#EncodedLoader-12"><span class="linenos">12</span></a>
-</span><span id="EncodedLoader-13"><a href="#EncodedLoader-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="EncodedLoader-14"><a href="#EncodedLoader-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span> <span class="o">=</span> <span class="n">krom_id</span>
-</span><span id="EncodedLoader-15"><a href="#EncodedLoader-15"><span class="linenos">15</span></a>
-</span><span id="EncodedLoader-16"><a href="#EncodedLoader-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="nf">load_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]:</span>
-</span><span id="EncodedLoader-17"><a href="#EncodedLoader-17"><span class="linenos">17</span></a>        <span class="sd">&quot;&quot;&quot;Load KromBlastPlugin (.kbp).&quot;&quot;&quot;</span>
-</span><span id="EncodedLoader-18"><a href="#EncodedLoader-18"><span class="linenos">18</span></a>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.kbp&quot;</span><span class="p">):</span>
-</span><span id="EncodedLoader-19"><a href="#EncodedLoader-19"><span class="linenos">19</span></a>            <span class="n">kbp</span> <span class="o">=</span> <span class="n">KBP</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span><span class="p">)</span>
-</span><span id="EncodedLoader-20"><a href="#EncodedLoader-20"><span class="linenos">20</span></a>            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_length</span><span class="p">()):</span>
-</span><span id="EncodedLoader-21"><a href="#EncodedLoader-21"><span class="linenos">21</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_load_plugin_data</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_to_path</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
-</span><span id="EncodedLoader-22"><a href="#EncodedLoader-22"><span class="linenos">22</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span>
-</span><span id="EncodedLoader-23"><a href="#EncodedLoader-23"><span class="linenos">23</span></a>
-</span><span id="EncodedLoader-24"><a href="#EncodedLoader-24"><span class="linenos">24</span></a>    <span class="k">def</span> <span class="nf">_load_plugin_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="EncodedLoader-25"><a href="#EncodedLoader-25"><span class="linenos">25</span></a>        <span class="sd">&quot;&quot;&quot;Load a plugin.&quot;&quot;&quot;</span>
-</span><span id="EncodedLoader-26"><a href="#EncodedLoader-26"><span class="linenos">26</span></a>        <span class="n">temp</span> <span class="o">=</span> <span class="n">runpy</span><span class="o">.</span><span class="n">run_path</span><span class="p">(</span>
-</span><span id="EncodedLoader-27"><a href="#EncodedLoader-27"><span class="linenos">27</span></a>            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin</span><span class="p">),</span>
-</span><span id="EncodedLoader-28"><a href="#EncodedLoader-28"><span class="linenos">28</span></a>            <span class="n">init_globals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Plugins&quot;</span><span class="p">:</span> <span class="n">Plugins</span><span class="p">}</span>
-</span><span id="EncodedLoader-29"><a href="#EncodedLoader-29"><span class="linenos">29</span></a>        <span class="p">)</span>
-</span><span id="EncodedLoader-30"><a href="#EncodedLoader-30"><span class="linenos">30</span></a>        <span class="k">for</span> <span class="n">api_data</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;__kromblast__&quot;</span><span class="p">]:</span>
-</span><span id="EncodedLoader-31"><a href="#EncodedLoader-31"><span class="linenos">31</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">api_data</span><span class="p">()</span>
-</span><span id="EncodedLoader-32"><a href="#EncodedLoader-32"><span class="linenos">32</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+</span><span id="EncodedLoader-12"><a href="#EncodedLoader-12"><span class="linenos">12</span></a>    <span class="sd">&quot;&quot;&quot;List of krom_ids.&quot;&quot;&quot;</span>
+</span><span id="EncodedLoader-13"><a href="#EncodedLoader-13"><span class="linenos">13</span></a>
+</span><span id="EncodedLoader-14"><a href="#EncodedLoader-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="EncodedLoader-15"><a href="#EncodedLoader-15"><span class="linenos">15</span></a>        <span class="sd">&quot;&quot;&quot;Initialize the encoded plugin loader.&quot;&quot;&quot;</span>
+</span><span id="EncodedLoader-16"><a href="#EncodedLoader-16"><span class="linenos">16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span> <span class="o">=</span> <span class="n">krom_id</span>
+</span><span id="EncodedLoader-17"><a href="#EncodedLoader-17"><span class="linenos">17</span></a>
+</span><span id="EncodedLoader-18"><a href="#EncodedLoader-18"><span class="linenos">18</span></a>    <span class="k">def</span> <span class="nf">load_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]:</span>
+</span><span id="EncodedLoader-19"><a href="#EncodedLoader-19"><span class="linenos">19</span></a>        <span class="sd">&quot;&quot;&quot;Load KromBlastPlugin (.kbp).&quot;&quot;&quot;</span>
+</span><span id="EncodedLoader-20"><a href="#EncodedLoader-20"><span class="linenos">20</span></a>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.kbp&quot;</span><span class="p">):</span>
+</span><span id="EncodedLoader-21"><a href="#EncodedLoader-21"><span class="linenos">21</span></a>            <span class="n">kbp</span> <span class="o">=</span> <span class="n">KBP</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span><span class="p">)</span>
+</span><span id="EncodedLoader-22"><a href="#EncodedLoader-22"><span class="linenos">22</span></a>            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_length</span><span class="p">()):</span>
+</span><span id="EncodedLoader-23"><a href="#EncodedLoader-23"><span class="linenos">23</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_load_plugin_data</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_to_path</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+</span><span id="EncodedLoader-24"><a href="#EncodedLoader-24"><span class="linenos">24</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span>
+</span><span id="EncodedLoader-25"><a href="#EncodedLoader-25"><span class="linenos">25</span></a>
+</span><span id="EncodedLoader-26"><a href="#EncodedLoader-26"><span class="linenos">26</span></a>    <span class="k">def</span> <span class="nf">_load_plugin_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="EncodedLoader-27"><a href="#EncodedLoader-27"><span class="linenos">27</span></a>        <span class="sd">&quot;&quot;&quot;Load a plugin.&quot;&quot;&quot;</span>
+</span><span id="EncodedLoader-28"><a href="#EncodedLoader-28"><span class="linenos">28</span></a>        <span class="n">temp</span> <span class="o">=</span> <span class="n">runpy</span><span class="o">.</span><span class="n">run_path</span><span class="p">(</span>
+</span><span id="EncodedLoader-29"><a href="#EncodedLoader-29"><span class="linenos">29</span></a>            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin</span><span class="p">),</span>
+</span><span id="EncodedLoader-30"><a href="#EncodedLoader-30"><span class="linenos">30</span></a>            <span class="n">init_globals</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Plugins&quot;</span><span class="p">:</span> <span class="n">Plugins</span><span class="p">}</span>
+</span><span id="EncodedLoader-31"><a href="#EncodedLoader-31"><span class="linenos">31</span></a>        <span class="p">)</span>
+</span><span id="EncodedLoader-32"><a href="#EncodedLoader-32"><span class="linenos">32</span></a>        <span class="k">for</span> <span class="n">api_data</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;__kromblast__&quot;</span><span class="p">]:</span>
+</span><span id="EncodedLoader-33"><a href="#EncodedLoader-33"><span class="linenos">33</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">api_data</span><span class="p">()</span>
+</span><span id="EncodedLoader-34"><a href="#EncodedLoader-34"><span class="linenos">34</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
 </span></pre></div>
 
 
@@ -152,12 +159,15 @@
 
     </div>
     <a class="headerlink" href="#EncodedLoader.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="EncodedLoader.__init__-13"><a href="#EncodedLoader.__init__-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="EncodedLoader.__init__-14"><a href="#EncodedLoader.__init__-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span> <span class="o">=</span> <span class="n">krom_id</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="EncodedLoader.__init__-14"><a href="#EncodedLoader.__init__-14"><span class="linenos">14</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">krom_id</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="EncodedLoader.__init__-15"><a href="#EncodedLoader.__init__-15"><span class="linenos">15</span></a>        <span class="sd">&quot;&quot;&quot;Initialize the encoded plugin loader.&quot;&quot;&quot;</span>
+</span><span id="EncodedLoader.__init__-16"><a href="#EncodedLoader.__init__-16"><span class="linenos">16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span> <span class="o">=</span> <span class="n">krom_id</span>
 </span></pre></div>
 
 
-    
+            <div class="docstring"><p>Initialize the encoded plugin loader.</p>
+</div>
+
 
                             </div>
                             <div id="EncodedLoader.plugins" class="classattr">
@@ -173,6 +183,19 @@
 
 
                             </div>
+                            <div id="EncodedLoader.krom_id" class="classattr">
+                                <div class="attr variable">
+            <span class="name">krom_id</span><span class="annotation">: List[str]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EncodedLoader.krom_id"></a>
+    
+            <div class="docstring"><p>List of krom_ids.</p>
+</div>
+
+
+                            </div>
                             <div id="EncodedLoader.load_plugin" class="classattr">
                                         <input id="EncodedLoader.load_plugin-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
@@ -184,13 +207,13 @@
 
     </div>
     <a class="headerlink" href="#EncodedLoader.load_plugin"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="EncodedLoader.load_plugin-16"><a href="#EncodedLoader.load_plugin-16"><span class="linenos">16</span></a>    <span class="k">def</span> <span class="nf">load_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]:</span>
-</span><span id="EncodedLoader.load_plugin-17"><a href="#EncodedLoader.load_plugin-17"><span class="linenos">17</span></a>        <span class="sd">&quot;&quot;&quot;Load KromBlastPlugin (.kbp).&quot;&quot;&quot;</span>
-</span><span id="EncodedLoader.load_plugin-18"><a href="#EncodedLoader.load_plugin-18"><span class="linenos">18</span></a>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.kbp&quot;</span><span class="p">):</span>
-</span><span id="EncodedLoader.load_plugin-19"><a href="#EncodedLoader.load_plugin-19"><span class="linenos">19</span></a>            <span class="n">kbp</span> <span class="o">=</span> <span class="n">KBP</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span><span class="p">)</span>
-</span><span id="EncodedLoader.load_plugin-20"><a href="#EncodedLoader.load_plugin-20"><span class="linenos">20</span></a>            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_length</span><span class="p">()):</span>
-</span><span id="EncodedLoader.load_plugin-21"><a href="#EncodedLoader.load_plugin-21"><span class="linenos">21</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_load_plugin_data</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_to_path</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
-</span><span id="EncodedLoader.load_plugin-22"><a href="#EncodedLoader.load_plugin-22"><span class="linenos">22</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="EncodedLoader.load_plugin-18"><a href="#EncodedLoader.load_plugin-18"><span class="linenos">18</span></a>    <span class="k">def</span> <span class="nf">load_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Plugins</span><span class="p">]:</span>
+</span><span id="EncodedLoader.load_plugin-19"><a href="#EncodedLoader.load_plugin-19"><span class="linenos">19</span></a>        <span class="sd">&quot;&quot;&quot;Load KromBlastPlugin (.kbp).&quot;&quot;&quot;</span>
+</span><span id="EncodedLoader.load_plugin-20"><a href="#EncodedLoader.load_plugin-20"><span class="linenos">20</span></a>        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.kbp&quot;</span><span class="p">):</span>
+</span><span id="EncodedLoader.load_plugin-21"><a href="#EncodedLoader.load_plugin-21"><span class="linenos">21</span></a>            <span class="n">kbp</span> <span class="o">=</span> <span class="n">KBP</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">krom_id</span><span class="p">)</span>
+</span><span id="EncodedLoader.load_plugin-22"><a href="#EncodedLoader.load_plugin-22"><span class="linenos">22</span></a>            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_length</span><span class="p">()):</span>
+</span><span id="EncodedLoader.load_plugin-23"><a href="#EncodedLoader.load_plugin-23"><span class="linenos">23</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_load_plugin_data</span><span class="p">(</span><span class="n">kbp</span><span class="o">.</span><span class="n">plugin_to_path</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+</span><span id="EncodedLoader.load_plugin-24"><a href="#EncodedLoader.load_plugin-24"><span class="linenos">24</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span>
 </span></pre></div>
 
 
