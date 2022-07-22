@@ -1,6 +1,7 @@
 import json
 from typing import Any, Dict
 from .krom_win import Window
+from .exceptions import ConfigJsonError
 import configparser
 import os
 
@@ -14,8 +15,7 @@ class Kromblast:
     def __init__(
         self,
         main_path: str,
-        config_file: str,
-        config_data: dict or None = None
+        config_file: str
     ) -> None:
         """Initialize Kromblast."""
         self.config = self._parse_config(config_file)
@@ -34,7 +34,13 @@ class Kromblast:
         for section in config.sections():
             data[section] = {}
             for key, value in config[section].items():
-                data[section][key] = json.loads(value)
+                try:
+                    data[section][key] = json.loads(value)
+                except json.JSONDecodeError:
+                    ConfigJsonError(
+                        "Invalid json in config file for {}.{}".format(
+                            section, key)
+                    )
         return data
 
     def show(self) -> None:

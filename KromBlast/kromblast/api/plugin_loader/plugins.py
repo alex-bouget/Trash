@@ -1,4 +1,5 @@
 from typing import Any
+from ...exceptions import SubPluginException
 
 """
 Plugins are used to extend the functionality of KromBlast.
@@ -49,7 +50,7 @@ class Plugins:
             del data_key[data_key.index(v)]
         def oopsi():
             """function for lock subplugins."""
-            raise Exception("Plugin can't have a subplugin")
+            raise SubPluginException("Plugin can't have a subplugin")
         data = {
             i: (
                 ["function"] if callable(getattr(self, i))
