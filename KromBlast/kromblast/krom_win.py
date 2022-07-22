@@ -44,7 +44,7 @@ class Window:
             self.debug = api_config["debug"]
         else:
             self.debug = False
-        self.gui = "gtk"
+        self.gui = "qt"
 
     def test_window(self, window: Dict[str, Any]) -> None:
         """Test the window configuration,
