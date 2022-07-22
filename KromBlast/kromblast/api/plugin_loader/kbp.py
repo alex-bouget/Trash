@@ -2,7 +2,7 @@ from hashlib import md5
 import os
 from tempfile import gettempdir
 from typing import BinaryIO, List
-from simplecrypt import encrypt, decrypt
+from simplecrypt import decrypt, DecryptionException
 
 
 class KBP:
@@ -18,7 +18,10 @@ class KBP:
         self._file = open(file, "rb")
         self._krom_id = krom_id
         self._key = bytes(md5(str(self._krom_id).encode("utf-8")).hexdigest(), "utf-8")
-        self._decoded = decrypt(self._key, self._file.read())
+        try:
+            self._decoded = decrypt(self._key, self._file.read())
+        except DecryptionException:
+            raise Exception("Invalid KromBlastPlugin file.".format(file))
         for plugin in self._decoded.split(b"\n" + bytes(self._key) + b"\n"):
             self._plugins.append(plugin)
         del self._plugins[0]

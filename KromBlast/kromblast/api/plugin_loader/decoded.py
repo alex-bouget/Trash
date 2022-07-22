@@ -5,6 +5,7 @@ from .plugins import Plugins
 
 class DecodedLoader:
     plugins: Dict[str, Plugins] = {}
+    """All plugins loaded by kromblast."""
 
     def __init__(self) -> None:
         pass

@@ -8,8 +8,10 @@ class EncodedLoader:
     plugins: Dict[str, Plugins] = {}
     """All plugins loaded by kromblast."""
     krom_id: List[str]
+    """List of krom_ids."""
 
     def __init__(self, krom_id: List[str]) -> None:
+        """Initialize the encoded plugin loader."""
         self.krom_id = krom_id
 
     def load_plugin(self, path: str) -> Dict[str, Plugins]:
