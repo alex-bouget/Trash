@@ -11,9 +11,7 @@ def encode(config_file, plugin_path, file_path):
     config.read(config_file)
     plugins = os.listdir(plugin_path)
     key_decoded = json.loads(config["Api"]["krom_id"])
-    print(key_decoded)
     key = bytes(md5(str(key_decoded).encode("utf-8")).hexdigest(), "utf-8")
-    print(key)
     data = b""
     for plugin in plugins:
         if plugin.endswith(".py"):

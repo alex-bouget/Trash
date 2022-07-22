@@ -29,6 +29,5 @@ class KBP:
     
     def plugin_to_path(self, plugin_key: int) -> str:
         """Return the path of a plugin."""
-        print(gettempdir())
         open(os.path.join(gettempdir(), "kbp"), "wb").write(self._plugins[plugin_key])
         return os.path.join(gettempdir(), "kbp")

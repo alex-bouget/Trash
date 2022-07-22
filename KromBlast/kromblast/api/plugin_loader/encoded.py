@@ -17,7 +17,6 @@ class EncodedLoader:
         if path.endswith(".kbp"):
             kbp = KBP(path, self.krom_id)
             for plugin in range(kbp.plugin_length()):
-                print(plugin)
                 self._load_plugin_data(kbp.plugin_to_path(plugin))
         return self.plugins
 
