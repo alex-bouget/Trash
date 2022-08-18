@@ -5,7 +5,7 @@ from ..version import kromblast
 class ApiInfo:
     is_debug: bool
     """kromblast is in debug mode"""
-    krom_id: list
+    krom_id: List[str]
     """all id accepted by kromblast"""
 
     def __init__(self, is_debug: bool, krom_id: List[str]) -> None:

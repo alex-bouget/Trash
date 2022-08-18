@@ -9,7 +9,7 @@ class Api(PluginLoader, ApiInfo):
         ApiInfo.__init__(self, is_debug, krom_id)
         PluginLoader.__init__(self, plugins_path)
     
-    def get_plugins_data(self, krom_id: str) -> Dict[str, list]:
+    def get_plugins_data(self, krom_id: str) -> Dict[str, list] or bool:
         """Return the data of all plugins if the id is good"""
         if not self.id_good(krom_id):
             return False

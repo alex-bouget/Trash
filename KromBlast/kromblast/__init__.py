@@ -37,7 +37,7 @@ class Kromblast:
                 try:
                     data[section][key] = json.loads(value)
                 except json.JSONDecodeError:
-                    ConfigJsonError(
+                    raise ConfigJsonError(
                         "Invalid json in config file for {}.{}".format(
                             section, key)
                     )

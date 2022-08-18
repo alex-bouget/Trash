@@ -58,33 +58,32 @@ var KromBlast = new class {
     async init() {
         this.init_load = true;
         if (
-            typeof window.pywebview !== 'undefined' &&
-            typeof window.pywebview.api !== 'undefined' &&
-            (await window.pywebview.api.is_kromblast_running())
+            !(
+                typeof window.pywebview !== 'undefined' &&
+                typeof window.pywebview.api !== 'undefined' &&
+                (await window.pywebview.api.is_kromblast_running())
+            )
         ) {
-            this.api = window.pywebview.api;
-            if (await this.api.is_debug_mode()) {
-                console.log("KromBlast is running in debug mode");
-            } else {
-                console.log = (...args) => { window.pywebview.api.log(...args) };
-            }
-            this.is_in_krom = true;
-
-            var api_data = await this.api.get_plugins_data(this.krom_id);
-            if (api_data == false) {
-                this.event.id_refused();
-                return;                
-            }
-            await this.decode_plugin_data(this, api_data);
-
-            console.log('KromBlast initialized');
-
-            this.event["initialized"]();
-
-        } else {
             console.log("KromBlast is not running");
             this.is_in_krom = false;
             this.event.not_in_krom();
+            return;
         }
+        this.api = window.pywebview.api;
+        (await this.api.is_debug_mode()) ?
+            console.log("KromBlast is running in debug mode") :
+            console.log = (...args) => { window.pywebview.api.log(...args) };
+        this.is_in_krom = true;
+
+        var api_data = await this.api.get_plugins_data(this.krom_id);
+        if (api_data == false) {
+            this.event.id_refused();
+            return;
+        }
+        await this.decode_plugin_data(this, api_data);
+
+        console.log('KromBlast initialized');
+
+        this.event["initialized"]();
     };
 }()
