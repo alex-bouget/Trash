@@ -76,11 +76,6 @@ public abstract class AMenu extends BestHandler<KeyEvent> implements IMenu {
         selectedButton = null;
         while (!isButtonSelected()) {
             i.waitLoop(50);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

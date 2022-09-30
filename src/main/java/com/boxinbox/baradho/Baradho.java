@@ -2,6 +2,7 @@ package com.boxinbox.baradho;
 
 import javafx.application.Application;
 
+import com.boxinbox.baradho.Core.Core;
 import com.boxinbox.baradho.Core.ICore;
 import com.boxinbox.baradho.jfx.vue.IVue;
 import com.boxinbox.baradho.jfx.vue.Vue;
@@ -13,6 +14,7 @@ public class Baradho {
 
     private static IVue vue;
     private static Application app = null;
+    private static ICore core;
 
     public Baradho(Stage stage, Application app, TaskBeginner task) {
         if (this.app != null) {
@@ -31,8 +33,10 @@ public class Baradho {
             }
         };
         timer.start();
-
+        core = new Core(task);
         task.run(this);
+        core.startLoop();
+
     }
 
     public static IVue getVue() {

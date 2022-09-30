@@ -4,7 +4,7 @@ import javafx.concurrent.Task;
 
 public class ACore implements ICore {
 
-    private boolean isRunning;
+    protected boolean isRunning;
     private Thread thread;
 
     public ACore() {

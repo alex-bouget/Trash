@@ -43,7 +43,20 @@ public class MenuPrincipale extends AMenu {
 
         @Override
         public void menuLoop(ICore i) {
+                System.out.println("Menu loop");
                 super.menuLoop(i);
+                System.out.println(getSelectedButton().getData());
+                switch(getSelectedButton().getData()) {
+                        case "jouer":
+                                Baradho.getVue().remove(this);
+                                break;
+                        case "options":
+                                Baradho.getVue().remove(this);
+                                break;
+                        case "quitter":
+                                System.exit(0);
+                                break;
+                }
         }
 
         
