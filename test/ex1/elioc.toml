@@ -1,0 +1,6 @@
+[elioc]
+type = "c11"
+name = "SimplePrint"
+
+[elioc.program]
+main = "main.c"
