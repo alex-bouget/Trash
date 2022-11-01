@@ -1,0 +1,5 @@
+    print(l)
+
+
+if __name__ == "__main__":
+    afficher("Hello World")
