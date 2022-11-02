@@ -19,6 +19,11 @@ class EliocSyntaxTree:
     
     def add_after(self, node: EliocSyntaxNode) -> None:
         """Add a node after the root node."""
+        if node.syntax_type == EliocSyntaxSubTypeEnum.FUNCTION_CALL:
+            if node.node_parameters[0].node_parameters[0] in self.alternate.keys():
+                for i in self.alternate[node.node_parameters[0].node_parameters[0]].included:
+                    self.includer.append(i)
+                node.node_parameters[0].node_parameters[0] = self.alternate[node.node_parameters[0].node_parameters[0]].function_name_moved
         self.pile[-1].add_after(node)
     
     def add_in_pile(self, node: EliocSyntaxNode) -> None:
@@ -37,7 +42,7 @@ class EliocSyntaxTree:
         """Compile the tree to C code."""
         code = ""
         for i in self.includer:
-            code += f"#include {i}"
+            code += f"#include {i}\n"
         code += self.root.compile()
         print(code)
         return code

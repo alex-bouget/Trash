@@ -8,7 +8,7 @@ from typing import List
 def create_c_file(python_file):
     """Create a c file from a python file."""
     alternate = [
-        EliocSyntaxAlternate("print", "printf", ["stdio.h"])
+        EliocSyntaxAlternate("print", "printf", ["<stdio.h>"])
     ]
 
     python_data = open(python_file, "r").read()

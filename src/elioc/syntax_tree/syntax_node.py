@@ -1,7 +1,7 @@
 from .syntax_type import *
 
 
-class EliocSyntaxNode(EliocSyntaxTypeClass):
+class EliocSyntaxNode:
     """Base class for Elioc syntax nodes."""
     syntax_type: EliocSyntaxTypeEnum or EliocSyntaxSubTypeEnum
     node_parameters: list
