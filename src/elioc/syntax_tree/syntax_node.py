@@ -1,5 +1,5 @@
 from .syntax_type import *
-from typing import List
+
 
 class EliocSyntaxNode(EliocSyntaxTypeClass):
     """Base class for Elioc syntax nodes."""
@@ -12,13 +12,16 @@ class EliocSyntaxNode(EliocSyntaxTypeClass):
         self.node_parameters = node_parameters
         self.node_children = None
     
-    def add_after(self, node) -> None:
+    def add_after(self, node, is_inside: bool =False) -> None:
         """Add a node after this node."""
-        if type(self.syntax_type) == EliocSyntaxTypeEnum:
+        if type(self.syntax_type) == EliocSyntaxTypeEnum and not is_inside:
             self.node_parameters[-1].add_after(node)
         else:
-            self.node_children = node
-    
+            if self.node_children == None:
+                self.node_children = node
+            else:
+                self.node_children.add_after(node, True)
+     
     def compile(self) -> str:
         """Compile this node and return the result."""
         my_data = ""
@@ -51,6 +54,8 @@ class EliocSyntaxNode(EliocSyntaxTypeClass):
             my_data = ""
         elif self.syntax_type == EliocSyntaxSubTypeEnum.ASSIGNMENT:
             my_data = f"{self.node_parameters[0].compile()} = {self.node_parameters[1].compile()};"
+        elif self.syntax_type == EliocSyntaxSubTypeEnum.FUNCTION_CALL:
+            my_data = f"{self.node_parameters[0].compile()}({self.node_parameters[1].compile()});"
         else:
             print(self.node_parameters)
             raise Exception("Unknown syntax type." + str(self.syntax_type))
@@ -59,35 +64,6 @@ class EliocSyntaxNode(EliocSyntaxTypeClass):
     def __str__(self) -> str:
         """Return the string representation of this node."""
         data = self.syntax_type.name + "-> [" + ", ".join([str(i) for i in self.node_parameters]) + "]"
+        data = data.replace("\n", "\n    :")
         node = "\n" + str(self.node_children) if self.node_children else ""
-        node = node.replace("\n", "\n    :")
         return data + node
-
-
-class EliocSyntaxTree:
-    """Elioc syntax tree."""
-    root: EliocSyntaxNode
-    includer: List[str]
-    def __init__(self) -> None:
-        self.includer = []
-        self.root = EliocSyntaxNode(EliocSyntaxSubTypeEnum.ROOT, [])
-    
-    def add_after(self, node: EliocSyntaxNode) -> None:
-        """Add a node after the root node."""
-        self.root.add_after(node)
-    
-    def add_include(self, include: str) -> None:
-        """Add an include to the tree."""
-        self.includer.append(include)
-    
-    def compile(self) -> str:
-        """Compile the tree to C code."""
-        code = ""
-        for i in self.includer:
-            code += f"#include {i}"
-        code += self.root.compile()
-        print(code)
-        return code
-    
-    def __str__(self) -> str:
-        return self.root.__str__()
