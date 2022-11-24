@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "elioc_root.h": "c",
+        "elioc_var.h": "c",
+        "err.h": "c"
+    }
+}
