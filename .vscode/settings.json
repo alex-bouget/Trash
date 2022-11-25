@@ -1,7 +1,13 @@
 {
+    "DockerRun.DisableDockerrc": true,
     "files.associations": {
-        "elioc_root.h": "c",
-        "elioc_var.h": "c",
-        "err.h": "c"
+        "stringvector.h": "c",
+        "shelljob.h": "c",
+        "typeinfo": "c",
+        "cstdlib": "c",
+        "*.tcc": "c",
+        "memory": "c",
+        "new": "c",
+        "signal.h": "c"
     }
 }

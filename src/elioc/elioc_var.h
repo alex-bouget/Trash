@@ -3,6 +3,11 @@
 
 #include "./elioc_root.h"
 
+struct elioc_var {
+    byte size;
+    byte* data;
+};
+
 void elioc_var_init(void);
 
 void elioc_var_shutdown(void);
@@ -15,9 +20,9 @@ void elioc_var_new(byte *name, byte *size);
 
 void elioc_var_delete(byte *name);
 
-byte* elioc_var_set(byte *name, byte *value);
+void elioc_var_set(byte *name, byte* size_entry, byte *value);
 
-void elioc_var_get(byte *name);
+struct elioc_var* elioc_var_get(byte *name);
 
 
 

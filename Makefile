@@ -1,10 +1,16 @@
-CFLAGS = --std=c11 -Wall -Wextra -pedantic
+CFLAGS= -g -std=c11 -Wall -Wextra -pedantic -D_XOPEN_SOURCE=700
 
-elioc_var=src/elioc/elioc_var.h src/elioc/elioc_var.o
+all: test
 
-main: src/main.o $(elioc_var)
+test: elioc_var_test
 
+elioc_var_test: src/elioc/elioc_var.c
+	gcc $(CFLAGS) -o elioc_var_test src/elioc/elioc_var.c -D ELIOC_DEBUG
+
+%.o: %.c
+	gcc -c $(CFLAGS) $<
 
 clean:
-	find . -type f -name '*.o' -delete;
-	if [ -f somme ]; then rm somme; fi;
+	@rm -f elioc_var_test *.o
+
+
