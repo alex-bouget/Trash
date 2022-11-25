@@ -8,6 +8,9 @@
         "*.tcc": "c",
         "memory": "c",
         "new": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "elioc_root.h": "c",
+        "elioc_var.h": "c",
+        "stdlib.h": "c"
     }
 }

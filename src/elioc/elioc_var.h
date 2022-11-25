@@ -16,13 +16,13 @@ void elioc_var_pile(void);
 
 void elioc_var_unpile(void);
 
-void elioc_var_new(byte *name, byte *size);
+void elioc_var_new(byte name, byte size);
 
-void elioc_var_delete(byte *name);
+void elioc_var_delete(byte name);
 
-void elioc_var_set(byte *name, byte* size_entry, byte *value);
+void elioc_var_set(byte name, byte size_entry, byte value);
 
-struct elioc_var* elioc_var_get(byte *name);
+struct elioc_var* elioc_var_get(byte name);
 
 
 
