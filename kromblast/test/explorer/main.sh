@@ -1,0 +1,1 @@
+python3 ../../KromBlast/main.py kromblast.ini
