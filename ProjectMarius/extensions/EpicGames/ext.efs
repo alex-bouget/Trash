@@ -1,0 +1,4 @@
+{
+    "name": "EpicGames",
+	"exec": ["python.exe", "main.py"]
+}

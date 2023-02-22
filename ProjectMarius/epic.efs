@@ -1,0 +1,4 @@
+{
+	"extensions_url": null,
+	"extensions_executable": ["python.exe", "ext/main.py"]
+}

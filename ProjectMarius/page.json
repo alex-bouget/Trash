@@ -1,0 +1,26 @@
+[
+	{
+		"element": "Canvas",
+		"configure": {
+			"width": "%ui_width%",
+			"height": "%ui_height%",
+			"bg": "red"
+		},
+		"place": {"x": 0, "y": 0, "anchor": "nw"},
+		"content": [
+			{
+				"element": "button",
+				"configure": {
+					"width": "%master_width%//4",
+					"height": "%master_height%//2",
+					"bg": "blue"
+				},
+				"place": {
+					"x": "(%content_number% % 4)*(%master_width% // 4)",
+					"y": "(%content_number% // 4)*(%master_height% // 2)",
+					"anchor": "nw"
+				}
+			}
+		]
+	}
+]
