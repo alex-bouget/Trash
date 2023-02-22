@@ -1,0 +1,84 @@
+{
+	"PrincipalSystem": {
+		"test0": [
+			"Creation des deck model"
+		]
+	},
+	"DeckSystem": {
+		"new_deck": [
+			"nouveau_deck",
+			"nom du nouveau deck"
+		],
+		"save_quit": [
+			"Pas assez de carte",
+			"Vous devez mettre minimum 20 cartes"
+		]
+	},
+	"BattleSystem": {
+		"choice_deck": [
+			"Pas assez de carte",
+			"Vous devez mettre minimum 20 cartes"
+		]
+	},
+	"PrincipalMenu": {
+		"init": [
+			"Jouer",
+			"Deck"
+		]
+	},
+	"AuthenticationCanvas": {
+		"init": [
+			"Creer un compte",
+			"Connection a un compte existant",
+			"Connection",
+			"Creer un nouveau compte"
+		]
+	},
+	"StartCanvas": {
+		"start": [
+			"Charge Modele"
+		]
+	},
+	"BattleStartCanvas": {
+		"start": [
+			"Chargement..."
+		]
+	},
+	"Deck": {
+		"init": [
+			"Sauvegarder"
+		]
+	},
+	"DeckChoice": {
+		"init": [
+			"Supprimer",
+			"Creer un deck",
+			"Retour"
+		]
+	},
+	"DeckChoiceSystem": {
+		"init": [
+			"Utiliser",
+			"Changer"
+		]
+	},
+	"Info": {
+		"init": [
+			"Eclat: ",
+			"Vie: ",
+			"Phase: ",
+			"Vous: ",
+			"Ennemie: ",
+			"Vous",
+			"Ennemie",
+			"Passer"
+		]
+	},
+	"Battle": {
+		"change_battle": [
+			"Aucun a gagner",
+			"Vous avez gagner",
+			"Vous avez perdu"
+		]
+	}
+}
