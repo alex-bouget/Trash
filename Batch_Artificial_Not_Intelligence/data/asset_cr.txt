@@ -1,0 +1,18 @@
+commandes essential :
+	settings
+	creator
+commandes createur :
+	ouvre un jeu
+	ouvre notepad
+	aime tu le cafe
+	je n aime pas les robot
+	qu est qui est jaune et qui attends
+	j'aime les frites
+	apple c de la merde
+	ouvre cmd
+	pions noirs
+	met un son createur aleatoire
+	joue un son
+	joue tout les son createur
+	help
+	0
