@@ -1,0 +1,32 @@
+//
+LineUp root command:
+v : adding a variable / ex: v name command_name
+e : exit
+
+LineUp root class command:
+list
+int
+float
+string
+;
+
+v int lineup-IntL;
+v str lineup-StringL;
+v lister lineup-ListL;
+v op lineup-Operation;
+v co lineup-Condition;
+v pr lineup-Process global;
+
+lister set "salutation francais";
+lister setnew (str fresh (lister get 0) 3);
+
+pr when {co equal (lister get 0) sal} {
+    pr multiple {
+        (lister display)
+        (str descript salut)
+    }
+} {
+    str descript salut
+};
+
+l "../script exemple/main_window.lup";
