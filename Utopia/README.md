@@ -12,6 +12,14 @@ With this you can change the Db of Alpha and Beta version (maybe didn't work wit
 
 This is the ftp server who the client can connect for download Db, get the menu...
 
+## PyUtopiaClient
+
+This is the client for the old version of Utopia
+All version work with Utopia-server
+All version need UtopiaBdd but only Beta
+The Beta version after the Beta-0.7 (included) work with Ftp-server
+
+
 ## Utopia-server
 
 ```Don't find for the moment```
