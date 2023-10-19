@@ -1,0 +1,44 @@
+{
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Générer et déboguer myshell",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/elioc_var_test",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb", // lldb with clang
+            "preLaunchTask": "build with make"
+        },
+        {
+            "name": "Générer et déboguer myshell with core",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/main",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb", // lldb with clang
+            "preLaunchTask": "build with make",
+            // ulimit -c 10000
+            "coreDumpPath": "${workspaceFolder}/core"
+        },
+        {
+            "name": "Générer et déboguer myshell with attached",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}/main",
+            "processId": "${command:pickProcess}",
+            "MIMode": "gdb", // lldb with clang
+        }
+    ]
+}

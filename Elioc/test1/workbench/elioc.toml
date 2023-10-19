@@ -1,0 +1,14 @@
+[elioc]
+type = "c11"
+name = "Elio"
+
+[elioc.program]
+name = "Elio"
+language = "c"
+main = "main.c"
+
+[elioc.program2]
+name = "Elio2"
+language = "python"
+main = "main.py"
+entry = "main"

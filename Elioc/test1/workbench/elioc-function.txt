@@ -1,0 +1,10 @@
+@! - launch elioc process
+
+
+@!type X - set the langage to X
+
+@!decode X - use the decoder X
+
+@!load X - load the file X like a c library
+
+@!stop - stop the elioc process 
